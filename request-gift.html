@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Request a gift from someone special.">
+    <title>Request a Gift - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .request-gift-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-md);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: var(--text-lg);
+        }
+
+        .gift-display {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            gap: var(--space-xl);
+            align-items: center;
+        }
+
+        .gift-display-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+            background: var(--cream);
+            padding: var(--space-md);
+            flex-shrink: 0;
+        }
+
+        .gift-display-info {
+            flex: 1;
+        }
+
+        .gift-display-category {
+            display: inline-block;
+            margin-bottom: var(--space-sm);
+        }
+
+        .gift-display-title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .gift-display-price {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            margin-bottom: var(--space-sm);
+        }
+
+        .gift-display-description {
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        .form-card {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-section-title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+        }
+
+        .form-section-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: space-between;
+            margin-top: var(--space-2xl);
+        }
+
+        .info-box {
+            background: rgba(196, 30, 58, 0.05);
+            border-left: 4px solid var(--ruby-red);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .info-box-title {
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-xs);
+            color: var(--ruby-red);
+        }
+
+        .info-box-text {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        @media (max-width: 768px) {
+            .gift-display {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .gift-display-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .gift-display-title {
+                font-size: var(--text-xl);
+            }
+
+            .gift-display-price {
+                font-size: var(--text-2xl);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .page-title {
+                font-size: var(--text-3xl);
+            }
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .request-gift-container {
+            margin-left: 280px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Dashboard Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <span><i class="fas fa-gift"></i></span>
+            <span>GiftExchange</span>
+        </a>
+
+        <nav>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-chart-pie"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="marketplace.html" class="sidebar-menu-link active">
+                        <span class="sidebar-menu-icon"><i class="fas fa-gift"></i></span>
+                        <span>Browse Gifts</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-sent.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-paper-plane"></i></span>
+                        <span>Gifts Sent</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-received.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-inbox"></i></span>
+                        <span>Gifts Received</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="wishlist.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-star"></i></span>
+                        <span>Wishlist</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="settings.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-cog"></i></span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                        <span class="sidebar-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Request Gift Container -->
+    <div class="request-gift-container page-transition">
+        <!-- Page Header -->
+        <div class="page-header fade-in-up">
+            <h1 class="page-title">🙏 Request This Gift</h1>
+            <p class="page-subtitle">Ask someone special to send you this gift</p>
+        </div>
+
+        <!-- Gift Display -->
+        <div class="gift-display fade-in-up" id="giftDisplay">
+            <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box fade-in-up">
+            <div class="info-box-title">📧 How it works</div>
+            <div class="info-box-text">
+                Your request will be sent to the person you specify. They'll receive an email with your message and a
+                link to send you this gift. It's a thoughtful way to let someone know what you'd love to receive!
+            </div>
+        </div>
+
+        <!-- Request Form -->
+        <div class="form-card fade-in-up">
+            <h2 class="form-section-title">Request Details</h2>
+            <p class="form-section-subtitle">Tell us who you'd like to request this gift from</p>
+
+            <form id="requestGiftForm">
+                <div class="form-group">
+                    <label for="requestFromName" class="form-label">Recipient Name *</label>
+                    <input type="text" id="requestFromName" class="form-input" required
+                        placeholder="Who would you like to request this from?">
+                    <span class="form-error" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="requestFromEmail" class="form-label">Recipient Email *</label>
+                    <input type="email" id="requestFromEmail" class="form-input" required placeholder="their@email.com">
+                    <span class="form-error" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="requestOccasion" class="form-label">Occasion (Optional)</label>
+                    <select id="requestOccasion" class="form-input">
+                        <option value="">Select an occasion...</option>
+                        <option value="Birthday">Birthday</option>
+                        <option value="Christmas">Christmas</option>
+                        <option value="Anniversary">Anniversary</option>
+                        <option value="Graduation">Graduation</option>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Just Because">Just Because</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="requestMessage" class="form-label">Personal Message *</label>
+                    <textarea id="requestMessage" class="form-textarea" rows="5" required
+                        placeholder="Add a personal message explaining why you'd love this gift..."></textarea>
+                    <span class="form-error" id="messageError"></span>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline btn-lg" onclick="cancelRequest()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex: 1;">
+                        Send Request 🙏
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/request-gift.js"></script>
+</body>
+
+</html>

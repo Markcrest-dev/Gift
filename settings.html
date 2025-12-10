@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your account settings - Global Gift Exchange">
+    <title>Settings - Global Gift Exchange</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--space-2xl);
+            max-width: 800px;
+        }
+
+        .page-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .settings-section {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-sm);
+            font-weight: var(--font-medium);
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-md);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: var(--text-base);
+            transition: all var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--ruby-red);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+
+        .form-input:disabled {
+            background: var(--cream);
+            cursor: not-allowed;
+        }
+
+        .toggle-switch {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .toggle-switch:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+
+        .toggle-title {
+            font-weight: var(--font-medium);
+            color: var(--text-primary);
+        }
+
+        .toggle-description {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 26px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--ruby-red);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .danger-zone {
+            border: 2px solid #ff4444;
+            background: #fff5f5;
+        }
+
+        .danger-zone .section-title {
+            color: #ff4444;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+                z-index: var(--z-sticky);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <span><i class="fas fa-gift"></i></span>
+                <span>GiftExchange</span>
+            </a>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a href="dashboard.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-chart-pie"></i></span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="marketplace.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-gift"></i></span>
+                            <span>Browse Gifts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-sent.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-paper-plane"></i></span>
+                            <span>Gifts Sent</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-received.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-inbox"></i></span>
+                            <span>Gifts Received</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="wishlist.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-star"></i></span>
+                            <span>Wishlist</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="settings.html" class="sidebar-menu-link active">
+                            <span class="sidebar-menu-icon"><i class="fas fa-cog"></i></span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                            <span class="sidebar-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header fade-in-up">
+                <h1 class="page-title">Settings <i class="fas fa-cog"></i></h1>
+                <p class="page-subtitle">Manage your account and preferences</p>
+            </div>
+
+            <!-- Profile Settings -->
+            <div class="settings-section fade-in-up">
+                <h2 class="section-title">
+                    <span><i class="fas fa-user"></i></span>
+                    <span>Profile Information</span>
+                </h2>
+                <form id="profileForm" onsubmit="saveProfile(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="fullName">Full Name</label>
+                        <input type="text" id="fullName" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" class="form-input">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+
+            <!-- Password Settings -->
+            <div class="settings-section fade-in-up stagger-1">
+                <h2 class="section-title">
+                    <span><i class="fas fa-lock"></i></span>
+                    <span>Change Password</span>
+                </h2>
+                <form id="passwordForm" onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" class="form-input" required minlength="8">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="form-input" required minlength="8">
+                    </div>
+
+                    <button type="submit" class="btn btn-gold">Update Password</button>
+                </form>
+            </div>
+
+            <!-- Notification Preferences -->
+            <div class="settings-section fade-in-up stagger-2">
+                <h2 class="section-title">
+                    <span><i class="fas fa-bell"></i></span>
+                    <span>Notification Preferences</span>
+                </h2>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Email Notifications</div>
+                        <div class="toggle-description">Receive email updates about your gifts</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="emailNotif" onchange="savePreference('emailNotif', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Gift Received Alerts</div>
+                        <div class="toggle-description">Get notified when someone sends you a gift</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="giftAlerts" onchange="savePreference('giftAlerts', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Wishlist Updates</div>
+                        <div class="toggle-description">Notifications about your wishlist items</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="wishlistUpdates"
+                            onchange="savePreference('wishlistUpdates', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Marketing Emails</div>
+                        <div class="toggle-description">Special offers and promotions</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="marketing" onchange="savePreference('marketing', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div class="settings-section fade-in-up stagger-3">
+                <h2 class="section-title">
+                    <span><i class="fas fa-shield-alt"></i></span>
+                    <span>Privacy</span>
+                </h2>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Public Profile</div>
+                        <div class="toggle-description">Allow others to see your profile</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="publicProfile"
+                            onchange="savePreference('publicProfile', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-switch">
+                    <div class="toggle-label">
+                        <div class="toggle-title">Show Activity</div>
+                        <div class="toggle-description">Display your gift exchange activity</div>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="showActivity"
+                            onchange="savePreference('showActivity', this.checked)">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="settings-section danger-zone fade-in-up stagger-4">
+                <h2 class="section-title">
+                    <span><i class="fas fa-exclamation-triangle"></i></span>
+                    <span>Danger Zone</span>
+                </h2>
+                <p style="color: var(--text-secondary); margin-bottom: var(--space-lg);">
+                    These actions are permanent and cannot be undone.
+                </p>
+                <div style="display: flex; gap: var(--space-md); flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="clearAllData()">Clear All Data</button>
+                    <button class="btn" style="background: #ff4444; border-color: #ff4444;"
+                        onclick="deleteAccount()">Delete Account</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.GiftExchange.getCurrentUser();
+
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadUserSettings();
+        });
+
+        function loadUserSettings() {
+            const user = window.GiftExchange.getCurrentUser();
+            const preferences = window.GiftExchange.Storage.get('userPreferences') || {};
+
+            // Load profile data
+            document.getElementById('fullName').value = user.fullName || '';
+            document.getElementById('email').value = user.email || '';
+            document.getElementById('phone').value = user.phone || '';
+
+            // Load preferences
+            document.getElementById('emailNotif').checked = preferences.emailNotif !== false;
+            document.getElementById('giftAlerts').checked = preferences.giftAlerts !== false;
+            document.getElementById('wishlistUpdates').checked = preferences.wishlistUpdates !== false;
+            document.getElementById('marketing').checked = preferences.marketing || false;
+            document.getElementById('publicProfile').checked = preferences.publicProfile !== false;
+            document.getElementById('showActivity').checked = preferences.showActivity !== false;
+        }
+
+        function saveProfile(event) {
+            event.preventDefault();
+
+            const user = window.GiftExchange.getCurrentUser();
+            const updatedUser = {
+                ...user,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value
+            };
+
+            // Update user in storage
+            const users = window.GiftExchange.Storage.get('users') || [];
+            const userIndex = users.findIndex(u => u.email === user.email);
+            if (userIndex > -1) {
+                users[userIndex] = updatedUser;
+                window.GiftExchange.Storage.set('users', users);
+                window.GiftExchange.Storage.set('currentUser', updatedUser);
+            }
+
+            window.GiftExchange.showToast('Profile updated successfully!', 'success');
+        }
+
+        function changePassword(event) {
+            event.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                window.GiftExchange.showToast('Passwords do not match!', 'error');
+                return;
+            }
+
+            const user = window.GiftExchange.getCurrentUser();
+            if (user.password !== currentPassword) {
+                window.GiftExchange.showToast('Current password is incorrect!', 'error');
+                return;
+            }
+
+            // Update password
+            const updatedUser = { ...user, password: newPassword };
+            const users = window.GiftExchange.Storage.get('users') || [];
+            const userIndex = users.findIndex(u => u.email === user.email);
+            if (userIndex > -1) {
+                users[userIndex] = updatedUser;
+                window.GiftExchange.Storage.set('users', users);
+                window.GiftExchange.Storage.set('currentUser', updatedUser);
+            }
+
+            window.GiftExchange.showToast('Password changed successfully!', 'success');
+            document.getElementById('passwordForm').reset();
+        }
+
+        function savePreference(key, value) {
+            const preferences = window.GiftExchange.Storage.get('userPreferences') || {};
+            preferences[key] = value;
+            window.GiftExchange.Storage.set('userPreferences', preferences);
+            window.GiftExchange.showToast('Preference saved', 'success');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all your gift exchange data? This cannot be undone!')) {
+                const user = window.GiftExchange.getCurrentUser();
+
+                // Clear user-specific data
+                window.GiftExchange.Storage.set('sentGifts', []);
+                window.GiftExchange.Storage.set('giftClaims', []);
+                window.GiftExchange.Storage.set('wishlist', []);
+                window.GiftExchange.Storage.set('userPreferences', {});
+
+                window.GiftExchange.showToast('All data cleared', 'info');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            }
+        }
+
+        function deleteAccount() {
+            if (confirm('⚠️ WARNING: This will permanently delete your account and all data. This action CANNOT be undone. Are you absolutely sure?')) {
+                if (confirm('Last chance! Delete your account permanently?')) {
+                    const user = window.GiftExchange.getCurrentUser();
+
+                    // Remove user from users array
+                    let users = window.GiftExchange.Storage.get('users') || [];
+                    users = users.filter(u => u.email !== user.email);
+                    window.GiftExchange.Storage.set('users', users);
+
+                    // Clear all data
+                    window.GiftExchange.Storage.remove('currentUser');
+                    window.GiftExchange.Storage.set('sentGifts', []);
+                    window.GiftExchange.Storage.set('giftClaims', []);
+                    window.GiftExchange.Storage.set('wishlist', []);
+
+                    window.GiftExchange.showToast('Account deleted', 'info');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

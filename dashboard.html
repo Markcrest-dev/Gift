@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your Global Gift Exchange dashboard - manage your gifts and account.">
+    <title>Dashboard - Global Gift Exchange</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--space-2xl);
+        }
+
+        .dashboard-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .dashboard-welcome {
+            font-size: var(--text-4xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .stat-value {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-2xl);
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+                z-index: var(--z-sticky);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <span><i class="fas fa-gift"></i></span>
+                <span>GiftExchange</span>
+            </a>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a href="dashboard.html" class="sidebar-menu-link active">
+                            <span class="sidebar-menu-icon"><i class="fas fa-chart-pie"></i></span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="marketplace.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-gift"></i></span>
+                            <span>Browse Gifts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-sent.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-paper-plane"></i></span>
+                            <span>Gifts Sent</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-received.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-inbox"></i></span>
+                            <span>Gifts Received</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="wishlist.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-star"></i></span>
+                            <span>Wishlist</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="settings.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon"><i class="fas fa-cog"></i></span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                            <span class="sidebar-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header fade-in-up">
+                <h1 class="dashboard-welcome">Welcome back, <span id="userName">User</span>! <i class="fas fa-tree"></i>
+                </h1>
+                <p class="dashboard-subtitle">Here's your gift exchange activity</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions fade-in-up">
+                <a href="marketplace.html" class="btn btn-primary btn-lg"><i class="fas fa-gift"></i> Send a Gift</a>
+                <a href="marketplace.html" class="btn btn-gold btn-lg"><i class="fas fa-shopping-bag"></i> Browse
+                    Marketplace</a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up stagger-1">
+                    <div class="stat-icon"><i class="fas fa-paper-plane"></i></div>
+                    <div class="stat-value" id="sentCount">0</div>
+                    <div class="stat-label">Gifts Sent</div>
+                </div>
+
+                <div class="stat-card fade-in-up stagger-2">
+                    <div class="stat-icon"><i class="fas fa-inbox"></i></div>
+                    <div class="stat-value" id="receivedCount">0</div>
+                    <div class="stat-label">Gifts Received</div>
+                </div>
+
+                <div class="stat-card fade-in-up stagger-3">
+                    <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+
+                <div class="stat-card fade-in-up stagger-4">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-value" id="wishlistCount">0</div>
+                    <div class="stat-label">Wishlist Items</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="card fade-in-up">
+                <div class="card-body">
+                    <h2 class="card-title">Recent Activity</h2>
+                    <div id="recentActivity">
+                        <p class="text-center py-2xl text-secondary">
+                            Loading activity...
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Wishlist Section -->
+            <div class="card fade-in-up mt-xl">
+                <div class="card-body">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                        <h2 class="card-title" style="margin: 0;">My Wishlist</h2>
+                        <a href="marketplace.html" class="btn btn-outline btn-sm">Browse Gifts</a>
+                    </div>
+                    <div id="wishlistItems" class="grid grid-cols-4 gap-lg">
+                        <!-- Wishlist items will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.GiftExchange.getCurrentUser();
+
+            if (!user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Display user name
+            const userNameEl = document.getElementById('userName');
+            if (userNameEl && user.fullName) {
+                userNameEl.textContent = user.fullName.split(' ')[0]; // First name only
+            }
+
+            // Load dashboard data
+            loadDashboardStats();
+            loadRecentActivity();
+            loadWishlist();
+
+            // Show success toast for new users
+            const isNewUser = sessionStorage.getItem('newUser');
+            if (isNewUser) {
+                window.GiftExchange.showToast('Welcome to Global Gift Exchange! 🎉', 'success');
+                sessionStorage.removeItem('newUser');
+
+                // Show confetti for new users
+                setTimeout(() => {
+                    if (window.GiftExchangeAnimations && window.GiftExchangeAnimations.confetti) {
+                        window.GiftExchangeAnimations.confetti();
+                    }
+                }, 500);
+            }
+        });
+
+        function loadDashboardStats() {
+            const sentGifts = window.GiftExchange.Storage.get('sentGifts') || [];
+            const claims = window.GiftExchange.Storage.get('giftClaims') || [];
+            const wishlist = window.GiftExchange.Storage.get('wishlist') || [];
+
+            // Update stats
+            document.getElementById('sentCount').textContent = sentGifts.length;
+            document.getElementById('receivedCount').textContent = claims.length;
+
+            // Pending = sent but not claimed
+            const pendingCount = sentGifts.filter(g => g.status === 'pending').length;
+            document.getElementById('pendingCount').textContent = pendingCount;
+
+            document.getElementById('wishlistCount').textContent = wishlist.length;
+        }
+
+        function loadRecentActivity() {
+            const sentGifts = window.GiftExchange.Storage.get('sentGifts') || [];
+            const claims = window.GiftExchange.Storage.get('giftClaims') || [];
+            const container = document.getElementById('recentActivity');
+
+            // Combine and sort by date
+            const activities = [];
+
+            sentGifts.forEach(gift => {
+                activities.push({
+                    type: 'sent',
+                    date: gift.sentAt,
+                    gift: gift
+                });
+            });
+
+            claims.forEach(claim => {
+                activities.push({
+                    type: 'received',
+                    date: claim.claimedAt,
+                    claim: claim
+                });
+            });
+
+            activities.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (activities.length === 0) {
+                container.innerHTML = `
+          <p class="text-center py-2xl text-secondary">
+            No activity yet. <a href="marketplace.html" class="text-red font-semibold">Start by browsing gifts!</a>
+          </p>
+        `;
+                return;
+            }
+
+            // Display recent 5 activities
+            const recentActivities = activities.slice(0, 5);
+            container.innerHTML = recentActivities.map(activity => {
+                if (activity.type === 'sent') {
+                    return `
+            <div class="py-md border-bottom">
+              <div style="display: flex; gap: var(--space-md); align-items: start;">
+                <span style="font-size: 2rem;"><i class="fas fa-paper-plane"></i></span>
+                <div style="flex: 1;">
+                  <div class="font-semibold">Sent ${activity.gift.gift.name}</div>
+                  <div class="text-sm text-secondary">To: ${activity.gift.recipient.name}</div>
+                  <div class="text-xs text-light">${window.GiftExchange.formatDate(activity.date)}</div>
+                </div>
+                <span class="badge ${activity.gift.status === 'pending' ? 'badge-warning' : 'badge-success'}">
+                  ${activity.gift.status}
+                </span>
+              </div>
+            </div>
+          `;
+                } else {
+                    return `
+            <div class="py-md border-bottom">
+              <div style="display: flex; gap: var(--space-md); align-items: start;">
+                <span style="font-size: 2rem;"><i class="fas fa-inbox"></i></span>
+                <div style="flex: 1;">
+                  <div class="font-semibold">Claimed Gift</div>
+                  <div class="text-sm text-secondary">Redemption: ${activity.claim.redemptionType}</div>
+                  <div class="text-xs text-light">${window.GiftExchange.formatDate(activity.date)}</div>
+                </div>
+                <span class="badge badge-success">Claimed</span>
+              </div>
+            </div>
+          `;
+                }
+            }).join('');
+        }
+
+        function loadWishlist() {
+            const wishlist = window.GiftExchange.Storage.get('wishlist') || [];
+            const container = document.getElementById('wishlistItems');
+
+            if (wishlist.length === 0) {
+                container.innerHTML = `
+          <div class="col-span-4 text-center py-2xl text-secondary">
+            Your wishlist is empty. <a href="marketplace.html" class="text-red font-semibold">Add some gifts!</a>
+          </div>
+        `;
+                return;
+            }
+
+            container.innerHTML = wishlist.slice(0, 4).map(gift => `
+        <div class="card hover-lift">
+          <img src="${gift.image}" alt="${gift.name}" style="width: 100%; height: 150px; object-fit: contain; background: var(--cream); padding: var(--space-md); border-radius: var(--radius-lg) var(--radius-lg) 0 0;">
+          <div class="card-body">
+            <h4 class="font-semibold text-sm mb-xs">${gift.name}</h4>
+            <div class="text-red font-bold mb-md">${window.GiftExchange.formatCurrency(gift.price, gift.currency)}</div>
+            <a href="gift-detail.html?id=${gift.id}" class="btn btn-primary btn-sm w-full">View</a>
+          </div>
+        </div>
+      `).join('');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,705 @@
+[
+    {
+        "id": "ps5-console",
+        "name": "PlayStation 5 Console",
+        "category": "Electronics",
+        "price": 499.99,
+        "currency": "USD",
+        "description": "The ultimate gaming experience with stunning 4K graphics, lightning-fast SSD, and exclusive titles. Includes DualSense wireless controller.",
+        "image": "images/gifts/ps5.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "13+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 1250,
+        "tags": [
+            "gaming",
+            "console",
+            "entertainment",
+            "tech"
+        ]
+    },
+    {
+        "id": "iphone-15-pro",
+        "name": "iPhone 15 Pro",
+        "category": "Electronics",
+        "price": 999.99,
+        "currency": "USD",
+        "description": "Premium smartphone with titanium design, A17 Pro chip, advanced camera system, and all-day battery life.",
+        "image": "images/gifts/iphone.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 2340,
+        "tags": [
+            "smartphone",
+            "tech",
+            "apple",
+            "premium"
+        ]
+    },
+    {
+        "id": "luxury-teddy-bear",
+        "name": "Luxury Teddy Bear",
+        "category": "Toys",
+        "price": 49.99,
+        "currency": "USD",
+        "description": "Soft, cuddly premium teddy bear with silk ribbon. Perfect for showing someone you care. Handcrafted with love.",
+        "image": "images/gifts/teddy-bear.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "All Ages",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 890,
+        "tags": [
+            "plush",
+            "gift",
+            "romantic",
+            "kids"
+        ]
+    },
+    {
+        "id": "airpods-pro",
+        "name": "AirPods Pro (2nd Gen)",
+        "category": "Electronics",
+        "price": 249.99,
+        "currency": "USD",
+        "description": "Premium wireless earbuds with active noise cancellation, spatial audio, and adaptive transparency.",
+        "image": "images/gifts/airpods-pro.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 1680,
+        "tags": [
+            "audio",
+            "wireless",
+            "music",
+            "apple"
+        ]
+    },
+    {
+        "id": "spa-day-voucher",
+        "name": "Luxury Spa Day Experience",
+        "category": "Experiences",
+        "price": 199.99,
+        "currency": "USD",
+        "description": "Full day spa package including massage, facial, manicure, and premium refreshments. Pure relaxation.",
+        "image": "images/gifts/spa-day.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 567,
+        "tags": [
+            "spa",
+            "relaxation",
+            "wellness",
+            "experience"
+        ]
+    },
+    {
+        "id": "smart-watch",
+        "name": "Premium Smart Watch",
+        "category": "Electronics",
+        "price": 399.99,
+        "currency": "USD",
+        "description": "Advanced fitness tracking, heart rate monitoring, GPS, and smart notifications. Water resistant up to 50m.",
+        "image": "images/gifts/smartwatch.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.6,
+        "reviews": 923,
+        "tags": [
+            "fitness",
+            "tech",
+            "health",
+            "wearable"
+        ]
+    },
+    {
+        "id": "designer-handbag",
+        "name": "Designer Leather Handbag",
+        "category": "Fashion",
+        "price": 599.99,
+        "currency": "USD",
+        "description": "Genuine leather luxury handbag from renowned designer. Timeless elegance and premium craftsmanship.",
+        "image": "images/gifts/handbag.png",
+        "gender": [
+            "female"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 456,
+        "tags": [
+            "fashion",
+            "luxury",
+            "designer",
+            "accessories"
+        ]
+    },
+    {
+        "id": "gaming-headset",
+        "name": "Pro Gaming Headset",
+        "category": "Electronics",
+        "price": 149.99,
+        "currency": "USD",
+        "description": "7.1 surround sound, noise-canceling microphone, RGB lighting, and ultra-comfortable memory foam.",
+        "image": "images/gifts/headset.png",
+        "gender": [
+            "male",
+            "unisex"
+        ],
+        "ageRange": "13+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 1120,
+        "tags": [
+            "gaming",
+            "audio",
+            "headset",
+            "tech"
+        ]
+    },
+    {
+        "id": "perfume-set",
+        "name": "Luxury Perfume Gift Set",
+        "category": "Fashion",
+        "price": 129.99,
+        "currency": "USD",
+        "description": "Collection of 3 premium fragrances in elegant presentation box. Includes floral, citrus, and oriental scents.",
+        "image": "images/gifts/perfume.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.6,
+        "reviews": 678,
+        "tags": [
+            "fragrance",
+            "luxury",
+            "beauty",
+            "gift set"
+        ]
+    },
+    {
+        "id": "fine-dining",
+        "name": "Fine Dining Experience",
+        "category": "Experiences",
+        "price": 299.99,
+        "currency": "USD",
+        "description": "5-course meal at a Michelin-starred restaurant for two. Includes wine pairing and exclusive chef's table.",
+        "image": "images/gifts/dining.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "21+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 342,
+        "tags": [
+            "dining",
+            "food",
+            "experience",
+            "luxury"
+        ]
+    },
+    {
+        "id": "drone-camera",
+        "name": "4K Camera Drone",
+        "category": "Electronics",
+        "price": 799.99,
+        "currency": "USD",
+        "description": "Professional 4K camera drone with 3-axis gimbal, 30-minute flight time, and obstacle avoidance.",
+        "image": "images/gifts/drone.png",
+        "gender": [
+            "male",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 445,
+        "tags": [
+            "drone",
+            "camera",
+            "tech",
+            "photography"
+        ]
+    },
+    {
+        "id": "jewelry-necklace",
+        "name": "Diamond Pendant Necklace",
+        "category": "Fashion",
+        "price": 899.99,
+        "currency": "USD",
+        "description": "18K white gold necklace with genuine diamond pendant. Comes with certificate of authenticity.",
+        "image": "images/gifts/necklace.png",
+        "gender": [
+            "female"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 234,
+        "tags": [
+            "jewelry",
+            "diamond",
+            "luxury",
+            "necklace"
+        ]
+    },
+    {
+        "id": "espresso-machine",
+        "name": "Professional Espresso Machine",
+        "category": "Home",
+        "price": 699.99,
+        "currency": "USD",
+        "description": "Barista-quality espresso machine with built-in grinder, milk frother, and programmable settings.",
+        "image": "images/gifts/espresso.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 789,
+        "tags": [
+            "coffee",
+            "home",
+            "kitchen",
+            "appliance"
+        ]
+    },
+    {
+        "id": "yoga-retreat",
+        "name": "Weekend Yoga Retreat",
+        "category": "Experiences",
+        "price": 449.99,
+        "currency": "USD",
+        "description": "3-day wellness retreat with yoga classes, meditation, healthy meals, and spa treatments.",
+        "image": "images/gifts/yoga.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 456,
+        "tags": [
+            "yoga",
+            "wellness",
+            "retreat",
+            "experience"
+        ]
+    },
+    {
+        "id": "lego-set",
+        "name": "Premium LEGO Architecture Set",
+        "category": "Toys",
+        "price": 179.99,
+        "currency": "USD",
+        "description": "Iconic landmark building set with 3000+ pieces. Perfect for display and collectors.",
+        "image": "images/gifts/lego.png",
+        "gender": [
+            "male",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 1567,
+        "tags": [
+            "lego",
+            "building",
+            "collectible",
+            "hobby"
+        ]
+    },
+    {
+        "id": "silk-scarf",
+        "name": "Designer Silk Scarf",
+        "category": "Fashion",
+        "price": 89.99,
+        "currency": "USD",
+        "description": "100% pure silk scarf with hand-rolled edges. Features exclusive designer print.",
+        "image": "images/gifts/scarf.png",
+        "gender": [
+            "female"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 312,
+        "tags": [
+            "fashion",
+            "silk",
+            "accessories",
+            "designer"
+        ]
+    },
+    {
+        "id": "concert-tickets",
+        "name": "Premium Concert Tickets",
+        "category": "Experiences",
+        "price": 349.99,
+        "currency": "USD",
+        "description": "VIP concert tickets for two with backstage meet & greet access. Includes premium seating.",
+        "image": "images/gifts/concert.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 923,
+        "tags": [
+            "concert",
+            "music",
+            "experience",
+            "vip"
+        ]
+    },
+    {
+        "id": "skincare-set",
+        "name": "Luxury Skincare Collection",
+        "category": "Fashion",
+        "price": 159.99,
+        "currency": "USD",
+        "description": "Complete skincare routine with premium anti-aging products. Includes cleanser, serum, and moisturizer.",
+        "image": "images/gifts/skincare.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 567,
+        "tags": [
+            "skincare",
+            "beauty",
+            "luxury",
+            "wellness"
+        ]
+    },
+    {
+        "id": "mechanical-keyboard",
+        "name": "RGB Mechanical Keyboard",
+        "category": "Electronics",
+        "price": 189.99,
+        "currency": "USD",
+        "description": "Premium mechanical gaming keyboard with customizable RGB, hot-swappable switches, and wireless connectivity.",
+        "image": "images/gifts/keyboard.png",
+        "gender": [
+            "male",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 1234,
+        "tags": [
+            "gaming",
+            "keyboard",
+            "tech",
+            "rgb"
+        ]
+    },
+    {
+        "id": "champagne-gift",
+        "name": "Vintage Champagne Gift Box",
+        "category": "Food & Drink",
+        "price": 249.99,
+        "currency": "USD",
+        "description": "Premium vintage champagne in elegant gift box with crystal flutes. Perfect for celebrations.",
+        "image": "images/gifts/champagne.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "21+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 445,
+        "tags": [
+            "champagne",
+            "wine",
+            "celebration",
+            "luxury"
+        ]
+    },
+    {
+        "id": "apple-watch-9",
+        "name": "Apple Watch Series 9",
+        "category": "Electronics",
+        "price": 429.99,
+        "currency": "USD",
+        "description": "Latest Apple Watch with advanced health monitoring, fitness tracking, always-on Retina display, and seamless iPhone integration.",
+        "image": "images/gifts/apple-watch.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 2156,
+        "tags": [
+            "smartwatch",
+            "fitness",
+            "apple",
+            "wearable"
+        ]
+    },
+    {
+        "id": "bose-headphones",
+        "name": "Bose QuietComfort Headphones",
+        "category": "Electronics",
+        "price": 349.99,
+        "currency": "USD",
+        "description": "Premium noise-canceling Bluetooth headphones with superior sound quality, 24-hour battery life, and ultra-comfortable design.",
+        "image": "images/gifts/bose-headphones.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 1890,
+        "tags": [
+            "headphones",
+            "audio",
+            "bluetooth",
+            "noise-canceling"
+        ]
+    },
+    {
+        "id": "home-spa-kit",
+        "name": "Deluxe Home Spa Kit",
+        "category": "Fashion",
+        "price": 89.99,
+        "currency": "USD",
+        "description": "Complete at-home spa experience with bath bombs, essential oils, scented candles, face masks, and plush robe.",
+        "image": "images/gifts/spa-kit.png",
+        "gender": [
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 756,
+        "tags": [
+            "spa",
+            "self-care",
+            "relaxation",
+            "wellness"
+        ]
+    },
+    {
+        "id": "monopoly-game",
+        "name": "Monopoly Ultimate Banking Edition",
+        "category": "Toys",
+        "price": 34.99,
+        "currency": "USD",
+        "description": "Classic family board game with electronic banking unit. Perfect for game nights and holiday gatherings.",
+        "image": "images/gifts/monopoly.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "8+",
+        "inStock": true,
+        "rating": 4.6,
+        "reviews": 1423,
+        "tags": [
+            "board game",
+            "family",
+            "fun",
+            "classic"
+        ]
+    },
+    {
+        "id": "amazon-gift-card",
+        "name": "Amazon Gift Card ($100)",
+        "category": "Gift Cards",
+        "price": 100.00,
+        "currency": "USD",
+        "description": "Digital gift card for Amazon.com. Perfect choice allowing recipients to select exactly what they want from millions of items.",
+        "image": "images/gifts/amazon-card.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "All Ages",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 5678,
+        "tags": [
+            "gift card",
+            "flexible",
+            "amazon",
+            "digital"
+        ]
+    },
+    {
+        "id": "personalized-mug",
+        "name": "Personalized Photo Mug Set",
+        "category": "Home",
+        "price": 39.99,
+        "currency": "USD",
+        "description": "Set of 2 premium ceramic mugs with custom photo and message printing. Dishwasher and microwave safe.",
+        "image": "images/gifts/personalized-mug.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "All Ages",
+        "inStock": true,
+        "rating": 4.5,
+        "reviews": 892,
+        "tags": [
+            "personalized",
+            "custom",
+            "mug",
+            "gift"
+        ]
+    },
+    {
+        "id": "instant-pot-air-fryer",
+        "name": "Instant Pot Duo Crisp + Air Fryer",
+        "category": "Home",
+        "price": 149.99,
+        "currency": "USD",
+        "description": "11-in-1 multi-cooker with pressure cook, slow cook, air fry, and more. Makes healthy cooking easy and fast.",
+        "image": "images/gifts/instant-pot.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "18+",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 3245,
+        "tags": [
+            "cooking",
+            "kitchen",
+            "air fryer",
+            "appliance"
+        ]
+    },
+    {
+        "id": "camping-backpack",
+        "name": "Professional Hiking Backpack 65L",
+        "category": "Sports",
+        "price": 129.99,
+        "currency": "USD",
+        "description": "Durable outdoor backpack with rain cover, multiple compartments, and ergonomic design. Perfect for camping and hiking.",
+        "image": "images/gifts/backpack.png",
+        "gender": [
+            "male",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.7,
+        "reviews": 1089,
+        "tags": [
+            "outdoor",
+            "camping",
+            "hiking",
+            "backpack"
+        ]
+    },
+    {
+        "id": "netflix-premium",
+        "name": "Netflix Premium 1-Year Subscription",
+        "category": "Subscriptions",
+        "price": 239.88,
+        "currency": "USD",
+        "description": "Full year of Netflix Premium with 4K streaming, 4 simultaneous screens, and unlimited movies and TV shows.",
+        "image": "images/gifts/netflix-card.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "16+",
+        "inStock": true,
+        "rating": 4.9,
+        "reviews": 4567,
+        "tags": [
+            "streaming",
+            "entertainment",
+            "netflix",
+            "subscription"
+        ]
+    },
+    {
+        "id": "lego-coding-kit",
+        "name": "LEGO BOOST Creative Toolbox",
+        "category": "Toys",
+        "price": 159.99,
+        "currency": "USD",
+        "description": "Educational coding and robotics kit for children. Build and program 5 different models with easy app-based coding.",
+        "image": "images/gifts/lego-boost.png",
+        "gender": [
+            "male",
+            "female",
+            "unisex"
+        ],
+        "ageRange": "7-12",
+        "inStock": true,
+        "rating": 4.8,
+        "reviews": 2134,
+        "tags": [
+            "lego",
+            "educational",
+            "coding",
+            "stem"
+        ]
+    }
+]

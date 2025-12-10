@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Send a gift to someone special anywhere in the world.">
+    <title>Send a Gift - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .send-gift-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-md);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-3xl);
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-light);
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            height: 2px;
+            background: var(--ruby-red);
+            transition: width var(--transition-base);
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            background: var(--cream);
+            padding: 0 var(--space-sm);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-bold);
+            color: var(--text-light);
+            transition: all var(--transition-fast);
+            margin-bottom: var(--space-sm);
+        }
+
+        .step.active .step-number,
+        .step.completed .step-number {
+            background: var(--ruby-red);
+            color: var(--white);
+            border-color: var(--ruby-red);
+        }
+
+        .step-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .step.active .step-label {
+            color: var(--ruby-red);
+            font-weight: var(--font-semibold);
+        }
+
+        .form-card {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .section-title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .gift-summary {
+            background: var(--cream);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-xl);
+            display: flex;
+            gap: var(--space-lg);
+        }
+
+        .gift-summary-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            background: var(--white);
+            padding: var(--space-sm);
+        }
+
+        .gift-summary-info {
+            flex: 1;
+        }
+
+        .gift-summary-title {
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-xs);
+        }
+
+        .gift-summary-price {
+            color: var(--ruby-red);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: space-between;
+            margin-top: var(--space-2xl);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .payment-method {
+            padding: var(--space-lg);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .payment-method:hover {
+            border-color: var(--ruby-red);
+            background: var(--cream);
+        }
+
+        .payment-method.selected {
+            border-color: var(--ruby-red);
+            background: rgba(196, 30, 58, 0.1);
+        }
+
+        .payment-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .order-summary {
+            background: var(--cream);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .summary-row.total {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            border-bottom: none;
+            padding-top: var(--space-lg);
+        }
+
+        @media (max-width: 768px) {
+            .progress-steps {
+                flex-wrap: wrap;
+            }
+
+            .step {
+                flex: 1;
+                min-width: 80px;
+            }
+
+            .step-label {
+                font-size: var(--text-xs);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .send-gift-container {
+            margin-left: 280px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Dashboard Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <span><i class="fas fa-gift"></i></span>
+            <span>GiftExchange</span>
+        </a>
+
+        <nav>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-chart-pie"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="marketplace.html" class="sidebar-menu-link active">
+                        <span class="sidebar-menu-icon"><i class="fas fa-gift"></i></span>
+                        <span>Browse Gifts</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-sent.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-paper-plane"></i></span>
+                        <span>Gifts Sent</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-received.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-inbox"></i></span>
+                        <span>Gifts Received</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="wishlist.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-star"></i></span>
+                        <span>Wishlist</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="settings.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-cog"></i></span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                        <span class="sidebar-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Send Gift Container -->
+    <div class="send-gift-container page-transition">
+        <h1 class="text-center mb-xl fade-in-up">Send a Gift 🎁</h1>
+
+        <!-- Progress Steps -->
+        <div class="progress-steps fade-in-up">
+            <div class="progress-line" id="progressLine" style="width: 0%;"></div>
+
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">Recipient</div>
+            </div>
+
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">Personalize</div>
+            </div>
+
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">Payment</div>
+            </div>
+
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">Confirm</div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card fade-in-up">
+            <form id="sendGiftForm">
+                <!-- Step 1: Recipient Details -->
+                <div class="form-section active" data-section="1">
+                    <h2 class="section-title">Recipient Details</h2>
+                    <p class="section-subtitle">Who would you like to send this gift to?</p>
+
+                    <!-- Gift Summary -->
+                    <div class="gift-summary" id="giftSummary">
+                        <!-- Populated by JavaScript -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipientName" class="form-label">Recipient Full Name *</label>
+                        <input type="text" id="recipientName" class="form-input" placeholder="John Doe" required>
+                        <span class="form-error" id="recipientNameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipientEmail" class="form-label">Recipient Email *</label>
+                        <input type="email" id="recipientEmail" class="form-input" placeholder="john@example.com"
+                            required>
+                        <span class="form-error" id="recipientEmailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recipientCountry" class="form-label">Recipient Country *</label>
+                        <select id="recipientCountry" class="form-select" required>
+                            <option value="">Select country</option>
+                            <option value="US">United States</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="IN">India</option>
+                            <option value="SG">Singapore</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                        </select>
+                        <span class="form-error" id="recipientCountryError"></span>
+                    </div>
+                </div>
+
+                <!-- Step 2: Personalization -->
+                <div class="form-section" data-section="2">
+                    <h2 class="section-title">Personalize Your Gift</h2>
+                    <p class="section-subtitle">Add a personal touch to make it special</p>
+
+                    <div class="form-group">
+                        <label for="giftMessage" class="form-label">Gift Message</label>
+                        <textarea id="giftMessage" class="form-input" rows="5"
+                            placeholder="Write a heartfelt message to your recipient..." maxlength="500"></textarea>
+                        <span class="text-sm text-secondary" id="messageCount">0/500 characters</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="deliveryDate" class="form-label">Delivery Date</label>
+                        <input type="date" id="deliveryDate" class="form-input">
+                        <span class="text-sm text-secondary">Leave blank for immediate delivery</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-checkbox-label">
+                            <input type="checkbox" class="form-checkbox" id="anonymousGift">
+                            <span>Send as anonymous gift</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment -->
+                <div class="form-section" data-section="3">
+                    <h2 class="section-title">Payment Method</h2>
+                    <p class="section-subtitle">Choose how you'd like to pay</p>
+
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="card" onclick="selectPaymentMethod('card')">
+                            <div class="payment-icon">💳</div>
+                            <div class="font-semibold">Credit Card</div>
+                        </div>
+
+                        <div class="payment-method" data-method="paypal" onclick="selectPaymentMethod('paypal')">
+                            <div class="payment-icon">🅿️</div>
+                            <div class="font-semibold">PayPal</div>
+                        </div>
+
+                        <div class="payment-method" data-method="crypto" onclick="selectPaymentMethod('crypto')">
+                            <div class="payment-icon">₿</div>
+                            <div class="font-semibold">Crypto</div>
+                        </div>
+                    </div>
+
+                    <div id="cardPaymentForm" style="display: none;">
+                        <div class="form-group">
+                            <label for="cardNumber" class="form-label">Card Number</label>
+                            <input type="text" id="cardNumber" class="form-input" placeholder="1234 5678 9012 3456"
+                                maxlength="19">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-md">
+                            <div class="form-group">
+                                <label for="cardExpiry" class="form-label">Expiry Date</label>
+                                <input type="text" id="cardExpiry" class="form-input" placeholder="MM/YY" maxlength="5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cardCVV" class="form-label">CVV</label>
+                                <input type="text" id="cardCVV" class="form-input" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-lg">
+                        <span>💡 This is a demo. No actual payment will be processed.</span>
+                    </div>
+                </div>
+
+                <!-- Step 4: Review & Confirm -->
+                <div class="form-section" data-section="4">
+                    <h2 class="section-title">Review & Confirm</h2>
+                    <p class="section-subtitle">Please review your gift details before sending</p>
+
+                    <div class="order-summary">
+                        <h3 class="font-semibold mb-md">Order Summary</h3>
+
+                        <div class="summary-row">
+                            <span>Gift Item:</span>
+                            <span id="summaryGiftName">-</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Quantity:</span>
+                            <span id="summaryQuantity">-</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="summarySubtotal">-</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Service Fee:</span>
+                            <span id="summaryFee">-</span>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="summaryTotal">-</span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success mt-lg">
+                        <h4 class="font-semibold mb-sm">Recipient Details:</h4>
+                        <p id="summaryRecipient">-</p>
+                    </div>
+
+                    <div id="summaryMessage" class="card mt-lg" style="display: none;">
+                        <div class="card-body">
+                            <h4 class="font-semibold mb-sm">Your Message:</h4>
+                            <p class="text-secondary" id="summaryMessageText">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline btn-lg" id="prevBtn" onclick="previousStep()"
+                        style="display: none;">
+                        ← Previous
+                    </button>
+
+                    <button type="button" class="btn btn-primary btn-lg" id="nextBtn" onclick="nextStep()"
+                        style="flex: 1;">
+                        Next Step →
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/send-gift.js"></script>
+</body>
+
+</html>

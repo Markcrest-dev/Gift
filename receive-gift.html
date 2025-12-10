@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="You've received a gift! Claim it now.">
+    <title>Receive Gift - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--ruby-red) 0%, var(--deep-crimson) 50%, var(--forest-green) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/hero/christmas-bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+        }
+
+        .receive-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: var(--space-3xl) var(--space-md);
+            position: relative;
+            z-index: 1;
+        }
+
+        .gift-card-main {
+            background: var(--white);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-2xl);
+            overflow: hidden;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .gift-header {
+            background: linear-gradient(135deg, var(--ruby-red), var(--deep-crimson));
+            color: var(--white);
+            padding: var(--space-3xl) var(--space-2xl);
+            text-align: center;
+            position: relative;
+        }
+
+        .gift-icon {
+            font-size: 5rem;
+            margin-bottom: var(--space-lg);
+            animation: giftWiggle 2s infinite;
+        }
+
+        .gift-header-title {
+            font-size: var(--text-3xl);
+            margin-bottom: var(--space-sm);
+        }
+
+        .gift-header-subtitle {
+            opacity: 0.9;
+        }
+
+        .gift-content {
+            padding: var(--space-2xl);
+        }
+
+        .gift-display {
+            display: flex;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            padding-bottom: var(--space-2xl);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .gift-image {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            background: var(--cream);
+            border-radius: var(--radius-xl);
+            padding: var(--space-md);
+        }
+
+        .gift-info {
+            flex: 1;
+        }
+
+        .gift-name {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-sm);
+        }
+
+        .gift-value {
+            font-size: var(--text-3xl);
+            color: var(--ruby-red);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-md);
+        }
+
+        .gift-from {
+            background: var(--cream);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-sm);
+        }
+
+        .message-section {
+            background: var(--cream);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .message-text {
+            font-style: italic;
+            line-height: var(--leading-relaxed);
+            color: var(--text-secondary);
+        }
+
+        .redemption-options {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .redemption-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .redemption-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-lg);
+        }
+
+        .redemption-card {
+            padding: var(--space-xl);
+            border: 3px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: var(--white);
+        }
+
+        .redemption-card:hover {
+            border-color: var(--ruby-red);
+            background: var(--cream);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .redemption-card.selected {
+            border-color: var(--ruby-red);
+            background: rgba(196, 30, 58, 0.1);
+        }
+
+        .redemption-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .redemption-label {
+            font-weight: var(--font-bold);
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-sm);
+        }
+
+        .redemption-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .claim-form {
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .claim-form.active {
+            display: block;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: var(--space-3xl);
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .success-icon {
+            font-size: 6rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        @media (max-width: 768px) {
+            .gift-display {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .gift-image {
+                margin: 0 auto;
+            }
+
+            .redemption-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Snowfall Background -->
+    <div class="snowfall-container">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+    </div>
+
+    <div class="receive-container">
+        <!-- Main Gift Card -->
+        <div class="gift-card-main fade-in-up">
+            <div class="gift-header">
+                <div class="gift-icon">🎁</div>
+                <h1 class="gift-header-title">You've Received a Gift!</h1>
+                <p class="gift-header-subtitle">Someone special sent you something amazing</p>
+            </div>
+
+            <div class="gift-content" id="giftContent">
+                <!-- Loading State -->
+                <div id="loadingState" class="text-center py-3xl">
+                    <div class="spinner mx-auto mb-lg" style="width: 60px; height: 60px;"></div>
+                    <p class="text-secondary">Loading your gift...</p>
+                </div>
+
+                <!-- Gift Display -->
+                <div id="giftDisplay" style="display: none;">
+                    <div class="gift-display">
+                        <img src="" alt="" class="gift-image" id="giftImage">
+                        <div class="gift-info">
+                            <h2 class="gift-name" id="giftName">Amazing Gift</h2>
+                            <div class="gift-value" id="giftValue">$0.00</div>
+                            <div class="gift-from" id="giftFrom">
+                                <strong>From:</strong> <span id="senderName">Anonymous</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message Section -->
+                    <div class="message-section" id="messageSection" style="display: none;">
+                        <h3 class="font-semibold mb-md">💌 Personal Message:</h3>
+                        <p class="message-text" id="messageText"></p>
+                    </div>
+
+                    <!-- Redemption Options -->
+                    <div class="redemption-options">
+                        <h3 class="redemption-title">Choose How to Receive Your Gift</h3>
+
+                        <div class="redemption-cards">
+                            <div class="redemption-card" onclick="selectRedemption('physical')">
+                                <div class="redemption-icon">📦</div>
+                                <div class="redemption-label">Ship to Me</div>
+                                <div class="redemption-desc">Receive the physical gift</div>
+                            </div>
+
+                            <div class="redemption-card" onclick="selectRedemption('cash')">
+                                <div class="redemption-icon">💵</div>
+                                <div class="redemption-label">Cash Value</div>
+                                <div class="redemption-desc">Get the equivalent cash</div>
+                            </div>
+
+                            <div class="redemption-card" onclick="selectRedemption('crypto')">
+                                <div class="redemption-icon">₿</div>
+                                <div class="redemption-label">Cryptocurrency</div>
+                                <div class="redemption-desc">Receive in Bitcoin/ETH</div>
+                            </div>
+
+                            <div class="redemption-card" onclick="selectRedemption('donate')">
+                                <div class="redemption-icon">❤️</div>
+                                <div class="redemption-label">Donate to Charity</div>
+                                <div class="redemption-desc">Give to those in need</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Claim Forms -->
+                    <!-- Physical Delivery Form -->
+                    <div class="claim-form" id="physicalForm">
+                        <h3 class="font-semibold mb-lg text-center">Shipping Details</h3>
+
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Full Name *</label>
+                            <input type="text" id="fullName" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address" class="form-label">Shipping Address *</label>
+                            <textarea id="address" class="form-input" rows="3" required></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-md">
+                            <div class="form-group">
+                                <label for="city" class="form-label">City *</label>
+                                <input type="text" id="city" class="form-input" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="zipCode" class="form-label">ZIP Code *</label>
+                                <input type="text" id="zipCode" class="form-input" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="phone" class="form-input" required>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg w-full" onclick="claimGift()">
+                            Claim Gift 🎁
+                        </button>
+                    </div>
+
+                    <!-- Cash Redemption Form -->
+
+                    <div class="claim-form" id="cashForm">
+                        <h3 class="font-semibold mb-lg text-center">Payment Details</h3>
+
+                        <div class="alert alert-info mb-lg">
+                            <p>💰 You'll receive: <strong id="cashAmount">$0.00</strong></p>
+                            <p class="text-sm mt-sm">🔒 Your banking information is securely stored.</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="accountHolderName" class="form-label">Account Holder Name *</label>
+                            <input type="text" id="accountHolderName" class="form-input" required
+                                placeholder="Full name as it appears on account">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bankName" class="form-label">Bank Name *</label>
+                            <input type="text" id="bankName" class="form-input" required
+                                placeholder="Name of your bank">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="accountNumber" class="form-label">Account Number *</label>
+                            <input type="text" id="accountNumber" class="form-input" required
+                                placeholder="Your account number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="routingNumber" class="form-label">Routing Number / SWIFT Code *</label>
+                            <input type="text" id="routingNumber" class="form-input" required
+                                placeholder="9-digit routing number or SWIFT code">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="accountType" class="form-label">Account Type *</label>
+                            <select id="accountType" class="form-select" required>
+                                <option value="">Select account type</option>
+                                <option value="checking">Checking</option>
+                                <option value="savings">Savings</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg w-full" onclick="claimGift()">
+                            Claim Cash 💵
+                        </button>
+                    </div>
+
+
+                    <!-- Crypto Redemption Form -->
+                    <div class="claim-form" id="cryptoForm">
+                        <h3 class="font-semibold mb-lg text-center">Crypto Wallet Details</h3>
+
+                        <div class="alert alert-info mb-lg">
+                            <p>₿ You'll receive: <strong id="cryptoAmount">$0.00 USD</strong> in your chosen currency
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cryptoCurrency" class="form-label">Select Cryptocurrency *</label>
+                            <select id="cryptoCurrency" class="form-select" required>
+                                <option value="">Choose currency</option>
+                                <option value="BTC">Bitcoin (BTC)</option>
+                                <option value="ETH">Ethereum (ETH)</option>
+                                <option value="USDT">Tether (USDT)</option>
+                                <option value="BNB">Binance Coin (BNB)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="walletAddress" class="form-label">Wallet Address *</label>
+                            <input type="text" id="walletAddress" class="form-input" placeholder="0x..." required>
+                        </div>
+
+                        <button class="btn btn-primary btn-lg w-full" onclick="claimGift()">
+                            Claim Crypto ₿
+                        </button>
+                    </div>
+
+                    <!-- Donate Form -->
+                    <div class="claim-form" id="donateForm">
+                        <h3 class="font-semibold mb-lg text-center">Choose a Charity</h3>
+
+                        <div class="alert alert-success mb-lg">
+                            <p>❤️ Donation amount: <strong id="donateAmount">$0.00</strong></p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="charity" class="form-label">Select Charity *</label>
+                            <select id="charity" class="form-select" required>
+                                <option value="">Choose charity</option>
+                                <option value="unicef">UNICEF - Children's Fund</option>
+                                <option value="red-cross">Red Cross</option>
+                                <option value="doctors">Doctors Without Borders</option>
+                                <option value="wwf">World Wildlife Fund</option>
+                                <option value="habitat">Habitat for Humanity</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="donorName" class="form-label">Your Name (for receipt)</label>
+                            <input type="text" id="donorName" class="form-input">
+                        </div>
+
+                        <button class="btn btn-primary btn-lg w-full" onclick="claimGift()">
+                            Complete Donation ❤️
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">🎉</div>
+                    <h2 class="mb-md">Gift Claimed Successfully!</h2>
+                    <p class="text-secondary mb-xl" id="successText">Your gift will be processed shortly.</p>
+                    <a href="index.html" class="btn btn-primary btn-lg">Return Home</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="index.html" class="text-white text-decoration-underline">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/receive-gift.js"></script>
+</body>
+
+</html>

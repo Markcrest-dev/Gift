@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all gifts you've received - Global Gift Exchange">
+    <title>Gifts Received - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--space-2xl);
+        }
+
+        .page-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .gift-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .gift-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .gift-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: var(--cream);
+            padding: var(--space-lg);
+        }
+
+        .gift-card-content {
+            padding: var(--space-lg);
+        }
+
+        .gift-card-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .gift-card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-md);
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .redemption-info {
+            background: var(--cream);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .redemption-type {
+            font-weight: var(--font-semibold);
+            color: var(--ruby-red);
+            margin-bottom: var(--space-xs);
+        }
+
+        .redemption-details {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-4xl) var(--space-2xl);
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .empty-title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+                z-index: var(--z-sticky);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .gifts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <span>🎁</span>
+                <span>GiftExchange</span>
+            </a>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a href="dashboard.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="marketplace.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">🎁</span>
+                            <span>Browse Gifts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-sent.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">📤</span>
+                            <span>Gifts Sent</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-received.html" class="sidebar-menu-link active">
+                            <span class="sidebar-menu-icon">📥</span>
+                            <span>Gifts Received</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="wishlist.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">⭐</span>
+                            <span>Wishlist</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="settings.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">⚙️</span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header fade-in-up">
+                <h1 class="page-title">Gifts Received 📥</h1>
+                <p class="page-subtitle">All the wonderful gifts you've claimed</p>
+            </div>
+
+            <div id="giftsContainer">
+                <!-- Gifts will be loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.GiftExchange.getCurrentUser();
+
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadReceivedGifts();
+        });
+
+        function loadReceivedGifts() {
+            const claims = window.GiftExchange.Storage.get('giftClaims') || [];
+            const container = document.getElementById('giftsContainer');
+
+            if (claims.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state fade-in-up">
+                        <div class="empty-icon">🎁</div>
+                        <h3 class="empty-title">No gifts received yet</h3>
+                        <p class="empty-text">
+                            When someone sends you a gift, it will appear here.<br>
+                            Share your wishlist or gift code with friends and family!
+                        </p>
+                        <a href="receive-gift.html" class="btn btn-primary">Claim a Gift</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Display gifts in a grid
+            container.innerHTML = `
+                <div class="gifts-grid">
+                    ${claims.map((claim, index) => `
+                        <div class="gift-card fade-in-up stagger-${(index % 4) + 1}">
+                            ${claim.giftData ? `
+                                <img src="${claim.giftData.image || 'images/default-gift.png'}" 
+                                     alt="Gift" 
+                                     class="gift-card-image" 
+                                     onerror="this.src='images/default-gift.png'">
+                                <div class="gift-card-content">
+                                    <h3 class="gift-card-title">${claim.giftData.name || 'Gift Received'}</h3>
+                                    <div class="gift-card-meta">
+                                        <div class="meta-row">
+                                            <span>📅</span>
+                                            <span>${window.GiftExchange.formatDate(claim.claimedAt)}</span>
+                                        </div>
+                                        ${claim.giftData.price ? `
+                                            <div class="meta-row">
+                                                <span>💰</span>
+                                                <span>${window.GiftExchange.formatCurrency(claim.giftData.price, claim.giftData.currency || 'USD')}</span>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                ` : `
+                                <div class="gift-card-content" style="padding-top: var(--space-2xl);">
+                                    <div style="text-align: center; font-size: 3rem; margin-bottom: var(--space-md);">🎁</div>
+                                    <h3 class="gift-card-title" style="text-align: center;">Gift Received</h3>
+                                    <div class="gift-card-meta">
+                                        <div class="meta-row">
+                                            <span>📅</span>
+                                            <span>${window.GiftExchange.formatDate(claim.claimedAt)}</span>
+                                        </div>
+                                    </div>
+                                `}
+                                
+                                <div class="redemption-info">
+                                    <div class="redemption-type">
+                                        ${claim.redemptionType === 'email' ? '📧 Email' :
+                    claim.redemptionType === 'whatsapp' ? '💬 WhatsApp' :
+                        claim.redemptionType === 'crypto' ? '₿ Crypto' :
+                            claim.redemptionType === 'giftCard' ? '🎟️ Gift Card' :
+                                '📦 ' + claim.redemptionType}
+                                    </div>
+                                    ${claim.redemptionDetails ? `
+                                        <div class="redemption-details">${formatRedemptionDetails(claim)}</div>
+                                    ` : ''}
+                                </div>
+
+                                ${claim.giftData ? `
+                                    <a href="gift-detail.html?id=${claim.giftData.id}" class="btn btn-outline w-full">
+                                        View Details
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function formatRedemptionDetails(claim) {
+            switch (claim.redemptionType) {
+                case 'email':
+                    return `Sent to: ${claim.redemptionDetails.email}`;
+                case 'whatsapp':
+                    return `Phone: ${claim.redemptionDetails.phone}`;
+                case 'crypto':
+                    return `Wallet: ${claim.redemptionDetails.address.substring(0, 20)}...`;
+                case 'giftCard':
+                    return `Brand: ${claim.redemptionDetails.brand}`;
+                case 'physical':
+                    return 'Physical delivery arranged';
+                default:
+                    return 'Redemption details available';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Global Gift Exchange - Share joy globally this Christmas. Send and receive gifts worldwide with flexible cash or crypto redemption.">
+    <title>Global Gift Exchange - Share Joy Worldwide</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/landing.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+</head>
+
+<body>
+    <!-- Snowfall Background -->
+    <div class="snowfall-container" id="snowfall">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <span class="navbar-logo-icon"><i class="fas fa-gift"></i></span>
+                <span>GiftExchange</span>
+            </a>
+
+            <div class="navbar-menu" id="navMenu">
+                <div class="navbar-links">
+                    <a href="about.html" class="navbar-link">About</a>
+                    <a href="contact.html" class="navbar-link">Contact</a>
+                </div>
+
+                <div class="navbar-actions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title fade-in-up">
+                    Share Joy Globally<br>This Christmas <i class="fas fa-tree"></i>
+                </h1>
+                <p class="hero-subtitle fade-in-up stagger-1">
+                    Send meaningful gifts to loved ones worldwide. Recipients can choose cash or cryptocurrency
+                    redemption with just a few clicks.
+                </p>
+                <div class="hero-actions fade-in-up stagger-2">
+                    <a href="signup.html" class="btn btn-primary btn-lg">Start Giving</a>
+                    <a href="marketplace.html" class="btn btn-outline-white btn-lg">Browse Gifts</a>
+                </div>
+                <div class="hero-stats fade-in-up stagger-3">
+                    <div class="stat-item">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Gifts Sent</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">120+</div>
+                        <div class="stat-label">Countries</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="reveal">How It Works</h2>
+                <p class="text-secondary reveal">Send gifts in three simple steps</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card reveal stagger-1">
+                    <div class="step-icon"><i class="fas fa-bullseye"></i></div>
+                    <div class="step-number">01</div>
+                    <h3 class="step-title">Choose a Gift</h3>
+                    <p class="step-description">Browse our curated catalog of premium gifts, from electronics to
+                        experiences. Filter by category, price, and gender preference.</p>
+                </div>
+
+                <div class="step-card reveal stagger-2">
+                    <div class="step-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <div class="step-number">02</div>
+                    <h3 class="step-title">Add Details</h3>
+                    <p class="step-description">Enter recipient information, add a personal message, and choose your
+                        preferred delivery method. We handle the rest.</p>
+                </div>
+
+                <div class="step-card reveal stagger-3">
+                    <div class="step-icon"><i class="fas fa-party-horn"></i></div>
+                    <div class="step-number">03</div>
+                    <h3 class="step-title">They Receive</h3>
+                    <p class="step-description">Recipients get notified and can choose to receive the gift directly or
+                        claim its value in cash or cryptocurrency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Highlight Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="reveal">Why Choose Us</h2>
+                <p class="text-secondary reveal">Premium gifting experience, globally accessible</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card reveal stagger-1">
+                    <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                    <h3 class="feature-title">Global Reach</h3>
+                    <p class="feature-description">Send gifts to over 120 countries with support for multiple currencies
+                        and languages.</p>
+                </div>
+
+                <div class="feature-card reveal stagger-2">
+                    <div class="feature-icon"><i class="fas fa-coins"></i></div>
+                    <h3 class="feature-title">Flexible Redemption</h3>
+                    <p class="feature-description">Recipients choose between cash, cryptocurrency, or physical delivery.
+                    </p>
+                </div>
+
+                <div class="feature-card reveal stagger-3">
+                    <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                    <h3 class="feature-title">Secure & Safe</h3>
+                    <p class="feature-description">Bank-level encryption and compliance with international regulations.
+                    </p>
+                </div>
+
+                <div class="feature-card reveal stagger-4">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3 class="feature-title">Instant Delivery</h3>
+                    <p class="feature-description">Digital notifications delivered instantly, anywhere in the world.</p>
+                </div>
+
+                <div class="feature-card reveal stagger-5">
+                    <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3 class="feature-title">Personalized</h3>
+                    <p class="feature-description">Filter by gender, age, and preferences to find the perfect gift.</p>
+                </div>
+
+                <div class="feature-card reveal stagger-6">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="feature-title">Track Everything</h3>
+                    <p class="feature-description">Real-time tracking of sent and received gifts from your dashboard.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section bg-secondary">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="reveal">What Our Users Say</h2>
+                <p class="text-secondary reveal">Join thousands of satisfied gift givers</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal stagger-1">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Sent my sister an iPhone from the US to Nigeria. She received the cash
+                        value instantly. Amazing service!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+                        <div>
+                            <div class="author-name">Sarah Johnson</div>
+                            <div class="author-location">New York, USA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal stagger-2">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"The crypto redemption option is brilliant! Received a gift and
+                        converted it to Bitcoin seamlessly."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+                        <div>
+                            <div class="author-name">Michael Chen</div>
+                            <div class="author-location">Singapore</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card reveal stagger-3">
+                    <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <p class="testimonial-text">"Perfect for international families! Sent Christmas gifts to 5 family
+                        members in different countries."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-circle"></i></div>
+                        <div>
+                            <div class="author-name">Emma Rodriguez</div>
+                            <div class="author-location">London, UK</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-section-title">About GiftExchange</h3>
+                    <p class="text-light">Making global gift giving easy, secure, and joyful. Send love across borders
+                        this holiday season.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i> Twitter</a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-section-title">Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="marketplace.html" class="footer-link">Browse Gifts</a>
+                        <a href="about.html" class="footer-link">About Us</a>
+                        <a href="contact.html" class="footer-link">Contact</a>
+                        <a href="dashboard.html" class="footer-link">Dashboard</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-section-title">Support</h3>
+                    <div class="footer-links">
+                        <a href="contact.html" class="footer-link">Help Center</a>
+                        <a href="#" class="footer-link">FAQ</a>
+                        <a href="#" class="footer-link">Shipping Info</a>
+                        <a href="#" class="footer-link">Returns</a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3 class="footer-section-title">Legal</h3>
+                    <div class="footer-links">
+                        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                        <a href="terms.html" class="footer-link">Terms of Service</a>
+                        <a href="#" class="footer-link">Cookie Policy</a>
+                        <a href="#" class="footer-link">Compliance</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Global Gift Exchange. All rights reserved. Made with <i class="fas fa-heart"></i> for
+                    spreading joy worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+
+</html>

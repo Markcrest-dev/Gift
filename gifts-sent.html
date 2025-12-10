@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Track all gifts you've sent - Global Gift Exchange">
+    <title>Gifts Sent - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-family: var(--font-heading);
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--space-2xl);
+        }
+
+        .page-header {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .page-title {
+            font-size: var(--text-4xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .gifts-table {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: var(--cream);
+            padding: var(--space-lg) var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .filter-tab {
+            padding: var(--space-sm) var(--space-lg);
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            font-size: var(--text-sm);
+        }
+
+        .filter-tab:hover {
+            background: var(--white);
+        }
+
+        .filter-tab.active {
+            background: var(--ruby-red);
+            color: var(--white);
+        }
+
+        .gift-item {
+            padding: var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            gap: var(--space-lg);
+            align-items: start;
+            transition: all var(--transition-fast);
+        }
+
+        .gift-item:last-child {
+            border-bottom: none;
+        }
+
+        .gift-item:hover {
+            background: var(--cream);
+        }
+
+        .gift-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background: var(--cream);
+            padding: var(--space-sm);
+            border-radius: var(--radius-lg);
+        }
+
+        .gift-details {
+            flex: 1;
+        }
+
+        .gift-name {
+            font-weight: var(--font-semibold);
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-xs);
+            color: var(--text-primary);
+        }
+
+        .gift-meta {
+            display: flex;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-sm);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .tracking-code {
+            font-family: monospace;
+            background: var(--cream);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-4xl) var(--space-2xl);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .empty-title {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--space-sm);
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+                z-index: var(--z-sticky);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .gift-item {
+                flex-direction: column;
+            }
+
+            .gift-meta {
+                flex-direction: column;
+                gap: var(--space-xs);
+            }
+
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <a href="index.html" class="sidebar-logo">
+                <span>🎁</span>
+                <span>GiftExchange</span>
+            </a>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-menu-item">
+                        <a href="dashboard.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="marketplace.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">🎁</span>
+                            <span>Browse Gifts</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-sent.html" class="sidebar-menu-link active">
+                            <span class="sidebar-menu-icon">📤</span>
+                            <span>Gifts Sent</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="gifts-received.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">📥</span>
+                            <span>Gifts Received</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="wishlist.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">⭐</span>
+                            <span>Wishlist</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="settings.html" class="sidebar-menu-link">
+                            <span class="sidebar-menu-icon">⚙️</span>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item">
+                        <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Mobile Overlay -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header fade-in-up">
+                <h1 class="page-title">Gifts Sent 📤</h1>
+                <p class="page-subtitle">Track all the gifts you've sent to others</p>
+            </div>
+
+            <div class="gifts-table fade-in-up">
+                <div class="table-header">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="pending">Pending</button>
+                        <button class="filter-tab" data-filter="delivered">Delivered</button>
+                        <button class="filter-tab" data-filter="claimed">Claimed</button>
+                    </div>
+                    <div>
+                        <span id="giftCount" style="color: var(--text-secondary); font-size: var(--text-sm);"></span>
+                    </div>
+                </div>
+
+                <div id="giftsContainer">
+                    <!-- Gifts will be loaded here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.GiftExchange.getCurrentUser();
+
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            loadSentGifts();
+            setupFilters();
+        });
+
+        let currentFilter = 'all';
+
+        function setupFilters() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentFilter = tab.getAttribute('data-filter');
+                    loadSentGifts();
+                });
+            });
+        }
+
+        function loadSentGifts() {
+            const sentGifts = window.GiftExchange.Storage.get('sentGifts') || [];
+            const container = document.getElementById('giftsContainer');
+            const countEl = document.getElementById('giftCount');
+
+            // Filter gifts
+            let filteredGifts = sentGifts;
+            if (currentFilter !== 'all') {
+                filteredGifts = sentGifts.filter(g => g.status === currentFilter);
+            }
+
+            // Update count
+            countEl.textContent = `${filteredGifts.length} gift${filteredGifts.length !== 1 ? 's' : ''}`;
+
+            if (filteredGifts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3 class="empty-title">No gifts ${currentFilter !== 'all' ? currentFilter : 'sent yet'}</h3>
+                        <p class="empty-text">
+                            ${currentFilter === 'all'
+                        ? 'Start spreading joy by sending gifts to your friends and family!'
+                        : `You don't have any ${currentFilter} gifts.`}
+                        </p>
+                        ${currentFilter === 'all' ? '<a href="marketplace.html" class="btn btn-primary">Browse Gifts</a>' : ''}
+                    </div>
+                `;
+                return;
+            }
+
+            // Display gifts
+            container.innerHTML = filteredGifts.map(item => {
+                const statusColors = {
+                    pending: 'warning',
+                    delivered: 'info',
+                    claimed: 'success'
+                };
+
+                const statusColor = statusColors[item.status] || 'secondary';
+
+                return `
+                    <div class="gift-item">
+                        <img src="${item.gift.image}" alt="${item.gift.name}" class="gift-image">
+                        <div class="gift-details">
+                            <div class="gift-name">${item.gift.name}</div>
+                            <div class="gift-meta">
+                                <div class="meta-item">
+                                    <span>👤</span>
+                                    <span>${item.recipient.name}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>📧</span>
+                                    <span>${item.recipient.email}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>📅</span>
+                                    <span>${window.GiftExchange.formatDate(item.sentAt)}</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span>💰</span>
+                                    <span>${window.GiftExchange.formatCurrency(item.gift.price, item.gift.currency)}</span>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: var(--space-md); align-items: center; margin-top: var(--space-sm);">
+                                <span class="badge badge-${statusColor}">${item.status}</span>
+                                <span class="tracking-code">ID: ${item.trackingCode}</span>
+                            </div>
+                            ${item.message ? `<div style="margin-top: var(--space-sm); padding: var(--space-md); background: var(--cream); border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--text-secondary);">"${item.message}"</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

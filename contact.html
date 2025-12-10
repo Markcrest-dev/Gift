@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with Global Gift Exchange support team.">
+    <title>Contact Us - Global Gift Exchange</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        .contact-hero {
+            background: linear-gradient(135deg, var(--ruby-red), var(--deep-crimson));
+            color: var(--white);
+            padding: var(--space-4xl) var(--space-md);
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .contact-container {
+            max-width: var(--container-lg);
+            margin: 0 auto;
+            padding: 0 var(--space-md) var(--space-3xl);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .contact-info-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-method {
+            display: flex;
+            gap: var(--space-lg);
+            padding: var(--space-lg);
+            background: var(--cream);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-md);
+            transition: all var(--transition-fast);
+        }
+
+        .contact-method:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            width: 50px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <span class="navbar-logo-icon"><i class="fas fa-gift"></i></span>
+                <span>GiftExchange</span>
+            </a>
+
+            <div class="navbar-menu" id="navMenu">
+                <div class="navbar-links">
+                    <a href="about.html" class="navbar-link">About</a>
+                    <a href="contact.html" class="navbar-link active">Contact</a>
+                </div>
+
+                <div class="navbar-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Hero -->
+    <div class="contact-hero fade-in-up">
+        <h1 class="hero-title">Get in Touch</h1>
+        <p class="hero-subtitle">We're here to help with any questions or concerns</p>
+    </div>
+
+    <!-- Contact Container -->
+    <div class="contact-container">
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="card fade-in-left">
+                <div class="card-body">
+                    <h2 class="card-title mb-lg">Send Us a Message</h2>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Your Name *</label>
+                            <input type="text" id="name" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject *</label>
+                            <input type="text" id="subject" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message *</label>
+                            <textarea id="message" class="form-input" rows="6" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-full">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="fade-in-right">
+                <div class="contact-info-card mb-lg">
+                    <h2 class="card-title mb-lg">Contact Information</h2>
+
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <div class="font-semibold">Email</div>
+                            <div class="text-secondary">support@giftexchange.com</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <div class="font-semibold">Phone</div>
+                            <div class="text-secondary">+1 (555) 123-4567</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fas fa-comments"></i></div>
+                        <div>
+                            <div class="font-semibold">Live Chat</div>
+                            <div class="text-secondary">Available 24/7</div>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon"><i class="fab fa-twitter"></i></div>
+                        <div>
+                            <div class="font-semibold">Twitter</div>
+                            <div class="text-secondary">@GiftExchange</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-info-card">
+                    <h3 class="font-semibold mb-md">Business Hours</h3>
+                    <p class="text-secondary mb-sm">Monday - Friday: 9:00 AM - 6:00 PM EST</p>
+                    <p class="text-secondary mb-sm">Saturday: 10:00 AM - 4:00 PM EST</p>
+                    <p class="text-secondary">Sunday: Closed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.textContent;
+
+            // Show loading
+            button.disabled = true;
+            button.innerHTML = '<div class="spinner" style="width: 20px; height: 20px; margin: 0 auto;"></div>';
+
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Reset form
+            e.target.reset();
+
+            // Reset button
+            button.disabled = false;
+            button.textContent = originalText;
+
+            // Show success
+            window.GiftExchange.showToast('Message sent successfully! We\'ll get back to you soon.', 'success');
+
+            // Simulate email notification
+            window.GiftExchange.sendNotificationEmail('contact-form', {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value
+            });
+        });
+    </script>
+</body>
+
+</html>

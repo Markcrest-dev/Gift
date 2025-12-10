@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Learn about Global Gift Exchange - spreading joy worldwide.">
+    <title>About Us - Global Gift Exchange</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--ruby-red), var(--deep-crimson));
+            color: var(--white);
+            padding: var(--space-4xl) var(--space-md);
+            text-align: center;
+            margin-bottom: var(--space-3xl);
+        }
+
+        .about-container {
+            max-width: var(--container-lg);
+            margin: 0 auto;
+            padding: 0 var(--space-md) var(--space-3xl);
+        }
+
+        .stats-showcase {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-lg);
+            margin: var(--space-3xl) 0;
+        }
+
+        .stat-showcase-card {
+            background: var(--white);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            text-align: center;
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-showcase-number {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            margin-bottom: var(--space-sm);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-xl);
+            margin: var(--space-3xl) 0;
+        }
+
+        .value-card {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .value-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .stats-showcase {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <span class="navbar-logo-icon"><i class="fas fa-gift"></i></span>
+                <span>GiftExchange</span>
+            </a>
+
+            <div class="navbar-menu" id="navMenu">
+                <div class="navbar-links">
+                    <a href="about.html" class="navbar-link active">About</a>
+                    <a href="contact.html" class="navbar-link">Contact</a>
+                </div>
+
+                <div class="navbar-actions" id="navActions">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- About Container -->
+    <div class="about-container">
+        <!-- Mission Section -->
+        <div class="card fade-in-up mb-3xl">
+            <div class="card-body" style="text-align: center;">
+                <h2 class="section-title mb-lg">Our Mission</h2>
+                <p class="text-lg text-secondary leading-relaxed" style="max-width: 800px; margin: 0 auto;">
+                    Global Gift Exchange is revolutionizing the way people send and receive gifts across borders.
+                    We believe that distance should never be a barrier to spreading joy and showing appreciation.
+                    Our platform makes it simple, secure, and delightful to send meaningful gifts to loved ones anywhere
+                    in the world.
+                </p>
+            </div>
+        </div>
+
+        <!-- Stats Showcase -->
+        <div class="stats-showcase fade-in-up">
+            <div class="stat-showcase-card">
+                <div class="stat-showcase-number">10K+</div>
+                <div class="font-semibold">Happy Users</div>
+            </div>
+
+            <div class="stat-showcase-card">
+                <div class="stat-showcase-number">50K+</div>
+                <div class="font-semibold">Gifts Sent</div>
+            </div>
+
+            <div class="stat-showcase-card">
+                <div class="stat-showcase-number">120+</div>
+                <div class="font-semibold">Countries</div>
+            </div>
+
+            <div class="stat-showcase-card">
+                <div class="stat-showcase-number">98%</div>
+                <div class="font-semibold">Satisfaction</div>
+            </div>
+        </div>
+
+        <!-- Our Values -->
+        <div class="text-center mb-2xl fade-in-up">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="text-secondary">The principles that guide everything we do</p>
+        </div>
+
+        <div class="values-grid fade-in-up">
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-globe"></i></div>
+                <h3 class="font-bold mb-md">Global Reach</h3>
+                <p class="text-secondary">
+                    Connecting people across continents, cultures, and time zones with seamless gift delivery.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-lock"></i></div>
+                <h3 class="font-bold mb-md">Security First</h3>
+                <p class="text-secondary">
+                    Your trust is our priority. We ensure every transaction is safe, secure, and protected.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-lightbulb"></i></div>
+                <h3 class="font-bold mb-md">Innovation</h3>
+                <p class="text-secondary">
+                    Constantly improving our platform with cutting-edge features and user-friendly design.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-heart"></i></div>
+                <h3 class="font-bold mb-md">Generosity</h3>
+                <p class="text-secondary">
+                    Promoting a culture of giving back, with options to donate gift value to charity.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-bolt"></i></div>
+                <h3 class="font-bold mb-md">Speed</h3>
+                <p class="text-secondary">
+                    Fast processing and delivery times so your gifts arrive when they matter most.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon"><i class="fas fa-star"></i></div>
+                <h3 class="font-bold mb-md">Excellence</h3>
+                <p class="text-secondary">
+                    Curated selection of premium gifts to ensure quality in every package sent.
+                </p>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="card fade-in-up mt-3xl">
+            <div class="card-body">
+                <h2 class="section-title text-center mb-2xl">How It Works</h2>
+
+                <div class="grid grid-cols-3 gap-xl">
+                    <div class="text-center">
+                        <div style="font-size: 4rem; margin-bottom: var(--space-lg);"><i class="fas fa-search"></i>
+                        </div>
+                        <h3 class="font-bold mb-md">Browse & Select</h3>
+                        <p class="text-secondary">Choose from our curated collection of premium gifts</p>
+                    </div>
+
+                    <div class="text-center">
+                        <div style="font-size: 4rem; margin-bottom: var(--space-lg);"><i class="fas fa-pencil-alt"></i>
+                        </div>
+                        <h3 class="font-bold mb-md">Personalize</h3>
+                        <p class="text-secondary">Add a heartfelt message and schedule delivery</p>
+                    </div>
+
+                    <div class="text-center">
+                        <div style="font-size: 4rem; margin-bottom: var(--space-lg);"><i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h3 class="font-bold mb-md">Send & Track</h3>
+                        <p class="text-secondary">Recipient can claim as physical gift, cash, or crypto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+
+</html>

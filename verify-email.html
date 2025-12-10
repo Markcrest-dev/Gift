@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verify your email to complete registration.">
+    <title>Verify Email - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--ruby-red) 0%, var(--deep-crimson) 50%, var(--forest-green) 100%);
+            padding: var(--space-2xl) var(--space-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/hero/christmas-bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            max-width: 450px;
+            width: 100%;
+            padding: var(--space-2xl);
+            position: relative;
+            z-index: var(--z-base);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .auth-logo {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .auth-title {
+            font-size: var(--text-3xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        .verification-code-inputs {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            margin: var(--space-2xl) 0;
+        }
+
+        .code-input {
+            width: 50px;
+            height: 60px;
+            text-align: center;
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            transition: all var(--transition-fast);
+        }
+
+        .code-input:focus {
+            outline: none;
+            border-color: var(--ruby-red);
+            box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+        }
+
+        .resend-code {
+            text-align: center;
+            margin-top: var(--space-lg);
+            color: var(--text-secondary);
+        }
+
+        .resend-link {
+            color: var(--ruby-red);
+            font-weight: var(--font-semibold);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .resend-link.disabled {
+            color: var(--text-light);
+            cursor: not-allowed;
+            text-decoration: none;
+        }
+
+        .timer {
+            color: var(--gold);
+            font-weight: var(--font-semibold);
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 5rem;
+            margin: var(--space-lg) 0;
+            display: none;
+        }
+
+        .success-icon.show {
+            display: block;
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Snowfall Background -->
+    <div class="snowfall-container">
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+        <div class="snowflake">❅</div>
+        <div class="snowflake">❆</div>
+        <div class="snowflake">❄</div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card fade-in-up">
+            <div class="auth-header">
+                <div class="auth-logo">📧</div>
+                <h1 class="auth-title">Verify Your Email</h1>
+                <p class="auth-subtitle">
+                    We've sent a 6-digit verification code to<br>
+                    <strong id="userEmail">your@email.com</strong>
+                </p>
+            </div>
+
+            <div class="success-icon" id="successIcon">✅</div>
+
+            <!-- Verification Form -->
+            <form id="verifyForm">
+                <div class="verification-code-inputs" id="codeInputs">
+                    <input type="text" maxlength="1" class="code-input" data-index="0" autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="1" autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="2" autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="3" autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="4" autocomplete="off">
+                    <input type="text" maxlength="1" class="code-input" data-index="5" autocomplete="off">
+                </div>
+
+                <span class="form-error text-center block" id="codeError"></span>
+
+                <button type="submit" class="btn btn-primary w-full btn-lg" id="verifyBtn">
+                    Verify Email
+                </button>
+            </form>
+
+            <div class="resend-code">
+                Didn't receive the code?
+                <span class="resend-link disabled" id="resendLink">
+                    Resend in <span class="timer" id="timer">60</span>s
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Auto-focus and navigation for verification code inputs
+        const codeInputs = document.querySelectorAll('.code-input');
+
+        codeInputs.forEach((input, index) => {
+            // Auto-focus first input
+            if (index === 0) input.focus();
+
+            input.addEventListener('input', (e) => {
+                const value = e.target.value;
+
+                // Only allow numbers
+                if (!/^\d$/.test(value)) {
+                    e.target.value = '';
+                    return;
+                }
+
+                // Move to next input
+                if (value && index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                // Move to previous input on backspace
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    codeInputs[index - 1].focus();
+                }
+            });
+
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pastedData = e.clipboardData.getData('text').trim();
+
+                if (/^\d{6}$/.test(pastedData)) {
+                    pastedData.split('').forEach((char, i) => {
+                        if (codeInputs[i]) {
+                            codeInputs[i].value = char;
+                        }
+                    });
+                    codeInputs[5].focus();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

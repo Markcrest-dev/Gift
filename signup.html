@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your Global Gift Exchange account and start sending gifts worldwide.">
+    <title>Sign Up - Global Gift Exchange</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--ruby-red) 0%, var(--deep-crimson) 50%, var(--forest-green) 100%);
+            padding: var(--space-2xl) var(--space-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('images/hero/christmas-bg.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+        }
+
+        .auth-card {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            max-width: 500px;
+            width: 100%;
+            padding: var(--space-2xl);
+            position: relative;
+            z-index: var(--z-base);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .auth-logo {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .auth-title {
+            font-size: var(--text-3xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+        }
+
+        .password-strength {
+            height: 4px;
+            background: var(--border-light);
+            border-radius: var(--radius-full);
+            margin-top: var(--space-sm);
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all var(--transition-base);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: var(--space-md);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+            font-size: var(--text-lg);
+        }
+
+        .social-auth {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md);
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            color: var(--text-primary);
+            font-weight: var(--font-medium);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .social-btn:hover {
+            border-color: var(--ruby-red);
+            background: var(--cream);
+        }
+
+        .divider-text {
+            text-align: center;
+            margin: var(--space-xl) 0;
+            position: relative;
+        }
+
+        .divider-text::before,
+        .divider-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 45%;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        .divider-text::before {
+            left: 0;
+        }
+
+        .divider-text::after {
+            right: 0;
+        }
+
+        .divider-text span {
+            background: var(--white);
+            padding: 0 var(--space-md);
+            color: var(--text-light);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: var(--space-xl);
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--ruby-red);
+            font-weight: var(--font-semibold);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Snowfall Background -->
+    <div class="snowfall-container">
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+        <div class="snowflake"><i class="fas fa-snowflake"></i></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card fade-in-up">
+            <div class="auth-header">
+                <div class="auth-logo"><i class="fas fa-gift"></i></div>
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join thousands spreading joy worldwide</p>
+            </div>
+
+            <!-- Social Authentication -->
+            <div class="social-auth">
+                <button class="social-btn" onclick="socialSignup('google')">
+                    <span><i class="fab fa-google"></i></span>
+                    <span>Google</span>
+                </button>
+                <button class="social-btn" onclick="socialSignup('facebook')">
+                    <span><i class="fab fa-facebook"></i></span>
+                    <span>Facebook</span>
+                </button>
+            </div>
+
+            <div class="divider-text">
+                <span>or sign up with email</span>
+            </div>
+
+            <!-- Signup Form -->
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" id="fullName" class="form-input" placeholder="John Doe" required>
+                    <span class="form-error" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" class="form-input" placeholder="john@example.com" required>
+                    <span class="form-error" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="country" class="form-label">Country</label>
+                    <select id="country" class="form-select" required>
+                        <option value="">Select your country</option>
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="CA">Canada</option>
+                        <option value="NG">Nigeria</option>
+                        <option value="IN">India</option>
+                        <option value="SG">Singapore</option>
+                        <option value="AU">Australia</option>
+                        <option value="DE">Germany</option>
+                        <option value="FR">France</option>
+                        <option value="ES">Spain</option>
+                        <option value="MX">Mexico</option>
+                        <option value="BR">Brazil</option>
+                        <option value="ZA">South Africa</option>
+                        <option value="JP">Japan</option>
+                        <option value="CN">China</option>
+                    </select>
+                    <span class="form-error" id="countryError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender" class="form-label">Gender (Optional)</label>
+                    <select id="gender" class="form-select">
+                        <option value="">Prefer not to say</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group" style="position: relative;">
+                        <input type="password" id="password" class="form-input" placeholder="Create a strong password"
+                            required>
+                        <button type="button" class="password-toggle" id="passwordToggle"><i
+                                class="fas fa-eye"></i></button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strengthBar"></div>
+                    </div>
+                    <span class="form-error" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <div class="input-group" style="position: relative;">
+                        <input type="password" id="confirmPassword" class="form-input"
+                            placeholder="Re-enter your password" required>
+                        <button type="button" class="password-toggle" id="confirmPasswordToggle"><i
+                                class="fas fa-eye"></i></button>
+                    </div>
+                    <span class="form-error" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-checkbox-label">
+                        <input type="checkbox" class="form-checkbox" id="terms" required>
+                        <span>I agree to the <a href="terms.html" target="_blank">Terms of Service</a> and <a
+                                href="privacy.html" target="_blank">Privacy Policy</a></span>
+                    </label>
+                    <span class="form-error" id="termsError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full btn-lg" id="signupBtn">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

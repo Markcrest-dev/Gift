@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View gift details and send to loved ones worldwide.">
+    <title>Gift Details - Global Gift Exchange</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Favicon -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+
+    <style>
+        body {
+            background: var(--cream);
+        }
+
+        .detail-container {
+            max-width: var(--container-xl);
+            margin: 0 auto;
+            padding: var(--space-2xl) var(--space-md);
+        }
+
+        .breadcrumb {
+            margin-bottom: var(--space-xl);
+        }
+
+        .gift-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3xl);
+            margin-bottom: var(--space-3xl);
+        }
+
+        .gift-image-section {
+            position: sticky;
+            top: var(--space-xl);
+            height: fit-content;
+        }
+
+        .gift-main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
+        }
+
+        .gift-thumbnails {
+            display: flex;
+            gap: var(--space-md);
+            overflow-x: auto;
+        }
+
+        .gift-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .gift-thumbnail:hover,
+        .gift-thumbnail.active {
+            border-color: var(--ruby-red);
+            transform: scale(1.05);
+        }
+
+        .gift-info-section {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gift-category-badge {
+            display: inline-block;
+            margin-bottom: var(--space-md);
+        }
+
+        .gift-title {
+            font-size: var(--text-4xl);
+            margin-bottom: var(--space-md);
+            color: var(--text-primary);
+        }
+
+        .gift-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stars {
+            font-size: var(--text-lg);
+        }
+
+        .rating-text {
+            color: var(--text-secondary);
+        }
+
+        .gift-price {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            margin-bottom: var(--space-xl);
+        }
+
+        .gift-description {
+            line-height: var(--leading-relaxed);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-xl);
+            padding-bottom: var(--space-xl);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .gift-specs {
+            margin-bottom: var(--space-xl);
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-md) 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .spec-label {
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+        }
+
+        .spec-value {
+            color: var(--text-secondary);
+        }
+
+        .gift-actions {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--cream);
+            border: 2px solid var(--border-light);
+            font-size: var(--text-xl);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .quantity-btn:hover {
+            background: var(--ruby-red);
+            color: var(--white);
+            border-color: var(--ruby-red);
+        }
+
+        .quantity-value {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .reviews-section {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .review-card {
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            background: var(--cream);
+            margin-bottom: var(--space-md);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        .reviewer-name {
+            font-weight: var(--font-semibold);
+        }
+
+        .review-date {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        .related-gifts {
+            margin-top: var(--space-3xl);
+        }
+
+        .related-gifts-header {
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .related-gifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .gift-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gift-image-section {
+                position: static;
+            }
+
+            .gift-main-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gift-title {
+                font-size: var(--text-3xl);
+            }
+
+            .gift-price {
+                font-size: var(--text-4xl);
+            }
+
+            .gift-actions {
+                flex-direction: column;
+            }
+
+            .gift-main-image {
+                height: 300px;
+            }
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--white);
+            border-right: 1px solid var(--border-light);
+            padding: var(--space-xl) 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0 var(--space-xl);
+            margin-bottom: var(--space-2xl);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--ruby-red);
+            text-decoration: none;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: var(--space-xs);
+        }
+
+        .sidebar-menu-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-xl);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .sidebar-menu-link:hover,
+        .sidebar-menu-link.active {
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--ruby-red);
+            border-left: 4px solid var(--ruby-red);
+        }
+
+        .sidebar-menu-icon {
+            font-size: var(--text-xl);
+        }
+
+        .detail-container {
+            margin-left: 280px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="index.html" class="mobile-header-logo">
+            <i class="fas fa-gift"></i>
+            <span>GiftExchange</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileSidebarBtn" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Dashboard Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="index.html" class="sidebar-logo">
+            <span><i class="fas fa-gift"></i></span>
+            <span>GiftExchange</span>
+        </a>
+
+        <nav>
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-chart-pie"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="marketplace.html" class="sidebar-menu-link active">
+                        <span class="sidebar-menu-icon"><i class="fas fa-gift"></i></span>
+                        <span>Browse Gifts</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-sent.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-paper-plane"></i></span>
+                        <span>Gifts Sent</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="gifts-received.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-inbox"></i></span>
+                        <span>Gifts Received</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="wishlist.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-star"></i></span>
+                        <span>Wishlist</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="settings.html" class="sidebar-menu-link">
+                        <span class="sidebar-menu-icon"><i class="fas fa-cog"></i></span>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="#" class="sidebar-menu-link" onclick="window.GiftExchange.logout(); return false;">
+                        <span class="sidebar-menu-icon"><i class="fas fa-sign-out-alt"></i></span>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Detail Container -->
+    <div class="detail-container page-transition">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb fade-in-up">
+            <a href="index.html" class="breadcrumb-item">Home</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="marketplace.html" class="breadcrumb-item">Marketplace</a>
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-item active" id="breadcrumbTitle">Loading...</span>
+        </nav>
+
+        <!-- Gift Detail Grid -->
+        <div class="gift-detail-grid">
+            <!-- Image Section -->
+            <div class="gift-image-section fade-in-left">
+                <img src="" alt="" class="gift-main-image" id="mainImage">
+                <div class="gift-thumbnails" id="thumbnails">
+                    <!-- Thumbnails will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Info Section -->
+            <div class="gift-info-section fade-in-right">
+                <span class="badge badge-red gift-category-badge" id="categoryBadge">Loading...</span>
+
+                <h1 class="gift-title" id="giftTitle">Loading...</h1>
+
+                <div class="gift-rating">
+                    <span class="stars" id="starsDisplay">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text" id="ratingText">Loading...</span>
+                </div>
+
+                <div class="gift-price" id="giftPrice">$0.00</div>
+
+                <p class="gift-description" id="giftDescription">Loading...</p>
+
+                <div class="gift-specs" id="giftSpecs">
+                    <!-- Specs will be loaded dynamically -->
+                </div>
+
+                <div class="quantity-selector">
+                    <span class="spec-label">Quantity:</span>
+                    <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
+                    <span class="quantity-value" id="quantity">1</span>
+                    <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                </div>
+
+                <div class="gift-actions">
+                    <button class="btn btn-primary btn-lg" style="flex: 2;" onclick="sendGift()">
+                        🎁 Send This Gift
+                    </button>
+                    <button class="btn btn-gold btn-lg" onclick="requestGift()">
+                        🙏 Request This Gift
+                    </button>
+                    <button class="btn btn-outline btn-lg" onclick="addToWishlist()">
+                        ⭐ Add to Wishlist
+                    </button>
+                </div>
+
+                <div class="alert alert-success" style="display: none;" id="wishlistAlert">
+                    <span>✓ Added to wishlist!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="reviews-section fade-in-up">
+            <div class="reviews-header">
+                <h2>Customer Reviews</h2>
+                <span class="text-secondary" id="reviewsCount">Loading...</span>
+            </div>
+
+            <div id="reviewsList">
+                <!-- Reviews will be loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Related Gifts -->
+        <div class="related-gifts fade-in-up">
+            <div class="related-gifts-header">
+                <h2>You May Also Like</h2>
+                <p class="text-secondary">Similar gifts in this category</p>
+            </div>
+
+            <div class="related-gifts-grid" id="relatedGifts">
+                <!-- Related gifts will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Gift Request Modal -->
+    <div class="modal-overlay" id="requestModalOverlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Request This Gift</h2>
+                <button class="modal-close" onclick="closeRequestModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary mb-lg">Request this gift from a friend or family member. They'll receive your
+                    request and can choose to send it to you.</p>
+
+                <form id="requestGiftForm" onsubmit="submitGiftRequest(event)">
+                    <div class="form-group">
+                        <label for="requestFromName" class="form-label">Recipient Name *</label>
+                        <input type="text" id="requestFromName" class="form-input" required
+                            placeholder="Who would you like to request this from?">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestFromEmail" class="form-label">Recipient Email *</label>
+                        <input type="email" id="requestFromEmail" class="form-input" required
+                            placeholder="their@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestOccasion" class="form-label">Occasion (Optional)</label>
+                        <select id="requestOccasion" class="form-input">
+                            <option value="">Select an occasion...</option>
+                            <option value="Birthday">Birthday</option>
+                            <option value="Christmas">Christmas</option>
+                            <option value="Anniversary">Anniversary</option>
+                            <option value="Graduation">Graduation</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Just Because">Just Because</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requestMessage" class="form-label">Personal Message *</label>
+                        <textarea id="requestMessage" class="form-textarea" rows="4" required
+                            placeholder="Add a personal message explaining why you'd love this gift..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeRequestModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Send Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script>
+        let currentGift = null;
+        let quantity = 1;
+
+        // Load gift details on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Get gift ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const giftId = urlParams.get('id');
+
+            if (!giftId) {
+                window.location.href = 'marketplace.html';
+                return;
+            }
+
+            await loadGiftDetails(giftId);
+            await loadRelatedGifts();
+        });
+
+        async function loadGiftDetails(giftId) {
+            try {
+                const response = await fetch('data/gifts.json');
+                const gifts = await response.json();
+                currentGift = gifts.find(g => g.id === giftId);
+
+                if (!currentGift) {
+                    window.location.href = 'marketplace.html';
+                    return;
+                }
+
+                displayGiftDetails(currentGift);
+                generateMockReviews(currentGift);
+            } catch (error) {
+                console.error('Error loading gift:', error);
+                window.GiftExchange.showToast('Failed to load gift details', 'error');
+            }
+        }
+
+        function displayGiftDetails(gift) {
+            // Update breadcrumb
+            document.getElementById('breadcrumbTitle').textContent = gift.name;
+
+            // Update main image
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = gift.image;
+            mainImage.alt = gift.name;
+
+            // Update category badge
+            document.getElementById('categoryBadge').textContent = gift.category;
+
+            // Update title
+            document.getElementById('giftTitle').textContent = gift.name;
+
+            // Update rating
+            const stars = '⭐'.repeat(Math.floor(gift.rating));
+            document.getElementById('starsDisplay').textContent = stars;
+            document.getElementById('ratingText').textContent = `${gift.rating} (${gift.reviews} reviews)`;
+
+            // Update price
+            document.getElementById('giftPrice').textContent = window.GiftExchange.formatCurrency(gift.price, gift.currency);
+
+            // Update description
+            document.getElementById('giftDescription').textContent = gift.description;
+
+            // Update specs
+            const specsHTML = `
+        <div class="spec-row">
+          <span class="spec-label">Category:</span>
+          <span class="spec-value">${gift.category}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Gender:</span>
+          <span class="spec-value">${getGenderText(gift.gender)}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Age Range:</span>
+          <span class="spec-value">${gift.ageRange}</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Availability:</span>
+          <span class="spec-value">${gift.inStock ? '✓ In Stock' : '✗ Out of Stock'}</span>
+        </div>
+      `;
+            document.getElementById('giftSpecs').innerHTML = specsHTML;
+
+            // Update page title
+            document.title = `${gift.name} - Global Gift Exchange`;
+        }
+
+        function getGenderText(genders) {
+            if (genders.includes('male') && genders.includes('female')) {
+                return 'Unisex';
+            } else if (genders.includes('male')) {
+                return 'Male';
+            } else if (genders.includes('female')) {
+                return 'Female';
+            }
+            return 'All';
+        }
+
+        function generateMockReviews(gift) {
+            const reviewsList = document.getElementById('reviewsList');
+            document.getElementById('reviewsCount').textContent = `${gift.reviews} reviews`;
+
+            const mockReviews = [
+                {
+                    name: 'Sarah Johnson',
+                    rating: 5,
+                    date: '2 days ago',
+                    text: 'Absolutely love this gift! The quality exceeded my expectations and the recipient was thrilled!'
+                },
+                {
+                    name: 'Michael Chen',
+                    rating: 5,
+                    date: '1 week ago',
+                    text: 'Great product, fast delivery. Highly recommend for anyone looking for the perfect gift.'
+                },
+                {
+                    name: 'Emma Rodriguez',
+                    rating: 4,
+                    date: '2 weeks ago',
+                    text: 'Very satisfied with this purchase. Great value for money and excellent customer service.'
+                }
+            ];
+
+            reviewsList.innerHTML = mockReviews.map(review => `
+        <div class="review-card">
+          <div class="review-header">
+            <span class="reviewer-name">${review.name}</span>
+            <span class="review-date">${review.date}</span>
+          </div>
+          <div class="stars">${'⭐'.repeat(review.rating)}</div>
+          <p class="review-text">${review.text}</p>
+        </div>
+      `).join('');
+        }
+
+        async function loadRelatedGifts() {
+            if (!currentGift) return;
+
+            try {
+                const response = await fetch('data/gifts.json');
+                const gifts = await response.json();
+
+                // Get gifts from same category, excluding current gift
+                const related = gifts
+                    .filter(g => g.category === currentGift.category && g.id !== currentGift.id)
+                    .slice(0, 4);
+
+                const relatedGiftsGrid = document.getElementById('relatedGifts');
+                relatedGiftsGrid.innerHTML = related.map(gift => createGiftCard(gift)).join('');
+            } catch (error) {
+                console.error('Error loading related gifts:', error);
+            }
+        }
+
+        function createGiftCard(gift) {
+            const stars = '⭐'.repeat(Math.floor(gift.rating));
+            const genderIcon = getGenderIcon(gift.gender);
+
+            return `
+        <div class="gift-card hover-lift">
+          <div class="gift-card-image">
+            <img src="${gift.image}" alt="${gift.name}" class="card-image">
+            <span class="gift-card-badge badge-red">${gift.category}</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${gift.name}</h3>
+            <div class="gift-card-meta">
+              <span class="gift-card-price">${window.GiftExchange.formatCurrency(gift.price, gift.currency)}</span>
+              <span class="badge badge-gray">${genderIcon}</span>
+            </div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              ${stars} ${gift.rating}
+            </div>
+            <a href="gift-detail.html?id=${gift.id}" class="btn btn-primary w-full btn-sm">
+              View Details
+            </a>
+          </div>
+        </div>
+      `;
+        }
+
+        function getGenderIcon(genders) {
+            if (genders.includes('male') && genders.includes('female')) {
+                return '👥 Unisex';
+            } else if (genders.includes('male')) {
+                return '👨 Male';
+            } else if (genders.includes('female')) {
+                return '👩 Female';
+            }
+            return '👥 All';
+        }
+
+        // Quantity controls
+        function increaseQuantity() {
+            quantity++;
+            document.getElementById('quantity').textContent = quantity;
+        }
+
+        function decreaseQuantity() {
+            if (quantity > 1) {
+                quantity--;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        }
+
+        // Send gift action
+        function sendGift() {
+            if (!currentGift) return;
+
+            // Store gift info and quantity for send-gift page
+            window.GiftExchange.Storage.set('giftToSend', {
+                ...currentGift,
+                quantity: quantity
+            });
+
+            // Check if user is logged in
+            if (window.GiftExchange.isLoggedIn()) {
+                window.location.href = 'send-gift.html';
+            } else {
+                window.GiftExchange.showToast('Please login to send gifts', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            }
+        }
+
+        // Add to wishlist
+        function addToWishlist() {
+            if (!currentGift) return;
+
+            // Get existing wishlist
+            let wishlist = window.GiftExchange.Storage.get('wishlist') || [];
+
+            // Check if already in wishlist
+            if (wishlist.some(item => item.id === currentGift.id)) {
+                window.GiftExchange.showToast('Already in your wishlist!', 'error');
+                return;
+            }
+
+            // Add to wishlist
+            wishlist.push(currentGift);
+            window.GiftExchange.Storage.set('wishlist', wishlist);
+
+            // Show success message
+            const alert = document.getElementById('wishlistAlert');
+            alert.style.display = 'flex';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+
+            window.GiftExchange.showToast('Added to wishlist!', 'success');
+        }
+
+        // Request gift - Navigate to request page
+        function requestGift() {
+            if (!currentGift) return;
+
+            // Store gift info for request page
+            window.GiftExchange.Storage.set('giftToRequest', currentGift);
+
+            // Check if user is logged in
+            if (window.GiftExchange.isLoggedIn()) {
+                window.location.href = 'request-gift.html';
+            } else {
+                window.GiftExchange.showToast('Please login to request gifts', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
