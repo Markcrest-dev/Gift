@@ -1,0 +1,17 @@
+/* ==========================================
+   GLOBAL GIFT EXCHANGE - GLOBAL STYLES
+   Importing Premium Christmas Design System
+   ========================================== */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Import Design System CSS Files */
+@import '../../design/styles/index.css';
+@import '../../design/styles/components.css';
+@import '../../design/styles/animations.css';
+@import '../../design/styles/landing.css';
+@import '../../design/styles/responsive.css';
+
+/* Keep Tailwind for utility classes compatibility */
+@import "tailwindcss";
