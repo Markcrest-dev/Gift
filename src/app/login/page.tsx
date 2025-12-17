@@ -1,11 +1,12 @@
 'use client';
 
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -13,6 +14,9 @@ export default function LoginPage() {
         e.preventDefault();
         // Handle login logic here
         console.log('Login attempt:', { email, password });
+
+        // Redirect to dashboard after login
+        router.push('/dashboard');
     };
 
     return (
@@ -76,9 +80,9 @@ export default function LoginPage() {
                                     <input type="checkbox" className="form-checkbox" />
                                     <span className="text-secondary">Remember me</span>
                                 </label>
-                                <a href="#" className="text-red font-medium hover-glow">
+                                <Link href="/forgot-password" className="text-red font-medium hover-glow">
                                     Forgot password?
-                                </a>
+                                </Link>
                             </div>
 
                             <button type="submit" className="btn btn-primary w-full btn-lg">
@@ -113,8 +117,6 @@ export default function LoginPage() {
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </>
     );
 }

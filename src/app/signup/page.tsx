@@ -1,11 +1,12 @@
 'use client';
 
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -18,6 +19,9 @@ export default function SignupPage() {
         e.preventDefault();
         // Handle signup logic here
         console.log('Signup attempt:', formData);
+
+        // Redirect to dashboard after signup
+        router.push('/dashboard');
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -172,8 +176,6 @@ export default function SignupPage() {
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </>
     );
 }
