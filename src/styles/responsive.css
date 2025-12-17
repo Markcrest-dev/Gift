@@ -1,0 +1,310 @@
+/* ==========================================
+   RESPONSIVE DESIGN SYSTEM
+   Mobile-first responsive utilities
+   ========================================== */
+
+/* Mobile Header for Dashboard Pages */
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border-light);
+    z-index: var(--z-fixed);
+    padding: 0 var(--space-md);
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-header-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--ruby-red);
+    text-decoration: none;
+}
+
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    font-size: var(--text-2xl);
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: var(--space-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.mobile-menu-btn:hover {
+    background: var(--cream);
+}
+
+.mobile-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Overlay */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-sticky) - 1);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.mobile-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Body scroll lock when mobile menu is open */
+body.mobile-menu-open {
+    overflow: hidden;
+}
+
+/* Responsive Utilities */
+.hide-mobile {
+    display: block;
+}
+
+.show-mobile {
+    display: none;
+}
+
+/* ==========================================
+   TABLET AND BELOW (< 1024px)
+   ========================================== */
+
+@media (max-width: 1024px) {
+
+    /* Show mobile header on dashboard pages */
+    .mobile-header {
+        display: flex;
+    }
+
+    /* Adjust main content for mobile header */
+    .main-content,
+    .marketplace-container,
+    .send-gift-container {
+        padding-top: calc(60px + var(--space-2xl));
+    }
+
+    /* Dashboard sidebar on tablets */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+        z-index: var(--z-sticky);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Stats grid - 2 columns on tablet */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ==========================================
+   MOBILE (< 768px)
+   ========================================== */
+
+@media (max-width: 768px) {
+
+    /* Remove left margin on mobile */
+    .main-content,
+    .marketplace-container,
+    .send-gift-container {
+        margin-left: 0;
+        padding: calc(60px + var(--space-xl)) var(--space-md) var(--space-xl);
+    }
+
+    /* Stats grid - full width stack */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Wishlist grid */
+    .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Progress steps in send-gift */
+    .progress-steps {
+        gap: var(--space-xs);
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+        max-width: 60px;
+        line-height: 1.2;
+    }
+
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: var(--text-sm);
+    }
+
+    /* Gift summary in send-gift */
+    .gift-summary {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .gift-summary-image {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+    }
+
+    /* Payment methods */
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+
+    /* Modal adjustments */
+    .modal {
+        max-width: 95%;
+        margin: var(--space-md);
+    }
+
+    /* Hide/show utilities */
+    .hide-mobile {
+        display: none !important;
+    }
+
+    .show-mobile {
+        display: block !important;
+    }
+}
+
+/* ==========================================
+   SMALL MOBILE (< 480px)
+   ========================================== */
+
+@media (max-width: 480px) {
+
+    /* Further reduce padding */
+    .main-content,
+    .marketplace-container,
+    .send-gift-container {
+        padding: calc(60px + var(--space-md)) var(--space-sm) var(--space-md);
+    }
+
+    /* Wishlist grid - single column */
+    .grid-cols-4 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Very small progress steps */
+    .step-label {
+        font-size: 0.6rem;
+        max-width: 50px;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+
+    /* Hero title on landing */
+    .hero-title {
+        font-size: var(--text-3xl);
+    }
+
+    /* Quick actions stack */
+    .quick-actions {
+        flex-direction: column;
+    }
+
+    .quick-actions .btn {
+        width: 100%;
+    }
+
+    /* Auth card */
+    .auth-card {
+        padding: var(--space-xl);
+    }
+
+    .social-auth {
+        flex-direction: column;
+    }
+
+    .social-btn {
+        width: 100%;
+    }
+
+    /* Timer items */
+    .timer-item {
+        min-width: 60px;
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .timer-number {
+        font-size: var(--text-xl);
+    }
+}
+
+/* ==========================================
+   LANDSCAPE MODE ADJUSTMENTS
+   ========================================== */
+
+@media (max-width: 768px) and (orientation: landscape) {
+
+    /* Reduce vertical padding in landscape */
+    .section {
+        padding: var(--space-xl) 0;
+    }
+
+    .main-content,
+    .marketplace-container,
+    .send-gift-container {
+        padding-top: calc(60px + var(--space-lg));
+    }
+}
+
+/* ==========================================
+   PRINT STYLES
+   ========================================== */
+
+@media print {
+
+    .mobile-header,
+    .sidebar,
+    .mobile-overlay,
+    .mobile-menu-btn,
+    .navbar,
+    .footer {
+        display: none !important;
+    }
+
+    .main-content,
+    .marketplace-container,
+    .send-gift-container {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    body {
+        background: white !important;
+    }
+}

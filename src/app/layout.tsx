@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/index.css";
+import "@/styles/components.css";
+import "@/styles/animations.css";
+import "@/styles/responsive.css";
+import "@/styles/dashboard.css";
+import "@/styles/about.css";
+import "@/styles/contact.css";
+import "@/styles/auth.css";
+import "@/styles/legal.css";
+import "@/styles/marketplace.css";
+import "@/styles/landing.css";
 import Snowfall from "@/components/effects/Snowfall";
 
 export const metadata: Metadata = {

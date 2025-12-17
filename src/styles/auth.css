@@ -1,0 +1,167 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--ruby-red) 0%, var(--deep-crimson) 50%, var(--forest-green) 100%);
+    padding: var(--space-2xl) var(--space-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/images/hero/christmas-bg.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+}
+
+.auth-card {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    max-width: 450px;
+    width: 100%;
+    padding: var(--space-2xl);
+    position: relative;
+    z-index: var(--z-base);
+}
+
+/* Signup card is slightly wider in original design, but 450px or 500px is fine. keeping flexible or max-width 500px */
+.auth-card.signup-card {
+    max-width: 500px;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.auth-logo {
+    font-size: 4rem;
+    margin-bottom: var(--space-md);
+}
+
+.auth-title {
+    font-size: var(--text-3xl);
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.auth-subtitle {
+    color: var(--text-secondary);
+}
+
+.password-toggle {
+    position: absolute;
+    right: var(--space-md);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: var(--text-lg);
+}
+
+.social-auth {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    color: var(--text-primary);
+    font-weight: var(--font-medium);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.social-btn:hover {
+    border-color: var(--ruby-red);
+    background: var(--cream);
+}
+
+.divider-text {
+    text-align: center;
+    margin: var(--space-xl) 0;
+    position: relative;
+}
+
+.divider-text::before,
+.divider-text::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: var(--border-light);
+}
+
+.divider-text::before {
+    left: 0;
+}
+
+.divider-text::after {
+    right: 0;
+}
+
+.divider-text span {
+    background: var(--white);
+    padding: 0 var(--space-md);
+    color: var(--text-light);
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: var(--space-xl);
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: var(--ruby-red);
+    font-weight: var(--font-semibold);
+}
+
+/* Login specific */
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-md);
+}
+
+.forgot-link {
+    font-size: var(--text-sm);
+    color: var(--ruby-red);
+}
+
+/* Signup specific */
+.password-strength {
+    height: 4px;
+    background: var(--border-light);
+    border-radius: var(--radius-full);
+    margin-top: var(--space-sm);
+    overflow: hidden;
+}
+
+.password-strength-bar {
+    height: 100%;
+    width: 0;
+    transition: all var(--transition-base);
+}

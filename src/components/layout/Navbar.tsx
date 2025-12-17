@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Button from '@/components/ui/Button';
 
 export default function Navbar() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,50 +11,42 @@ export default function Navbar() {
         <>
             <nav className="navbar">
                 <div className="navbar-container">
-                    {/* Logo */}
                     <Link href="/" className="navbar-logo">
-                        <i className="fas fa-gift navbar-logo-icon"></i>
+                        <span className="navbar-logo-icon"><i className="fas fa-gift"></i></span>
                         <span>GiftExchange</span>
                     </Link>
 
-                    {/* Desktop Navigation */}
-                    <div className="navbar-menu">
+                    <div className={`navbar-menu ${mobileMenuOpen ? 'active' : ''}`} id="navMenu">
                         <div className="navbar-links">
-                            <Link href="/about" className="navbar-link">
-                                About
-                            </Link>
-                            <Link href="/contact" className="navbar-link">
-                                Contact
-                            </Link>
+                            <Link href="/about" className="navbar-link">About</Link>
+                            <Link href="/contact" className="navbar-link">Contact</Link>
                         </div>
 
-                        {/* Desktop Auth Buttons */}
                         <div className="navbar-actions">
-                            <Link href="/login" className="btn btn-outline">
-                                Login
+                            <Link href="/login">
+                                <Button variant="outline">Login</Button>
                             </Link>
-                            <Link href="/signup" className="btn btn-primary">
-                                Get Started
+                            <Link href="/signup">
+                                <Button variant="primary">Get Started</Button>
                             </Link>
                         </div>
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <button
                         className="mobile-menu-toggle"
+                        id="mobileMenuToggle"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle menu"
                     >
                         <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'}`}></i>
                     </button>
                 </div>
             </nav>
-
-            {/* Mobile Menu Overlay */}
-            <div
-                className={`mobile-overlay ${mobileMenuOpen ? 'active' : ''}`}
-                onClick={() => setMobileMenuOpen(false)}
-            />
+            {mobileMenuOpen && (
+                <div
+                    className="mobile-overlay active"
+                    onClick={() => setMobileMenuOpen(false)}
+                ></div>
+            )}
         </>
     );
 }

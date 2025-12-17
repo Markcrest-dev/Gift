@@ -1,4 +1,4 @@
-import { Gift } from './types';
+import { Gift } from '@/lib/types';
 
 // Sample gift data
 export const giftCatalog: Gift[] = [

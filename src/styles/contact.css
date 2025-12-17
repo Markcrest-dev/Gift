@@ -1,0 +1,54 @@
+.contact-hero {
+    background: linear-gradient(135deg, var(--ruby-red), var(--deep-crimson));
+    color: var(--white);
+    padding: var(--space-4xl) var(--space-md);
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+}
+
+.contact-container {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--space-md) var(--space-3xl);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xl);
+    margin-bottom: var(--space-3xl);
+}
+
+.contact-info-card {
+    background: var(--white);
+    padding: var(--space-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-method {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--cream);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-md);
+    transition: all var(--transition-fast);
+}
+
+.contact-method:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-icon {
+    font-size: 2rem;
+    width: 50px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
