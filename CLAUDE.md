@@ -13,8 +13,7 @@ Gift/
 │   │   ├── lib/       # Utilities, types, helpers
 │   │   ├── data/      # Static data
 │   │   └── styles/    # CSS files
-│   ├── public/        # Static assets
-│   └── design/        # Original HTML/CSS/JS reference (archived)
+│   └── public/        # Static assets
 │
 ├── backend/           # NestJS + TypeScript + PostgreSQL + TypeORM
 │   ├── src/
