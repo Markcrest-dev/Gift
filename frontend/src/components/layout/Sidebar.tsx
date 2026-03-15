@@ -1,12 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { auth } from '@/lib/auth';
 
 export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
     const pathname = usePathname();
+    const router = useRouter();
 
     const isActive = (path: string) => pathname === path || pathname?.startsWith(`${path}/`);
+
+    const handleLogout = (e: React.MouseEvent) => {
+        e.preventDefault();
+        auth.logout();
+        router.push('/login');
+    };
 
     const menuItems = [
         { name: 'Dashboard', path: '/dashboard', icon: 'fa-chart-pie' },
@@ -40,7 +48,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
                             </li>
                         ))}
                         <li className="sidebar-menu-item">
-                            <a href="#" className="sidebar-menu-link" onClick={(e) => { e.preventDefault(); /* Logout logic */ console.log('Logout'); }}>
+                            <a href="#" className="sidebar-menu-link" onClick={handleLogout}>
                                 <span className="sidebar-menu-icon"><i className="fas fa-sign-out-alt"></i></span>
                                 <span>Logout</span>
                             </a>

@@ -1,116 +1,86 @@
-import { Order, Redemption, WishlistItem } from './types';
-import { storage, STORAGE_KEYS } from './storage';
+import { Gift, Order, Redemption, WishlistItem } from './types';
+import { api } from './api';
 
-// Gift Sending Functions
 export const giftFlow = {
-    // Send a gift
-    sendGift: (orderData: Omit<Order, 'id' | 'createdAt' | 'status'>): Order => {
-        const newOrder: Order = {
-            ...orderData,
-            id: generateOrderId(),
-            status: 'pending',
-            createdAt: new Date()
-        };
-
-        // Get existing sent gifts
-        const sentGifts = storage.getItem<Order[]>(STORAGE_KEYS.SENT_GIFTS) || [];
-
-        // Add new order
-        sentGifts.push(newOrder);
-
-        // Save to localStorage
-        storage.setItem(STORAGE_KEYS.SENT_GIFTS, sentGifts);
-
-        return newOrder;
+    sendGift: async (orderData: {
+        recipientEmail: string;
+        recipientName: string;
+        giftId: string;
+        message: string;
+        deliveryDate?: string;
+        anonymous?: boolean;
+        paymentMethod: string;
+    }): Promise<Order> => {
+        return api.post<Order>('/orders', orderData, true);
     },
 
-    // Get all sent gifts
-    getSentGifts: (): Order[] => {
-        return storage.getItem<Order[]>(STORAGE_KEYS.SENT_GIFTS) || [];
+    getSentGifts: async (): Promise<Order[]> => {
+        return api.get<Order[]>('/orders/sent', true);
     },
 
-    // Redeem a gift
-    redeemGift: (orderId: string, redemptionData: Omit<Redemption, 'id'>): Redemption => {
-        const newRedemption: Redemption = {
-            ...redemptionData,
-            id: generateRedemptionId()
-        };
-
-        // Get existing redemptions
-        const redemptions = storage.getItem<Redemption[]>(STORAGE_KEYS.GIFT_CLAIMS) || [];
-
-        // Add new redemption
-        redemptions.push(newRedemption);
-
-        // Save to localStorage
-        storage.setItem(STORAGE_KEYS.GIFT_CLAIMS, redemptions);
-
-        return newRedemption;
+    getReceivedGifts: async (): Promise<Order[]> => {
+        return api.get<Order[]>('/orders/received', true);
     },
 
-    // Get all redemptions
-    getRedemptions: (): Redemption[] => {
-        return storage.getItem<Redemption[]>(STORAGE_KEYS.GIFT_CLAIMS) || [];
-    }
+    redeemGift: async (
+        orderId: string,
+        method: string,
+        details: Record<string, string>,
+    ): Promise<Redemption> => {
+        return api.post<Redemption>(`/orders/${orderId}/redeem`, { method, details }, true);
+    },
 };
 
-// Wishlist Functions
+export const giftsApi = {
+    getAll: async (filters?: Record<string, string>): Promise<Gift[]> => {
+        const params = new URLSearchParams();
+        if (filters) {
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value) params.set(key, value);
+            });
+        }
+        const query = params.toString();
+        return api.get<Gift[]>(`/gifts${query ? `?${query}` : ''}`);
+    },
+
+    getById: async (id: string): Promise<Gift> => {
+        return api.get<Gift>(`/gifts/${id}`);
+    },
+};
+
 export const wishlistFlow = {
-    // Add to wishlist
-    addToWishlist: (giftId: string, gift: any): WishlistItem => {
-        const wishlistItem: WishlistItem = {
-            id: generateWishlistItemId(),
-            userId: 'current-user', // In real app, get from auth
-            giftId,
-            gift,
-            addedAt: new Date()
-        };
-
-        const wishlist = storage.getItem<WishlistItem[]>(STORAGE_KEYS.WISHLIST) || [];
-        wishlist.push(wishlistItem);
-        storage.setItem(STORAGE_KEYS.WISHLIST, wishlist);
-
-        return wishlistItem;
+    getWishlist: async (): Promise<WishlistItem[]> => {
+        return api.get<WishlistItem[]>('/wishlist', true);
     },
 
-    // Remove from wishlist
-    removeFromWishlist: (wishlistItemId: string): void => {
-        const wishlist = storage.getItem<WishlistItem[]>(STORAGE_KEYS.WISHLIST) || [];
-        const updatedWishlist = wishlist.filter(item => item.id !== wishlistItemId);
-        storage.setItem(STORAGE_KEYS.WISHLIST, updatedWishlist);
+    addToWishlist: async (giftId: string): Promise<WishlistItem> => {
+        return api.post<WishlistItem>(`/wishlist/${giftId}`, {}, true);
     },
 
-    // Get wishlist
-    getWishlist: (): WishlistItem[] => {
-        return storage.getItem<WishlistItem[]>(STORAGE_KEYS.WISHLIST) || [];
+    removeFromWishlist: async (itemId: string): Promise<void> => {
+        return api.delete<void>(`/wishlist/${itemId}`, true);
     },
 
-    // Check if gift is in wishlist
-    isInWishlist: (giftId: string): boolean => {
-        const wishlist = wishlistFlow.getWishlist();
-        return wishlist.some(item => item.giftId === giftId);
-    }
+    isInWishlist: async (giftId: string): Promise<boolean> => {
+        const result = await api.get<{ inWishlist: boolean }>(`/wishlist/check/${giftId}`, true);
+        return result.inWishlist;
+    },
 };
 
-// Helper functions
-function generateOrderId(): string {
-    return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
+export const notificationsApi = {
+    getAll: async () => {
+        return api.get<Notification[]>('/notifications', true);
+    },
 
-function generateRedemptionId(): string {
-    return `redemption_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
+    markAsRead: async (id: string) => {
+        return api.patch('/notifications/' + id + '/read', {}, true);
+    },
+};
 
-function generateWishlistItemId(): string {
-    return `wishlist_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-}
-
-// Calculate service fee (5%)
 export const calculateServiceFee = (amount: number): number => {
     return Math.round(amount * 0.05 * 100) / 100;
 };
 
-// Calculate total with fee
 export const calculateTotal = (amount: number): number => {
     return amount + calculateServiceFee(amount);
 };

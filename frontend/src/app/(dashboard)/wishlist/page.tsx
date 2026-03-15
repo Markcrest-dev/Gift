@@ -2,35 +2,31 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-// Mock Data
-const MOCK_WISHLIST = [
-    { id: 101, name: 'Sony WH-1000XM5', price: 349.99, image: 'https://placehold.co/300x300?text=Headphones', currency: 'USD', category: "Electronics", rating: 4.8 },
-    { id: 102, name: 'Kindle Paperwhite', price: 139.99, image: 'https://placehold.co/300x300?text=Kindle', currency: 'USD', category: "Electronics", rating: 4.7 },
-    { id: 103, name: 'Nespresso Vertuo', price: 199.00, image: 'https://placehold.co/300x300?text=Coffee', currency: 'USD', category: "Home", rating: 4.5 },
-    { id: 104, name: 'Apple AirTag 4-Pack', price: 99.00, image: 'https://placehold.co/300x300?text=AirTag', currency: 'USD', category: "Electronics", rating: 4.9 },
-];
+import { WishlistItem } from '@/lib/types';
+import { wishlistFlow } from '@/lib/giftFlow';
 
 export default function WishlistPage() {
-    const [wishlist, setWishlist] = useState<any[]>([]);
+    const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Simulate loading
-        setTimeout(() => {
-            setWishlist(MOCK_WISHLIST);
-            setLoading(false);
-        }, 800);
+        wishlistFlow.getWishlist()
+            .then(setWishlist)
+            .catch((err) => console.error('Failed to load wishlist:', err))
+            .finally(() => setLoading(false));
     }, []);
 
-    const removeFromWishlist = (id: number) => {
-        setWishlist(wishlist.filter(item => item.id !== id));
-        // In a real app, you'd show a toast here
-        alert('Removed from wishlist');
+    const removeFromWishlist = async (id: string) => {
+        try {
+            await wishlistFlow.removeFromWishlist(id);
+            setWishlist(wishlist.filter(item => item.id !== id));
+        } catch (error) {
+            console.error('Failed to remove from wishlist:', error);
+        }
     };
 
     const formatCurrency = (amount: number, currency: string) => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: currency }).format(amount);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
     };
 
     if (loading) {
@@ -62,33 +58,34 @@ export default function WishlistPage() {
                     </div>
                 ) : (
                     <div className="wishlist-grid">
-                        {wishlist.map((gift, index) => (
-                            <div key={gift.id} className={`wishlist-card fade-in-up stagger-${(index % 4) + 1}`}>
+                        {wishlist.map((item, index) => (
+                            <div key={item.id} className={`wishlist-card fade-in-up stagger-${(index % 4) + 1}`}>
                                 <button
                                     className="remove-btn"
-                                    onClick={() => removeFromWishlist(gift.id)}
+                                    onClick={() => removeFromWishlist(item.id)}
                                     title="Remove from wishlist"
                                 >
                                     <i className="fas fa-times"></i>
                                 </button>
-                                <img src={gift.image} alt={gift.name} className="wishlist-card-image" />
+                                <div className="wishlist-card-image" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '4rem', background: 'var(--cream)', height: '200px' }}>
+                                    {item.gift?.emoji || '🎁'}
+                                </div>
                                 <div className="wishlist-card-content">
-                                    <div className="wishlist-card-category">{gift.category}</div>
-                                    <h3 className="wishlist-card-title">{gift.name}</h3>
+                                    <div className="wishlist-card-category capitalize">{item.gift?.category}</div>
+                                    <h3 className="wishlist-card-title">{item.gift?.name}</h3>
                                     <div className="wishlist-card-price">
-                                        {formatCurrency(gift.price, gift.currency)}
+                                        {formatCurrency(item.gift?.price || 0, item.gift?.currency || 'USD')}
                                     </div>
-                                    {gift.rating && (
+                                    {item.gift?.rating && (
                                         <div className="rating">
                                             <div className="stars text-yellow-400">
-                                                {'★'.repeat(Math.round(gift.rating))}
-                                                {'☆'.repeat(5 - Math.round(gift.rating))}
+                                                {'*'.repeat(Math.round(item.gift.rating))}
                                             </div>
-                                            <span className="rating-count">({gift.rating})</span>
+                                            <span className="rating-count">({item.gift.rating})</span>
                                         </div>
                                     )}
                                     <div className="card-actions">
-                                        <Link href={`/gift/${gift.id}`} className="btn btn-primary flex-1 text-center">
+                                        <Link href={`/gift/${item.giftId}`} className="btn btn-primary flex-1 text-center">
                                             View Details
                                         </Link>
                                     </div>

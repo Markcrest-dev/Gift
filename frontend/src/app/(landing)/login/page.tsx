@@ -4,20 +4,31 @@ import Link from 'next/link';
 import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
+import { auth } from '@/lib/auth';
 
 export default function LoginPage() {
     const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulate login and redirect
-        console.log('Login attempt', formData);
-        router.push('/dashboard');
+        setError('');
+        setLoading(true);
+
+        const result = await auth.login(formData.email, formData.password);
+        setLoading(false);
+
+        if (result.success) {
+            router.push('/dashboard');
+        } else {
+            setError(result.error || 'Invalid email or password');
+        }
     };
 
     return (
@@ -29,7 +40,6 @@ export default function LoginPage() {
                     <p className="auth-subtitle">Login to continue spreading joy</p>
                 </div>
 
-                {/* Social Authentication */}
                 <div className="social-auth">
                     <button className="social-btn">
                         <span><i className="fab fa-google"></i></span>
@@ -45,7 +55,12 @@ export default function LoginPage() {
                     <span>or login with email</span>
                 </div>
 
-                {/* Login Form */}
+                {error && (
+                    <div className="alert alert-error mb-md" style={{ color: '#ff4444', background: '#fff0f0', padding: 'var(--space-md)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+                        {error}
+                    </div>
+                )}
+
                 <form onSubmit={handleSubmit} id="loginForm">
                     <div className="form-group">
                         <label htmlFor="email" className="form-label">Email Address</label>
@@ -89,11 +104,11 @@ export default function LoginPage() {
                             <input type="checkbox" className="form-checkbox" id="remember" />
                             <span>Remember me</span>
                         </label>
-                        <Link href="/forgot-password" class="forgot-link">Forgot password?</Link>
+                        <Link href="/forgot-password" className="forgot-link">Forgot password?</Link>
                     </div>
 
-                    <Button type="submit" fullWidth className="mt-xl" size="lg">
-                        Login
+                    <Button type="submit" fullWidth className="mt-xl" size="lg" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
                     </Button>
                 </form>
 
