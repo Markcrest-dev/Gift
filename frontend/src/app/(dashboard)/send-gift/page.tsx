@@ -191,9 +191,9 @@ function SendGiftContent() {
                         <div className="order-summary">
                             <h3 className="font-semibold mb-md">Order Summary</h3>
                             <div className="summary-row"><span>Gift Item:</span><span>{gift.name}</span></div>
-                            <div className="summary-row"><span>Subtotal:</span><span>${gift.price.toFixed(2)}</span></div>
-                            <div className="summary-row"><span>Service Fee (5%):</span><span>${calculateServiceFee(gift.price).toFixed(2)}</span></div>
-                            <div className="summary-row total"><span>Total:</span><span>${calculateTotal(gift.price).toFixed(2)}</span></div>
+                            <div className="summary-row"><span>Subtotal:</span><span>${Number(gift.price).toFixed(2)}</span></div>
+                            <div className="summary-row"><span>Service Fee (5%):</span><span>${calculateServiceFee(Number(gift.price)).toFixed(2)}</span></div>
+                            <div className="summary-row total"><span>Total:</span><span>${calculateTotal(Number(gift.price)).toFixed(2)}</span></div>
                         </div>
                         <div className="alert alert-success mt-lg">
                             <h4 className="font-semibold text-sm">Recipient:</h4>
