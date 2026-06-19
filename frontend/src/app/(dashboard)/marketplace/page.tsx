@@ -76,7 +76,7 @@ export default function MarketplacePage() {
                 </div>
 
                 <div className="marketplace-content">
-                    <aside className="filters-sidebar hidden lg:block">
+                    <aside className="filters-sidebar">
                         <div className="filters-header">
                             <h2 className="filters-title">Filters</h2>
                             <span className="filters-clear" onClick={() => setActiveCategory('')}>Clear All</span>
@@ -116,10 +116,10 @@ export default function MarketplacePage() {
                             <div className={`products-grid ${view === 'list' ? 'list-view' : ''}`}>
                                 {[1, 2, 3, 4, 5, 6].map(i => (
                                     <div key={i} className="card">
-                                        <div className="skeleton h-48 w-full bg-gray-200"></div>
+                                        <div className="skeleton" style={{ height: '12rem', width: '100%', background: '#e5e7eb' }}></div>
                                         <div className="card-body">
-                                            <div className="skeleton h-6 w-3/4 bg-gray-200 mb-2"></div>
-                                            <div className="skeleton h-4 w-1/2 bg-gray-200"></div>
+                                            <div className="skeleton" style={{ height: '1.5rem', width: '75%', background: '#e5e7eb', marginBottom: 'var(--space-sm)' }}></div>
+                                            <div className="skeleton" style={{ height: '1rem', width: '50%', background: '#e5e7eb' }}></div>
                                         </div>
                                     </div>
                                 ))}
@@ -133,18 +133,18 @@ export default function MarketplacePage() {
                         ) : (
                             <div className={`products-grid ${view === 'list' ? 'list-view' : ''}`}>
                                 {products.map(product => (
-                                    <div key={product.id} className="card hover-lift flex flex-col h-full">
-                                        <Link href={`/gift/${product.id}`} className={view === 'list' ? 'flex' : ''}>
-                                            <div className={`flex items-center justify-center bg-[var(--cream)] p-4 ${view === 'list' ? 'w-48 h-48' : 'h-48 rounded-t-xl w-full'}`} style={{ fontSize: '4rem' }}>
+                                    <div key={product.id} className="card hover-lift" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                        <Link href={`/gift/${product.id}`} style={view === 'list' ? { display: 'flex' } : {}}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', padding: 'var(--space-lg)', fontSize: '4rem', ...(view === 'list' ? { width: '12rem', height: '12rem' } : { height: '12rem', borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0', width: '100%' }) }}>
                                                 {product.emoji || '🎁'}
                                             </div>
-                                            <div className="card-body flex-1 flex flex-col">
-                                                {view === 'list' && <div className="text-secondary text-sm mb-1 capitalize">{product.category}</div>}
-                                                <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
-                                                <div className="flex items-center gap-1 mb-2 text-yellow-500 text-sm">
-                                                    <i className="fas fa-star"></i> <span>{product.rating}</span> <span className="text-gray-400">({product.reviews})</span>
+                                            <div className="card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                                {view === 'list' && <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-xs)', textTransform: 'capitalize' }}>{product.category}</div>}
+                                                <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-xs)' }}>{product.name}</h3>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: 'var(--space-sm)', color: '#eab308', fontSize: 'var(--text-sm)' }}>
+                                                    <i className="fas fa-star"></i> <span>{product.rating}</span> <span style={{ color: '#9ca3af' }}>({product.reviews})</span>
                                                 </div>
-                                                <div className="text-red font-bold text-xl mt-auto mb-4">{formatCurrency(product.price)}</div>
+                                                <div style={{ color: 'var(--ruby-red)', fontWeight: 'var(--font-bold)', fontSize: 'var(--text-xl)', marginTop: 'auto', marginBottom: 'var(--space-lg)' }}>{formatCurrency(product.price)}</div>
                                                 <Button variant="primary" fullWidth>View Details</Button>
                                             </div>
                                         </Link>

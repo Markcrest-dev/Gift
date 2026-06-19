@@ -16,7 +16,7 @@ export default function DashboardLayout({
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
             <main className="main-content">
-                <div className="container mx-auto">
+                <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                     {children}
                 </div>
             </main>

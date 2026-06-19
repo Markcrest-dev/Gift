@@ -22,11 +22,18 @@ async function request<T>(path: string, options: ApiOptions = {}): Promise<T> {
     }
   }
 
-  const res = await fetch(`${API_BASE}${path}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch (err) {
+    throw new Error(
+      `Network error: Unable to reach the server at ${API_BASE}. Please ensure the backend is running.`,
+    );
+  }
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: 'Request failed' }));
