@@ -133,22 +133,22 @@ export default function MarketplacePage() {
                         ) : (
                             <div className={`products-grid ${view === 'list' ? 'list-view' : ''}`}>
                                 {products.map(product => (
-                                    <div key={product.id} className="card hover-lift" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                        <Link href={`/gift/${product.id}`} style={view === 'list' ? { display: 'flex' } : {}}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--cream)', padding: 'var(--space-lg)', fontSize: '4rem', ...(view === 'list' ? { width: '12rem', height: '12rem' } : { height: '12rem', borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0', width: '100%' }) }}>
+                                    <Link key={product.id} href={`/gift/${product.id}`} className="product-card-link">
+                                        <div className={`card ${view === 'list' ? 'product-card-list' : ''}`}>
+                                            <div className="product-card-emoji">
                                                 {product.emoji || '🎁'}
                                             </div>
-                                            <div className="card-body" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                                                {view === 'list' && <div style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-xs)', textTransform: 'capitalize' }}>{product.category}</div>}
-                                                <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-xs)' }}>{product.name}</h3>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: 'var(--space-sm)', color: '#eab308', fontSize: 'var(--text-sm)' }}>
-                                                    <i className="fas fa-star"></i> <span>{product.rating}</span> <span style={{ color: '#9ca3af' }}>({product.reviews})</span>
+                                            <div className="card-body product-card-body">
+                                                <h3 className="product-card-name">{product.name}</h3>
+                                                <div className="product-card-rating">
+                                                    <i className="fas fa-star"></i>
+                                                    <span>{product.rating}</span>
+                                                    <span className="product-card-reviews">({product.reviews})</span>
                                                 </div>
-                                                <div style={{ color: 'var(--ruby-red)', fontWeight: 'var(--font-bold)', fontSize: 'var(--text-xl)', marginTop: 'auto', marginBottom: 'var(--space-lg)' }}>{formatCurrency(product.price)}</div>
-                                                <Button variant="primary" fullWidth>View Details</Button>
+                                                <div className="product-card-price">{formatCurrency(product.price)}</div>
                                             </div>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                    </Link>
                                 ))}
                             </div>
                         )}

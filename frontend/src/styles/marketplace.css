@@ -70,13 +70,13 @@ body {
 }
 
 .marketplace-title {
-    font-size: var(--text-4xl);
-    margin-bottom: var(--space-md);
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-sm);
 }
 
 .marketplace-subtitle {
     color: var(--text-secondary);
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
 }
 
 .marketplace-controls {
@@ -144,14 +144,14 @@ body {
 }
 
 .filters-sidebar {
-    width: 280px;
+    width: 260px;
     background: var(--white);
-    border-radius: var(--radius-xl);
-    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
     height: fit-content;
     position: sticky;
     top: var(--space-xl);
-    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-light);
 }
 
 .filters-header {
@@ -162,8 +162,8 @@ body {
 }
 
 .filters-title {
-    font-size: var(--text-xl);
-    font-weight: var(--font-bold);
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
 }
 
 .filters-clear {
@@ -237,8 +237,8 @@ body {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: var(--space-xl);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-lg);
 }
 
 .products-grid.list-view {

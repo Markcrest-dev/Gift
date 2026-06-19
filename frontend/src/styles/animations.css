@@ -567,12 +567,12 @@
    ========================================== */
 
 .hover-lift {
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2xl);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .hover-glow {
