@@ -4,11 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Order } from '@/lib/types';
 import { giftFlow } from '@/lib/giftFlow';
-import Button from '@/components/ui/Button';
 
 export default function GiftsSentPage() {
     const [orders, setOrders] = useState<Order[]>([]);
-    const [filter, setFilter] = useState('all');
+    const [filter, setFilter] = useState('All');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -18,93 +17,104 @@ export default function GiftsSentPage() {
             .finally(() => setLoading(false));
     }, []);
 
-    const filteredOrders = filter === 'all'
+    const filteredOrders = filter === 'All'
         ? orders
-        : orders.filter(order => order.status === filter);
-
-    const statusStyle = (status: string) => {
-        switch (status) {
-            case 'pending': case 'sent': return 'bg-gold/10 text-gold';
-            case 'redeemed': return 'bg-green/15 text-green';
-            default: return 'bg-paper/5 text-paper/40';
-        }
-    };
+        : orders.filter(order => {
+            const mappedFilter = filter.toLowerCase();
+            return order.status === mappedFilter;
+        });
 
     const formatCurrency = (amount: number, currency: string) => {
         return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
     };
 
     if (loading) {
-        return <div className="text-paper/30 text-sm py-16 text-center">Loading your sent gifts...</div>;
+        return <div className="text-paper/30 text-sm p-8 text-center">Loading your sent gifts...</div>;
     }
 
-    const filters = ['all', 'pending', 'sent', 'redeemed'];
+    const filters = ['All', 'Pending', 'Delivered', 'Claimed', 'Expired'];
 
     return (
-        <>
-            <div className="mb-8">
-                <h1 className="font-display text-3xl font-bold text-paper mb-2">Gifts Sent</h1>
-                <p className="text-paper/40 text-sm">Track all the gifts you&apos;ve sent</p>
+        <div className="p-8 max-w-7xl mx-auto">
+            {/* Header Row */}
+            <div className="flex items-center justify-between pb-5 mb-8 border-b border-[#1E1A14]">
+                <h1 className="font-sans text-[22px] font-semibold text-[#F5F0E8]">Gifts Sent</h1>
+                <Link href="/send-gift" className="font-sans text-[14px] text-gold hover:text-gold/80 transition-colors">
+                    Send a Gift &rarr;
+                </Link>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="flex gap-1">
-                    {filters.map((f) => (
-                        <button
-                            key={f}
-                            className={`px-3 py-1.5 text-sm rounded-[4px] capitalize transition-colors ${
-                                filter === f ? 'bg-gold/10 text-gold' : 'text-paper/35 hover:text-paper/60'
-                            }`}
-                            onClick={() => setFilter(f)}
-                        >
-                            {f}
-                        </button>
-                    ))}
-                </div>
-                <span className="text-paper/25 text-sm">
-                    {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''}
-                </span>
+            {/* Filter Strip */}
+            <div className="flex items-center gap-2 mb-8">
+                {filters.map((f) => (
+                    <button
+                        key={f}
+                        onClick={() => setFilter(f)}
+                        className={`px-4 py-2 text-[13px] font-medium transition-colors border ${
+                            filter === f
+                                ? 'border-[#2E2820] bg-[#161210] text-[#F5F0E8]'
+                                : 'border-transparent text-[#6B6055] hover:text-[#9A8E7A]'
+                        }`}
+                        style={{ borderRadius: '2px' }}
+                    >
+                        {f}
+                    </button>
+                ))}
             </div>
 
+            {/* List / Empty State */}
             {filteredOrders.length === 0 ? (
-                <div className="text-center py-16">
-                    <p className="text-paper/30 text-sm mb-4">
-                        {filter === 'all' ? 'No gifts sent yet' : `No ${filter} gifts`}
-                    </p>
-                    {filter === 'all' && (
-                        <Link href="/marketplace">
-                            <Button variant="primary" size="sm">Browse Gifts</Button>
-                        </Link>
-                    )}
+                <div className="text-center py-20 border border-[#1E1A14] bg-[#161210]" style={{ borderRadius: '4px' }}>
+                    <h2 className="font-sans text-[18px] text-[#F5F0E8] mb-2">No gifts sent yet</h2>
+                    <p className="font-sans text-[14px] text-[#6B6055] mb-6">Find something meaningful in the marketplace.</p>
+                    <Link href="/marketplace" className="font-sans text-[14px] text-gold hover:text-gold/80 transition-colors">
+                        Browse Gifts &rarr;
+                    </Link>
                 </div>
             ) : (
-                <div className="space-y-0">
-                    {filteredOrders.map((order) => (
-                        <div key={order.id} className="flex items-start gap-4 py-5 border-b border-paper/5 last:border-b-0">
-                            <div className="w-14 h-14 rounded-lg bg-surface flex items-center justify-center text-2xl shrink-0">
-                                {order.gift?.emoji || '🎁'}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-paper text-sm font-medium">{order.gift?.name || 'Gift'}</p>
-                                <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1">
-                                    <span className="text-paper/30 text-xs">To: {order.recipientName}</span>
-                                    <span className="text-paper/30 text-xs">{new Date(order.createdAt).toLocaleDateString()}</span>
-                                    <span className="font-mono text-paper/50 text-xs">{formatCurrency(order.totalAmount, 'USD')}</span>
+                <div className="flex flex-col">
+                    {filteredOrders.map((order) => {
+                        const status = order.status || 'pending';
+                        
+                        let statusUI = null;
+                        if (status === 'pending') {
+                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#B8922A] text-[#B8922A] bg-[#1A1410] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Pending</span>;
+                        } else if (status === 'delivered' || status === 'sent') {
+                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#2A4A35] text-[#4A8A65] bg-[#111A13] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Delivered</span>;
+                        } else if (status === 'redeemed' || status === 'claimed') {
+                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#1E2A1E] text-[#6B6055] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Claimed</span>;
+                        } else {
+                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide text-[#3A342E] px-[10px] py-[3px]">Expired</span>;
+                        }
+
+                        return (
+                            <div key={order.id} className="group flex items-center justify-between py-5 border-b border-[#1A1510] hover:bg-[#0F0D0C] transition-colors -mx-4 px-4">
+                                <div className="grid grid-cols-5 w-full items-center">
+                                    <div className="col-span-2">
+                                        <div className="font-sans text-[15px] font-medium text-[#F5F0E8] mb-1">{order.recipientName}</div>
+                                        <div className="font-sans text-[12px] text-[#6B6055]">{order.recipientCountry || 'Unknown Country'}</div>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <div className="font-sans text-[14px] text-[#C4B99A] mb-1">{order.gift?.name || 'Gift'}</div>
+                                        <div className="font-sans text-[12px] text-[#6B6055]">{new Date(order.createdAt).toLocaleDateString()}</div>
+                                    </div>
+                                    <div className="col-span-1">
+                                        <div className="font-mono text-[16px] text-[#F5F0E8]">{formatCurrency(order.totalAmount, 'USD')}</div>
+                                    </div>
+                                    <div className="col-span-1 flex items-center justify-between">
+                                        <div>{statusUI}</div>
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button className="font-sans text-[13px] text-gold hover:text-gold/80 transition-colors">
+                                                View &rarr;
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                {order.message && (
-                                    <p className="text-paper/20 text-xs mt-2 italic">&ldquo;{order.message}&rdquo;</p>
-                                )}
                             </div>
-                            <div className="flex flex-col items-end gap-1.5 shrink-0">
-                                <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusStyle(order.status)}`}>
-                                    {order.status}
-                                </span>
-                                <span className="font-mono text-paper/15 text-xs">{order.id.slice(0, 8)}</span>
-                            </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
-        </>
+        </div>
     );
 }
