@@ -36,6 +36,13 @@ async function request<T>(path: string, options: ApiOptions = {}): Promise<T> {
   }
 
   if (!res.ok) {
+    if (res.status === 401) {
+      storage.removeItem(STORAGE_KEYS.AUTH_TOKEN);
+      storage.removeItem(STORAGE_KEYS.USER);
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
+      }
+    }
     const error = await res.json().catch(() => ({ message: 'Request failed' }));
     throw new Error(error.message || `HTTP ${res.status}`);
   }
