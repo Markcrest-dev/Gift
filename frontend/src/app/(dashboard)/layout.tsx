@@ -31,7 +31,7 @@ export default function DashboardLayout({
         <div className="flex min-h-screen bg-base">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
-            <main className="flex-1 lg:ml-[260px] p-6 md:p-10 pt-[calc(60px+1.5rem)] lg:pt-10">
+            <main className="flex-1 lg:ml-[260px] h-screen overflow-y-auto p-6 md:p-10 pt-[calc(60px+1.5rem)] lg:pt-10">
                 <div className="max-w-[1200px] mx-auto">
                     {children}
                 </div>
