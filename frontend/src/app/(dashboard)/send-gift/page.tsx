@@ -98,7 +98,7 @@ function SendGiftContent() {
 
             <div className="form-card fade-in-up">
                 {error && (
-                    <div style={{ color: '#ff4444', background: '#fff0f0', padding: 'var(--space-md)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+                    <div className="alert alert-error mb-md">
                         {error}
                     </div>
                 )}
@@ -110,7 +110,7 @@ function SendGiftContent() {
 
                         {gift && (
                             <div className="gift-summary">
-                                <div style={{ fontSize: '3rem' }}>{gift.emoji || '🎁'}</div>
+                                <div className="text-5xl">{gift.emoji || '🎁'}</div>
                                 <div className="gift-summary-info">
                                     <div className="gift-summary-title">{gift.name}</div>
                                     <div className="gift-summary-price">${gift.price}</div>

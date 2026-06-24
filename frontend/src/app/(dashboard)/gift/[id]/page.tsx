@@ -85,7 +85,7 @@ export default function GiftDetailPage() {
 
             <div className="gift-detail-grid">
                 <div className="gift-image-section fade-in-left">
-                    <div className="gift-main-image" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8rem', background: 'var(--cream)', borderRadius: 'var(--radius-lg)', minHeight: '400px' }}>
+                    <div className="gift-main-image">
                         {gift.emoji || '🎁'}
                     </div>
                 </div>
@@ -114,10 +114,10 @@ export default function GiftDetailPage() {
                     </div>
 
                     <div className="gift-actions">
-                        <Button variant="primary" size="lg" className="flex-2" onClick={() => router.push(`/send-gift?id=${gift.id}`)}>
+                        <Button variant="primary" size="lg" className="w-full" onClick={() => router.push(`/send-gift?id=${gift.id}`)}>
                             Send This Gift
                         </Button>
-                        <Button variant={inWishlist ? 'secondary' : 'outline'} size="lg" onClick={handleWishlist}>
+                        <Button variant={inWishlist ? 'secondary' : 'outline'} size="lg" className="w-full" onClick={handleWishlist}>
                             {inWishlist ? 'In Wishlist' : 'Wishlist'}
                         </Button>
                     </div>
@@ -132,22 +132,17 @@ export default function GiftDetailPage() {
                     </div>
                     <div className="related-gifts-grid">
                         {relatedGifts.map((relatedGift) => (
-                            <div key={relatedGift.id} className="gift-card hover-lift">
-                                <div className="gift-card-image">
-                                    <div className="card-image w-full h-48 flex items-center justify-center bg-[var(--cream)]" style={{ fontSize: '4rem' }}>
+                            <Link key={relatedGift.id} href={`/gift/${relatedGift.id}`} className="product-card-link">
+                                <div className="card">
+                                    <div className="product-card-emoji">
                                         {relatedGift.emoji || '🎁'}
                                     </div>
-                                </div>
-                                <div className="card-body p-4">
-                                    <h3 className="card-title font-semibold mb-2">{relatedGift.name}</h3>
-                                    <div className="gift-card-meta flex justify-between mb-2">
-                                        <span className="gift-card-price text-red font-bold">{formatCurrency(relatedGift.price, relatedGift.currency)}</span>
+                                    <div className="card-body product-card-body">
+                                        <h3 className="product-card-name">{relatedGift.name}</h3>
+                                        <div className="product-card-price">{formatCurrency(relatedGift.price, relatedGift.currency)}</div>
                                     </div>
-                                    <Link href={`/gift/${relatedGift.id}`} className="btn btn-primary w-full btn-sm text-center block">
-                                        View Details
-                                    </Link>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

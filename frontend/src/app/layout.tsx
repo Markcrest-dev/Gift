@@ -10,8 +10,6 @@ import "@/styles/auth.css";
 import "@/styles/legal.css";
 import "@/styles/marketplace.css";
 import "@/styles/landing.css";
-import Snowfall from "@/components/effects/Snowfall";
-import ScrollReveal from "@/components/effects/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "Global Gift Exchange - Share Joy Worldwide",
@@ -36,8 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Snowfall />
-        <ScrollReveal />
+
         {children}
       </body>
     </html>
