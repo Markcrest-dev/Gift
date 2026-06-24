@@ -7,6 +7,7 @@ import { giftFlow, wishlistFlow } from '@/lib/giftFlow';
 import { Order, WishlistItem } from '@/lib/types';
 import Button from '@/components/ui/Button';
 import { Send, ShoppingBag, ArrowRight } from 'lucide-react';
+import GiftPlaceholder from '@/components/ui/GiftPlaceholder';
 
 export default function DashboardPage() {
     const [userName, setUserName] = useState('User');
@@ -63,10 +64,10 @@ export default function DashboardPage() {
     return (
         <>
             <div className="mb-10">
-                <h1 className="font-display text-3xl md:text-4xl font-bold text-paper mb-2">
+                <h1 className="text-[22px] font-semibold text-[#F5F0E8] mb-1">
                     Welcome back, <span id="userName">{userName}</span>
                 </h1>
-                <p className="text-paper/40 text-sm">Your gift exchange overview</p>
+                <p className="text-[#6B6055] text-[13px]">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
 
             <div className="flex flex-wrap gap-3 mb-10">
@@ -85,26 +86,29 @@ export default function DashboardPage() {
             </div>
 
             {/* Stats — flat bg-surface, no shadows, no hover-lift */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
                 {stats.map((stat) => (
-                    <div key={stat.label} className="bg-surface rounded-lg p-5">
-                        <div className="font-mono text-2xl font-medium text-paper mb-1">{stat.value}</div>
-                        <div className="text-paper/35 text-xs font-medium uppercase tracking-wider">{stat.label}</div>
+                    <div key={stat.label} className="bg-[#1C1814] border border-[#1E1A14] border-l-[2px] border-l-[#B8922A] rounded-[3px] py-[24px] px-[28px]">
+                        <div className="font-mono text-[40px] text-[#F5F0E8] leading-none mb-2">{stat.value}</div>
+                        <div className="text-[#6B6055] text-[11px] uppercase tracking-[0.1em]">{stat.label}</div>
                     </div>
                 ))}
             </div>
 
             {/* Recent Activity — clean rows, no card wrapper */}
             <div className="mb-10">
-                <h2 className="text-paper font-semibold text-base mb-4">Recent Activity</h2>
+                <div className="border-b border-[#1E1A14] mb-4 pb-2">
+                    <h2 className="text-[#6B6055] text-[13px] uppercase font-semibold tracking-[0.08em]">Recent Activity</h2>
+                </div>
                 <div>
                     {loading ? (
                         <p className="text-paper/30 text-sm py-8 text-center">Loading activity...</p>
                     ) : recentActivity.length === 0 ? (
-                        <p className="text-paper/30 text-sm py-8 text-center">
-                            No activity yet.{' '}
-                            <Link href="/marketplace" className="text-gold/70 hover:text-gold transition-colors font-medium">Start by browsing gifts</Link>
-                        </p>
+                        <div className="text-center p-12 border border-dashed border-[#2E2820] rounded-[3px]">
+                            <h3 className="text-[#F5F0E8] text-[16px] font-medium mb-1">No gifts sent yet</h3>
+                            <p className="text-[#6B6055] text-[14px] mb-4">Browse the marketplace and send your first gift.</p>
+                            <Link href="/marketplace" className="text-[#B8922A] text-[14px] hover:underline">Browse Gifts →</Link>
+                        </div>
                     ) : (
                         recentActivity.map((item) => (
                             <div key={item.id} className="flex items-start gap-4 py-4 border-b border-paper/5 last:border-b-0">
@@ -139,8 +143,8 @@ export default function DashboardPage() {
 
             {/* Wishlist — embedded grid, no floating cards */}
             <div>
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-paper font-semibold text-base">Wishlist</h2>
+                <div className="flex justify-between items-end border-b border-[#1E1A14] mb-4 pb-2">
+                    <h2 className="text-[#6B6055] text-[13px] uppercase font-semibold tracking-[0.08em]">Wishlist</h2>
                     <Link href="/marketplace">
                         <Button variant="ghost" size="sm">Browse Gifts</Button>
                     </Link>
@@ -149,15 +153,16 @@ export default function DashboardPage() {
                     {loading ? (
                         <div className="col-span-full text-paper/30 text-sm text-center py-8">Loading wishlist...</div>
                     ) : wishlist.length === 0 ? (
-                        <div className="col-span-full text-paper/30 text-sm text-center py-8">
-                            Your wishlist is empty.{' '}
-                            <Link href="/marketplace" className="text-gold/70 hover:text-gold transition-colors font-medium">Add some gifts</Link>
+                        <div className="col-span-full text-center p-12 border border-dashed border-[#2E2820] rounded-[3px]">
+                            <h3 className="text-[#F5F0E8] text-[16px] font-medium mb-1">Your wishlist is empty</h3>
+                            <p className="text-[#6B6055] text-[14px] mb-4">Browse the marketplace and save your favorites.</p>
+                            <Link href="/marketplace" className="text-[#B8922A] text-[14px] hover:underline">Browse Gifts →</Link>
                         </div>
                     ) : (
                         wishlist.map((item) => (
                             <Link key={item.id} href={`/gift/${item.giftId}`} className="bg-surface rounded-lg overflow-hidden group">
-                                <div className="h-28 flex items-center justify-center text-4xl bg-paper/3">
-                                    {item.gift?.emoji || '🎁'}
+                                <div className="h-28 flex items-center justify-center bg-[#141210]">
+                                    <GiftPlaceholder name={item.gift?.name || '?'} />
                                 </div>
                                 <div className="p-3.5">
                                     <h4 className="text-paper text-sm font-medium truncate mb-1 group-hover:text-gold transition-colors">{item.gift?.name}</h4>

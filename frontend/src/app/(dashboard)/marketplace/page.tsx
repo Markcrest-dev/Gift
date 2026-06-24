@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import { Gift } from '@/lib/types';
 import { giftsApi } from '@/lib/giftFlow';
 import { Search, Grid3X3, List } from 'lucide-react';
+import GiftPlaceholder from '@/components/ui/GiftPlaceholder';
 
 const CATEGORIES = ['electronics', 'fashion', 'toys', 'experiences', 'gift-cards', 'home', 'books'];
 
@@ -48,116 +49,113 @@ export default function MarketplacePage() {
 
     return (
         <>
-            <div className="mb-8">
-                <h1 className="font-display text-3xl font-bold text-paper mb-2">Marketplace</h1>
-                <p className="text-paper/40 text-sm">Find the perfect gift for anyone, anywhere</p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <div className="flex-1 relative">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/25" />
-                    <input
-                        type="text"
-                        className="w-full bg-surface border border-paper/10 rounded-[4px] pl-10 pr-4 py-2.5 text-paper text-sm placeholder:text-paper/20 focus:outline-none focus:border-gold transition-colors"
-                        placeholder="Search gifts..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+            <div className="flex items-center justify-between border-b border-[#1E1A14] pb-6 mb-6">
+                <div className="flex items-baseline">
+                    <h1 className="text-[22px] font-semibold text-[#F5F0E8]">Browse Gifts</h1>
+                    <span className="text-[#6B6055] text-[13px] ml-3">{loading ? '...' : `${products.length} items`}</span>
                 </div>
-                <div className="flex gap-2">
-                    <button
-                        className={`p-2.5 rounded-[4px] border transition-colors ${view === 'grid' ? 'border-gold/40 text-gold' : 'border-paper/10 text-paper/30 hover:text-paper/50'}`}
-                        onClick={() => setView('grid')}
+                <div className="flex items-center gap-4">
+                    <select
+                        className="bg-transparent text-[#C4B99A] text-[14px] focus:outline-none cursor-pointer"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
                     >
-                        <Grid3X3 className="w-4 h-4" />
-                    </button>
-                    <button
-                        className={`p-2.5 rounded-[4px] border transition-colors ${view === 'list' ? 'border-gold/40 text-gold' : 'border-paper/10 text-paper/30 hover:text-paper/50'}`}
-                        onClick={() => setView('list')}
-                    >
-                        <List className="w-4 h-4" />
-                    </button>
-                </div>
-            </div>
-
-            <div className="flex flex-col lg:flex-row gap-8">
-                <aside className="lg:w-[200px] shrink-0">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-paper/60 text-xs font-medium uppercase tracking-wider">Categories</h2>
-                        {activeCategory && (
-                            <button className="text-gold/60 text-xs hover:text-gold transition-colors" onClick={() => setActiveCategory('')}>Clear</button>
-                        )}
+                        <option value="featured">Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                    <div className="flex gap-1">
+                        <button
+                            className={`p-1.5 rounded-[3px] transition-colors ${view === 'grid' ? 'text-[#F5F0E8] bg-[#1A1410]' : 'text-[#6B6055] hover:text-[#C4B99A]'}`}
+                            onClick={() => setView('grid')}
+                        >
+                            <Grid3X3 className="w-4 h-4" />
+                        </button>
+                        <button
+                            className={`p-1.5 rounded-[3px] transition-colors ${view === 'list' ? 'text-[#F5F0E8] bg-[#1A1410]' : 'text-[#6B6055] hover:text-[#C4B99A]'}`}
+                            onClick={() => setView('list')}
+                        >
+                            <List className="w-4 h-4" />
+                        </button>
                     </div>
-                    <div className="flex flex-wrap lg:flex-col gap-1.5">
-                        {CATEGORIES.map(cat => (
-                            <button
-                                key={cat}
-                                className={`text-left text-sm px-3 py-1.5 rounded-[4px] capitalize transition-colors ${
-                                    activeCategory === cat ? 'bg-gold/10 text-gold' : 'text-paper/40 hover:text-paper/60 hover:bg-paper/3'
-                                }`}
-                                onClick={() => toggleCategory(cat)}
-                            >
-                                {cat.replace('-', ' ')}
-                            </button>
+                </div>
+            </div>
+
+            <div className="flex overflow-x-auto gap-2 pb-2 mb-8 hide-scrollbar">
+                <button
+                    className={`shrink-0 border px-[16px] py-[6px] rounded-[2px] text-[13px] transition-colors ${
+                        activeCategory === '' ? 'border-[#B8922A] text-[#F5F0E8] bg-[#1A1410]' : 'border-[#2E2820] text-[#6B6055] bg-transparent hover:border-[#B8922A]'
+                    }`}
+                    onClick={() => setActiveCategory('')}
+                >
+                    All
+                </button>
+                {CATEGORIES.map(cat => (
+                    <button
+                        key={cat}
+                        className={`shrink-0 border px-[16px] py-[6px] rounded-[2px] text-[13px] capitalize transition-colors ${
+                            activeCategory === cat ? 'border-[#B8922A] text-[#F5F0E8] bg-[#1A1410]' : 'border-[#2E2820] text-[#6B6055] bg-transparent hover:border-[#B8922A]'
+                        }`}
+                        onClick={() => toggleCategory(cat)}
+                    >
+                        {cat.replace('-', ' ')}
+                    </button>
+                ))}
+            </div>
+
+            <div>
+                {loading ? (
+                    <div className={`grid gap-4 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                        {[1, 2, 3, 4, 5, 6].map(i => (
+                            <div key={i} className={`bg-[#1C1814] border border-[#1E1A14] rounded-[3px] overflow-hidden animate-pulse ${i === 1 && view === 'grid' ? 'md:col-span-2 md:row-span-2' : ''}`}>
+                                <div className={`${i === 1 && view === 'grid' ? 'aspect-video' : 'aspect-[4/3]'} bg-paper/5`} />
+                                <div className="p-4">
+                                    <div className="h-4 bg-paper/10 rounded mb-2 w-3/4" />
+                                    <div className="h-3 bg-paper/10 rounded w-1/2" />
+                                </div>
+                            </div>
                         ))}
                     </div>
-                </aside>
-
-                <div className="flex-1">
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-paper/30 text-sm">
-                            {loading ? 'Loading...' : `${products.length} items`}
-                        </span>
-                        <select
-                            className="bg-surface border border-paper/10 rounded-[4px] px-3 py-1.5 text-paper/60 text-sm focus:outline-none focus:border-gold transition-colors"
-                            value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
-                        >
-                            <option value="featured">Featured</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                            <option value="rating">Highest Rated</option>
-                            <option value="newest">Newest First</option>
-                        </select>
+                ) : products.length === 0 ? (
+                    <div className="text-center py-16">
+                        <p className="text-[#6B6055] text-[14px] mb-4">No gifts found matching your criteria</p>
+                        <Button variant="ghost" size="sm" onClick={() => { setSearchTerm(''); setActiveCategory(''); }}>Clear Filters</Button>
                     </div>
-
-                    {loading ? (
-                        <div className={`grid ${view === 'list' ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'} gap-3`}>
-                            {[1, 2, 3, 4, 5, 6].map(i => (
-                                <div key={i} className="bg-surface rounded-lg overflow-hidden animate-pulse">
-                                    <div className="h-36 bg-paper/3" />
-                                    <div className="p-4">
-                                        <div className="h-4 bg-paper/5 rounded mb-2 w-3/4" />
-                                        <div className="h-3 bg-paper/5 rounded w-1/2" />
+                ) : (
+                    <div className={`grid gap-4 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                        {products.map((product, index) => {
+                            const isFeatured = index === 0 && view === 'grid';
+                            return (
+                                <Link 
+                                    key={product.id} 
+                                    href={`/gift/${product.id}`} 
+                                    className={`group bg-[#1C1814] border border-[#1E1A14] rounded-[3px] overflow-hidden transition-all duration-200 hover:border-[#2E2820] hover:shadow-[inset_0_2px_0_0_#B8922A] ${isFeatured ? 'md:col-span-2 md:row-span-2' : ''}`}
+                                >
+                                    <div className={`bg-[#141210] flex items-center justify-center ${isFeatured ? 'aspect-video' : 'aspect-[4/3]'}`}>
+                                        <GiftPlaceholder name={product.name} />
                                     </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : products.length === 0 ? (
-                        <div className="text-center py-16">
-                            <p className="text-paper/30 text-sm mb-4">No gifts found matching your criteria</p>
-                            <Button variant="ghost" size="sm" onClick={() => { setSearchTerm(''); setActiveCategory(''); }}>Clear Filters</Button>
-                        </div>
-                    ) : (
-                        <div className={`grid ${view === 'list' ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'} gap-3`}>
-                            {products.map(product => (
-                                <Link key={product.id} href={`/gift/${product.id}`} className="bg-surface rounded-lg overflow-hidden group">
-                                    <div className="h-36 flex items-center justify-center text-5xl bg-paper/3">
-                                        {product.emoji || '🎁'}
-                                    </div>
-                                    <div className="p-4">
-                                        <h3 className="text-paper text-sm font-medium truncate mb-1 group-hover:text-gold transition-colors">{product.name}</h3>
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-gold/60 text-xs">★ {product.rating}</span>
-                                            <span className="text-paper/20 text-xs">({product.reviews})</span>
+                                    <div className="p-[16px] md:p-[20px] relative">
+                                        {isFeatured && (
+                                            <div className="text-[#B8922A] text-[11px] font-medium uppercase tracking-[0.12em] mb-2">● Featured</div>
+                                        )}
+                                        <div className="text-[#B8922A] text-[11px] font-medium uppercase tracking-[0.12em] mb-1">{product.category || 'Gift'}</div>
+                                        <h3 className="text-[#F5F0E8] text-[16px] font-medium mb-1">{product.name}</h3>
+                                        <div className="text-[#6B6055] text-[12px] mb-3">★ {product.rating} · {product.reviews} reviews</div>
+                                        <div className={`font-mono text-[#F5F0E8] ${isFeatured ? 'text-[24px]' : 'text-[18px]'}`}>
+                                            {formatCurrency(product.price)}
                                         </div>
-                                        <div className="font-mono text-paper font-medium text-base">{formatCurrency(product.price)}</div>
+                                        
+                                        <div className="absolute right-5 bottom-5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <span className="text-[#B8922A] text-[13px] font-medium">Send as Gift →</span>
+                                        </div>
                                     </div>
                                 </Link>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </>
     );
