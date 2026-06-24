@@ -2,7 +2,6 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
-import Button from '@/components/ui/Button';
 import { Mail, CheckCircle } from 'lucide-react';
 
 export default function VerifyEmailPage() {
@@ -36,53 +35,62 @@ export default function VerifyEmailPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-base px-4">
-            <div className="bg-surface rounded-lg max-w-[420px] w-full p-8 md:p-10">
+        <div className="min-h-screen flex items-center justify-center bg-[#F4F0EB] px-4 font-body py-12">
+            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl w-full max-w-[480px] p-8 md:p-12 relative overflow-hidden text-center">
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-[#0A4535]"></div>
+
                 {success ? (
-                    <div className="text-center">
-                        <div className="w-16 h-16 bg-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <CheckCircle className="w-8 h-8 text-green" />
+                    <div className="animate-in fade-in zoom-in duration-500">
+                        <div className="w-20 h-20 bg-[#D1FAE5] rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
+                            <CheckCircle className="w-10 h-10 text-[#0A4535]" />
                         </div>
-                        <h1 className="font-display text-3xl font-bold text-paper mb-3">Email verified</h1>
-                        <p className="text-paper/40 text-sm mb-8">Your account is now ready.</p>
-                        <Link href="/dashboard"><Button variant="primary" size="lg" fullWidth>Go to Dashboard</Button></Link>
+                        <h1 className="font-display text-4xl text-[#0A4535] mb-4">Verified!</h1>
+                        <p className="text-gray-500 text-base mb-10 font-medium">Your account is securely set up and ready to go.</p>
+                        <Link href="/dashboard">
+                            <button className="w-full bg-[#0A4535] hover:bg-[#073528] text-white font-medium text-base transition-colors py-4 rounded-full shadow-md">
+                                Go to Dashboard
+                            </button>
+                        </Link>
                     </div>
                 ) : (
-                    <>
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Mail className="w-8 h-8 text-gold" />
-                            </div>
-                            <h1 className="font-display text-3xl font-bold text-paper mb-2">Check your email</h1>
-                            <p className="text-paper/40 text-sm">
-                                We sent a 6-digit code to<br />
-                                <span className="text-paper font-medium">your@email.com</span>
-                            </p>
+                    <div className="animate-in fade-in duration-500">
+                        <div className="w-20 h-20 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm">
+                            <Mail className="w-8 h-8 text-[#0A4535]" />
                         </div>
+                        <h1 className="font-display text-3xl text-[#0A4535] mb-3">Check your email</h1>
+                        <p className="text-gray-500 text-sm font-medium mb-10">
+                            We sent a 6-digit verification code to<br />
+                            <span className="text-gray-900 font-bold mt-1 inline-block">hello@example.com</span>
+                        </p>
 
                         <form onSubmit={handleVerify}>
-                            <div className="flex justify-between gap-2 mb-8">
+                            <div className="flex justify-between gap-2 mb-10">
                                 {code.map((digit, index) => (
                                     <input
                                         key={index}
                                         ref={el => { inputRefs.current[index] = el; }}
                                         type="text"
                                         maxLength={1}
-                                        className="w-12 h-14 bg-base border border-paper/10 rounded-[4px] text-center text-xl font-mono text-paper focus:outline-none focus:border-gold transition-colors"
+                                        className="w-12 h-14 md:w-14 md:h-16 bg-gray-50 border border-gray-200 rounded-xl text-center text-2xl font-mono font-bold text-[#0A4535] focus:outline-none focus:border-[#0A4535] focus:ring-1 focus:ring-[#0A4535] transition-all shadow-inner"
                                         value={digit}
                                         onChange={(e) => handleChange(index, e.target.value)}
                                         onKeyDown={(e) => handleKeyDown(index, e)}
                                     />
                                 ))}
                             </div>
-                            <Button type="submit" variant="primary" size="lg" fullWidth>Verify Email</Button>
+                            <button 
+                                type="submit" 
+                                className="w-full bg-[#0A4535] hover:bg-[#073528] text-white font-medium text-base transition-colors py-4 rounded-full shadow-md"
+                            >
+                                Verify Email
+                            </button>
                         </form>
 
-                        <p className="text-center text-paper/30 text-sm mt-8">
+                        <p className="text-center text-gray-500 text-sm mt-8 font-medium">
                             Didn&apos;t receive the code?{' '}
-                            <button className="text-gold/70 hover:text-gold transition-colors font-medium">Resend</button>
+                            <button className="text-[#0A4535] hover:underline font-bold transition-colors">Resend</button>
                         </p>
-                    </>
+                    </div>
                 )}
             </div>
         </div>

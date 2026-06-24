@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { WishlistItem } from '@/lib/types';
 import { wishlistFlow } from '@/lib/giftFlow';
-import { X } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import GiftPlaceholder from '@/components/ui/GiftPlaceholder';
 
 export default function WishlistPage() {
     const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
@@ -30,71 +31,61 @@ export default function WishlistPage() {
     };
 
     if (loading) {
-        return <div className="text-paper/30 text-sm p-8 text-center">Loading your wishlist...</div>;
+        return <div className="text-gray-500 text-sm p-12 text-center">Loading your wishlist...</div>;
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto">
+        <div className="font-body pb-12">
             {/* Header */}
-            <div className="flex items-baseline gap-3 mb-8">
-                <h1 className="font-sans text-[22px] font-semibold text-[#F5F0E8]">Wishlist</h1>
-                <span className="font-sans text-[13px] text-[#6B6055]">{wishlist.length} items</span>
+            <div className="flex items-baseline gap-4 border-b border-gray-200 pb-6 mb-8">
+                <h1 className="text-3xl font-display text-[#0A4535]">Wishlist</h1>
+                <span className="text-gray-500 text-sm font-medium bg-white px-3 py-1 rounded-full shadow-sm">{wishlist.length} items</span>
             </div>
 
             {/* List / Empty State */}
             {wishlist.length === 0 ? (
-                <div className="text-center py-20 border border-[#1E1A14] bg-[#161210]" style={{ borderRadius: '4px' }}>
-                    <h2 className="font-sans text-[18px] text-[#F5F0E8] mb-2">Your wishlist is empty</h2>
-                    <p className="font-sans text-[14px] text-[#6B6055] mb-6">Browse the marketplace and save gifts you love.</p>
-                    <Link href="/marketplace" className="font-sans text-[14px] text-gold hover:text-gold/80 transition-colors">
-                        Browse Gifts &rarr;
+                <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                    <h2 className="text-xl font-display text-[#0A4535] mb-2">Your wishlist is empty</h2>
+                    <p className="text-gray-500 text-sm mb-6">Browse the marketplace and save gifts you love.</p>
+                    <Link href="/marketplace">
+                        <Button variant="primary">Browse Gifts</Button>
                     </Link>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {wishlist.map((item, index) => {
                         const isFeatured = index === 0;
-                        const cardClasses = isFeatured
-                            ? "md:col-span-2 md:row-span-2 group relative border border-[#1E1A14] bg-[#0A0806] hover:border-[#3A3020] transition-colors cursor-pointer flex flex-col"
-                            : "group relative border border-[#1E1A14] bg-[#0A0806] hover:border-[#3A3020] transition-colors cursor-pointer flex flex-col";
+                        const cardClasses = `group relative bg-white border border-gray-100 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col ${isFeatured ? 'md:col-span-2 md:row-span-2' : ''}`;
                         
                         return (
-                            <Link href={`/send-gift?id=${item.giftId}`} key={item.id} className={cardClasses} style={{ minHeight: isFeatured ? '480px' : '320px', borderRadius: '4px' }}>
+                            <Link href={`/send-gift?id=${item.giftId}`} key={item.id} className={cardClasses} style={{ minHeight: isFeatured ? '480px' : '320px' }}>
                                 {/* Hover Remove Button */}
                                 <button 
                                     onClick={(e) => removeFromWishlist(item.id, e)}
-                                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity font-sans text-[13px] text-[#4A4038] hover:text-[#C0292B] z-10"
+                                    className="absolute top-4 right-4 md:opacity-0 md:group-hover:opacity-100 transition-opacity bg-white/80 backdrop-blur text-gray-500 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full shadow-sm border border-gray-200 z-10"
+                                    aria-label="Remove from wishlist"
                                 >
                                     &times;
                                 </button>
                                 
-                                <div className="flex-1 flex flex-col p-6">
-                                    <div className="flex-1 flex items-center justify-center bg-[#111009] mb-6" style={{ borderRadius: '2px' }}>
-                                        {/* Mock image placeholder using geometric shapes per Phase 2 styling */}
-                                        <div className="w-16 h-16 border border-[#2E2820] flex items-center justify-center text-[#F5F0E8] font-mono text-[10px] tracking-widest bg-[#161210]">
-                                            {item.gift?.category?.substring(0,3).toUpperCase() || 'GFT'}
-                                        </div>
+                                <div className="flex-1 flex flex-col">
+                                    <div className="flex-1 flex items-center justify-center bg-gray-50 border-b border-gray-100 min-h-[160px]">
+                                        <GiftPlaceholder name={item.gift?.name || '?'} />
                                     </div>
-                                    <div className="mt-auto">
-                                        <div className="font-sans text-[12px] uppercase tracking-widest text-[#6B6055] mb-2">{item.gift?.category}</div>
+                                    <div className="p-6 mt-auto">
+                                        <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{item.gift?.category}</div>
                                         <div className="flex justify-between items-end gap-4 mb-4">
-                                            <h3 className={`font-sans font-medium text-[#F5F0E8] leading-snug ${isFeatured ? 'text-[24px]' : 'text-[16px]'}`}>
+                                            <h3 className={`font-display text-[#0A4535] leading-snug group-hover:text-[#0A4535]/70 transition-colors ${isFeatured ? 'text-3xl' : 'text-xl'}`}>
                                                 {item.gift?.name}
                                             </h3>
-                                            <div className="font-mono text-[#F5F0E8] whitespace-nowrap">
+                                        </div>
+                                        <div className="flex items-center justify-between mt-auto">
+                                            <div className={`font-mono text-gray-900 font-bold ${isFeatured ? 'text-3xl' : 'text-2xl'}`}>
                                                 {formatCurrency(item.gift?.price || 0, item.gift?.currency || 'USD')}
                                             </div>
-                                        </div>
-                                        <div className="flex items-center justify-between border-t border-[#1E1A14] pt-4 mt-auto">
-                                            <div className="font-sans text-[13px] text-gold opacity-0 group-hover:opacity-100 transition-opacity">
-                                                Send as Gift &rarr;
+                                            <div className="opacity-0 group-hover:opacity-100 transition-opacity md:translate-y-2 md:group-hover:translate-y-0 duration-300">
+                                                <span className="bg-[#0A4535] text-white px-4 py-2 rounded-full text-sm font-bold shadow-md whitespace-nowrap">Send &rarr;</span>
                                             </div>
-                                            <button 
-                                                onClick={(e) => removeFromWishlist(item.id, e)}
-                                                className="font-sans text-[12px] text-[#4A4038] hover:text-[#C0292B] opacity-0 group-hover:opacity-100 transition-all"
-                                            >
-                                                Remove from wishlist
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

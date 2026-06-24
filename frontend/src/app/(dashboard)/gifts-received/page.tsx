@@ -23,7 +23,6 @@ export default function GiftsReceivedPage() {
     };
 
     const handleConfirm = () => {
-        // In a real app, this would submit the choice
         if (selectedOrder) {
             setOrders(orders.map(o => o.id === selectedOrder.id ? { ...o, status: 'redeemed' } : o));
             setSelectedOrder(null);
@@ -32,77 +31,74 @@ export default function GiftsReceivedPage() {
     };
 
     if (loading) {
-        return <div className="text-paper/30 text-sm p-8 text-center">Loading your received gifts...</div>;
+        return <div className="text-gray-500 text-sm p-12 text-center">Loading your received gifts...</div>;
     }
 
     return (
-        <div className="p-8 max-w-7xl mx-auto relative">
+        <div className="font-body pb-12 relative">
             {/* Header Row */}
-            <div className="flex items-center justify-between pb-5 mb-8 border-b border-[#1E1A14]">
-                <h1 className="font-sans text-[22px] font-semibold text-[#F5F0E8]">Gifts Received</h1>
+            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200 pb-6 mb-8 gap-4">
+                <h1 className="text-3xl font-display text-[#0A4535]">Gifts Received</h1>
             </div>
 
             {/* List / Empty State */}
             {orders.length === 0 ? (
-                <div className="text-center py-20 border border-[#1E1A14] bg-[#161210]" style={{ borderRadius: '4px' }}>
-                    <h2 className="font-sans text-[18px] text-[#F5F0E8] mb-2">No gifts received yet</h2>
-                    <p className="font-sans text-[14px] text-[#6B6055] mb-6">Find something meaningful in the marketplace.</p>
-                    <Link href="/marketplace" className="font-sans text-[14px] text-gold hover:text-gold/80 transition-colors">
-                        Browse Gifts &rarr;
+                <div className="text-center py-20 bg-white border border-gray-100 rounded-3xl shadow-sm">
+                    <h2 className="text-xl font-display text-[#0A4535] mb-2">No gifts received yet</h2>
+                    <p className="text-gray-500 text-sm mb-6">Find something meaningful in the marketplace.</p>
+                    <Link href="/marketplace" className="inline-block bg-[#0A4535] text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md hover:bg-[#073528] transition-colors">
+                        Browse Gifts
                     </Link>
                 </div>
             ) : (
-                <div className="flex flex-col">
+                <div className="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden divide-y divide-gray-100">
                     {orders.map((order) => {
                         const status = order.status || 'pending';
                         
                         let statusUI = null;
                         if (status === 'pending') {
-                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#B8922A] text-[#B8922A] bg-[#1A1410] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Pending</span>;
+                            statusUI = <span className="text-xs font-bold uppercase tracking-widest bg-amber-100 text-amber-800 px-3 py-1.5 rounded-full shadow-sm border border-amber-200">Pending</span>;
                         } else if (status === 'delivered' || status === 'sent') {
-                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#2A4A35] text-[#4A8A65] bg-[#111A13] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Delivered</span>;
+                            statusUI = <span className="text-xs font-bold uppercase tracking-widest bg-blue-100 text-blue-800 px-3 py-1.5 rounded-full shadow-sm border border-blue-200">Delivered</span>;
                         } else if (status === 'redeemed' || status === 'claimed') {
-                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide border border-[#1E2A1E] text-[#6B6055] px-[10px] py-[3px]" style={{ borderRadius: '2px' }}>Claimed</span>;
+                            statusUI = <span className="text-xs font-bold uppercase tracking-widest bg-[#D1FAE5] text-[#0A4535] px-3 py-1.5 rounded-full shadow-sm border border-emerald-200">Claimed</span>;
                         } else {
-                            statusUI = <span className="font-sans text-[11px] uppercase tracking-wide text-[#3A342E] px-[10px] py-[3px]">Expired</span>;
+                            statusUI = <span className="text-xs font-bold uppercase tracking-widest bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full shadow-sm border border-gray-200">Expired</span>;
                         }
 
-                        // Determine "YOUR CHOICE" based on mock redemption or status
                         let choice = "—";
                         if (status === 'redeemed') {
                             choice = "Kept item";
                         }
 
-                        // Mock sender data since Order type doesn't have senderName directly (wait, it has recipientName, senderId)
-                        // Actually, we'll mock the sender name as "Michael Chen" for display purposes if not present
                         const senderName = "Michael Chen";
                         const senderCountry = "United States";
 
                         return (
                             <div 
                                 key={order.id} 
-                                className="group flex items-center justify-between py-5 border-b border-[#1A1510] hover:bg-[#0F0D0C] transition-colors -mx-4 px-4 cursor-pointer"
+                                className="group flex flex-col md:flex-row md:items-center justify-between p-6 hover:bg-gray-50 transition-colors gap-4 cursor-pointer"
                                 onClick={() => setSelectedOrder(order)}
                             >
-                                <div className="grid grid-cols-5 w-full items-center">
-                                    <div className="col-span-1">
-                                        <div className="font-sans text-[15px] font-medium text-[#F5F0E8] mb-1">{senderName}</div>
-                                        <div className="font-sans text-[12px] text-[#6B6055]">{senderCountry}</div>
+                                <div className="grid grid-cols-1 md:grid-cols-5 w-full items-center gap-4">
+                                    <div className="md:col-span-1">
+                                        <div className="text-[#0A4535] text-base font-semibold mb-1">{senderName}</div>
+                                        <div className="text-gray-500 text-sm">{senderCountry}</div>
                                     </div>
-                                    <div className="col-span-1">
-                                        <div className="font-sans text-[14px] text-[#C4B99A] mb-1">{order.gift?.name || 'Gift'}</div>
-                                        <div className="font-sans text-[12px] text-[#6B6055]">{new Date(order.createdAt).toLocaleDateString()}</div>
+                                    <div className="md:col-span-1">
+                                        <div className="text-gray-700 font-medium text-sm mb-1 truncate pr-4">{order.gift?.name || 'Gift'}</div>
+                                        <div className="text-gray-400 text-xs">{new Date(order.createdAt).toLocaleDateString()}</div>
                                     </div>
-                                    <div className="col-span-1">
-                                        <div className="font-mono text-[16px] text-[#F5F0E8]">{formatCurrency(order.gift?.price || 0, order.gift?.currency || 'USD')}</div>
+                                    <div className="md:col-span-1">
+                                        <div className="font-mono text-gray-900 font-bold text-lg">{formatCurrency(order.gift?.price || 0, order.gift?.currency || 'USD')}</div>
                                     </div>
-                                    <div className="col-span-1">
-                                        <div className="font-sans text-[13px] text-[#6B6055]">{choice}</div>
+                                    <div className="md:col-span-1">
+                                        <div className="text-gray-500 text-sm font-medium">{choice}</div>
                                     </div>
-                                    <div className="col-span-1 flex items-center justify-between">
+                                    <div className="md:col-span-1 flex items-center justify-between md:justify-end gap-4 w-full">
                                         <div>{statusUI}</div>
-                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="font-sans text-[13px] text-gold">
+                                        <div className="opacity-0 group-hover:opacity-100 transition-opacity md:block hidden">
+                                            <span className="text-[#0A4535] font-bold text-sm hover:underline">
                                                 View &rarr;
                                             </span>
                                         </div>
@@ -116,44 +112,42 @@ export default function GiftsReceivedPage() {
 
             {/* Redemption Modal */}
             {selectedOrder && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-                    <div 
-                        className="w-full max-w-[560px] bg-[#1C1814] border border-[#2E2820] relative"
-                        style={{ borderRadius: '4px', padding: '40px 44px' }}
-                    >
-                        {/* Close button */}
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+                    <div className="w-full max-w-[560px] bg-white shadow-2xl rounded-3xl relative overflow-hidden p-8 md:p-12">
+                        <div className="absolute top-0 left-0 w-full h-1.5 bg-[#0A4535]"></div>
+                        
                         <button 
-                            className="absolute top-4 right-5 text-[#6B6055] hover:text-[#F5F0E8] transition-colors text-xl font-light"
+                            className="absolute top-6 right-6 text-gray-400 hover:text-gray-700 transition-colors bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center"
                             onClick={() => setSelectedOrder(null)}
                         >
                             &times;
                         </button>
 
-                        <div className="mb-2 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                            <span className="font-sans text-[11px] uppercase tracking-widest font-semibold text-gold">GIFT RECEIVED</span>
+                        <div className="mb-2 flex items-center gap-2 mt-2">
+                            <span className="w-2 h-2 rounded-full bg-[#0A4535]"></span>
+                            <span className="text-xs uppercase tracking-widest font-bold text-[#0A4535]">GIFT RECEIVED</span>
                         </div>
-                        <div className="font-sans text-[15px] text-[#9A8E7A] mb-1">A gift from Michael Chen</div>
-                        <div className="font-sans text-[22px] font-semibold text-[#F5F0E8] mb-6">Michael Chen</div>
+                        <div className="text-sm text-gray-500 mb-1 font-medium">A gift from Michael Chen</div>
+                        <div className="text-3xl font-display text-[#0A4535] mb-6">Michael Chen</div>
 
-                        <div className="h-[1px] bg-[#2E2820] my-6 w-full"></div>
+                        <div className="h-px bg-gray-200 my-6 w-full"></div>
 
                         <div className="flex justify-between items-center mb-3">
-                            <span className="font-sans text-[13px] text-[#6B6055]">Item</span>
-                            <span className="font-sans text-[15px] text-[#F5F0E8]">{selectedOrder.gift?.name || 'Gift'}</span>
+                            <span className="text-sm text-gray-500 font-medium">Item</span>
+                            <span className="text-base text-gray-900 font-semibold">{selectedOrder.gift?.name || 'Gift'}</span>
                         </div>
                         <div className="flex justify-between items-center mb-6">
-                            <span className="font-sans text-[13px] text-[#6B6055]">Value</span>
-                            <span className="font-mono text-[16px] text-[#F5F0E8]">{formatCurrency(selectedOrder.gift?.price || 0, selectedOrder.gift?.currency || 'USD')}</span>
+                            <span className="text-sm text-gray-500 font-medium">Value</span>
+                            <span className="font-mono text-xl text-gray-900 font-bold">{formatCurrency(selectedOrder.gift?.price || 0, selectedOrder.gift?.currency || 'USD')}</span>
                         </div>
 
-                        <div className="h-[1px] bg-[#2E2820] my-6 w-full"></div>
+                        <div className="h-px bg-gray-200 my-6 w-full"></div>
 
-                        <div className="font-sans text-[11px] uppercase tracking-widest font-semibold text-[#6B6055] mb-4">
+                        <div className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-4">
                             CHOOSE HOW TO RECEIVE
                         </div>
 
-                        <div className="flex flex-col mb-6">
+                        <div className="flex flex-col mb-6 gap-3">
                             {[
                                 { id: 'physical', title: `Accept the ${selectedOrder.gift?.name || 'item'}`, detail: 'Physical delivery', isMono: false },
                                 { id: 'cash', title: `Take $${selectedOrder.gift?.price || 0} as cash`, detail: `${formatCurrency(selectedOrder.gift?.price || 0, 'USD')}`, isMono: true },
@@ -162,33 +156,31 @@ export default function GiftsReceivedPage() {
                                 <button
                                     key={opt.id}
                                     onClick={() => setRedemptionOption(opt.id)}
-                                    className={`w-full flex items-center justify-between text-left transition-colors mb-[10px] last:mb-0 border ${
+                                    className={`w-full flex items-center justify-between text-left transition-all border p-5 rounded-2xl ${
                                         redemptionOption === opt.id 
-                                            ? 'bg-[#1A1610] border-[#B8922A]' 
-                                            : 'bg-[#161210] border-[#2E2820] hover:border-[#3A3020]'
+                                            ? 'bg-[#F4F0EB] border-[#0A4535] shadow-sm' 
+                                            : 'bg-white border-gray-200 hover:border-[#0A4535]'
                                     }`}
-                                    style={{ padding: '18px 20px', borderRadius: '3px' }}
                                 >
-                                    <span className="font-sans text-[14px] text-[#F5F0E8] font-medium">{opt.title}</span>
+                                    <span className="text-sm text-gray-900 font-bold">{opt.title}</span>
                                     {opt.isMono ? (
-                                        <span className="font-mono text-[14px] text-[#B8922A]">{opt.detail}</span>
+                                        <span className="font-mono text-sm font-bold text-gray-600">{opt.detail}</span>
                                     ) : (
-                                        <span className="font-sans text-[12px] text-[#6B6055]">{opt.detail}</span>
+                                        <span className="text-xs text-gray-500 font-medium">{opt.detail}</span>
                                     )}
                                 </button>
                             ))}
                         </div>
 
                         <button 
-                            className="w-full bg-[#C0292B] hover:bg-[#A32325] text-white font-sans text-[15px] font-medium transition-colors"
-                            style={{ padding: '14px', borderRadius: '3px' }}
+                            className="w-full bg-[#0A4535] hover:bg-[#073528] text-white font-medium text-base transition-colors py-4 rounded-full shadow-md"
                             onClick={handleConfirm}
                         >
                             Confirm My Choice
                         </button>
                         
-                        <div className="text-center mt-3">
-                            <span className="font-sans text-[12px] text-[#4A4038]">Once confirmed, this cannot be changed.</span>
+                        <div className="text-center mt-4">
+                            <span className="text-xs font-medium text-gray-400">Once confirmed, this cannot be changed.</span>
                         </div>
                     </div>
                 </div>
