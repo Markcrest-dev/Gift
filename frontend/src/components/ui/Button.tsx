@@ -15,11 +15,11 @@ export default function Button({
     className = '',
     ...props
 }: ButtonProps) {
-    const base = 'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 rounded-[4px] whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed';
+    const base = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 rounded-full whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-        primary: 'bg-red text-paper hover:bg-red/90',
-        ghost: 'bg-transparent border border-gold text-gold hover:bg-gold/5',
+        primary: 'bg-[#0A4535] text-white hover:bg-[#073528] shadow-md hover:shadow-lg',
+        ghost: 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm',
     };
 
     const sizes = {

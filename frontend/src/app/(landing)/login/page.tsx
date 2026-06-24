@@ -25,27 +25,28 @@ export default function LoginPage() {
         }
     };
 
-    const inputClass = "w-full bg-[#111009] border border-[#2E2820] text-[#F5F0E8] font-sans text-[14px] placeholder-[#3A342E] focus:outline-none focus:border-[#B8922A] transition-colors";
-    const inputStyle = { borderRadius: '3px', padding: '11px 14px' };
+    const inputClass = "w-full bg-gray-50 border border-gray-200 text-gray-900 font-body text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#0A4535] focus:ring-1 focus:ring-[#0A4535] transition-all placeholder-gray-400";
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0A0806] px-4">
-            <div className="bg-[#1C1814] border border-[#1E1A14] w-full max-w-[420px]" style={{ borderRadius: '4px', padding: '48px 52px' }}>
+        <div className="min-h-screen flex items-center justify-center bg-[#F4F0EB] px-4 font-body py-12">
+            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl w-full max-w-[440px] p-8 md:p-12 relative overflow-hidden">
+                {/* Decorative Top Accent */}
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-[#0A4535]"></div>
                 
                 {/* Logo/Wordmark */}
-                <div className="flex justify-center items-center gap-2 mb-8">
-                    <Gift className="w-5 h-5 text-gold" />
-                    <span className="font-sans text-[16px] font-semibold text-[#F5F0E8]">Global Gift Exchange</span>
+                <div className="flex justify-center items-center gap-2 mb-8 mt-2">
+                    <Gift className="w-6 h-6 text-[#0A4535]" />
+                    <span className="font-display text-xl font-medium text-[#0A4535]">Gift<span className="text-[#0A4535]/70">Exchange</span></span>
                 </div>
 
                 {/* Headers */}
                 <div className="text-center mb-8">
-                    <h1 className="font-display text-[36px] text-[#F5F0E8] mb-1">Welcome back</h1>
-                    <p className="font-sans text-[15px] text-[#6B6055]">Sign in to your account.</p>
+                    <h1 className="font-display text-3xl md:text-4xl text-[#0A4535] mb-3">Welcome back</h1>
+                    <p className="text-gray-500 text-sm md:text-base">Enter your details to access your dashboard.</p>
                 </div>
 
                 {error && (
-                    <div className="border border-[#C0292B] bg-[#C0292B]/10 text-[#C0292B] px-4 py-3 mb-6 font-sans text-[14px] text-center" style={{ borderRadius: '3px' }}>
+                    <div className="border border-red-200 bg-red-50 text-red-600 px-4 py-3 mb-6 text-sm text-center rounded-xl font-medium">
                         {error}
                     </div>
                 )}
@@ -55,7 +56,6 @@ export default function LoginPage() {
                         <input
                             type="email"
                             className={inputClass}
-                            style={inputStyle}
                             placeholder="Email address"
                             required
                             value={formData.email}
@@ -66,14 +66,13 @@ export default function LoginPage() {
                         <input
                             type="password"
                             className={inputClass}
-                            style={inputStyle}
                             placeholder="Password"
                             required
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
                         <div className="flex justify-end mt-2">
-                            <Link href="/forgot-password" className="font-sans text-[13px] text-gold hover:text-gold/80 transition-colors">
+                            <Link href="/forgot-password" className="text-sm text-[#0A4535] font-medium hover:underline transition-colors">
                                 Forgot password?
                             </Link>
                         </div>
@@ -82,22 +81,21 @@ export default function LoginPage() {
                     <button 
                         type="submit" 
                         disabled={loading}
-                        className="w-full bg-[#B8922A] hover:bg-[#9A7A23] text-[#0A0806] font-sans text-[15px] font-medium transition-colors disabled:opacity-50 mt-2"
-                        style={{ padding: '12px', borderRadius: '3px' }}
+                        className="w-full bg-[#0A4535] hover:bg-[#073528] text-white font-medium text-base transition-colors disabled:opacity-50 mt-4 py-3.5 rounded-full shadow-md"
                     >
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                 </form>
 
-                <div className="flex items-center gap-4 my-8">
-                    <div className="flex-1 h-[1px] bg-[#1E1A14]"></div>
-                    <span className="font-sans text-[12px] text-[#4A4038] uppercase tracking-widest">or</span>
-                    <div className="flex-1 h-[1px] bg-[#1E1A14]"></div>
+                <div className="flex items-center gap-4 my-8 opacity-60">
+                    <div className="flex-1 h-[1px] bg-gray-200"></div>
+                    <span className="text-xs text-gray-500 uppercase tracking-widest font-semibold">or</span>
+                    <div className="flex-1 h-[1px] bg-gray-200"></div>
                 </div>
 
                 <div className="text-center">
-                    <Link href="/signup" className="font-sans text-[14px] text-gold hover:text-gold/80 transition-colors">
-                        Don&apos;t have an account? Start giving &rarr;
+                    <Link href="/signup" className="text-sm text-gray-600 hover:text-[#0A4535] font-medium transition-colors">
+                        Don&apos;t have an account? <span className="text-[#0A4535] font-bold">Start giving &rarr;</span>
                     </Link>
                 </div>
             </div>
