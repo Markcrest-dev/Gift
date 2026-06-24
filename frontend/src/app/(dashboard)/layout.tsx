@@ -28,11 +28,11 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="flex min-h-screen bg-base">
+        <div className="flex min-h-screen bg-[var(--color-base)] font-body">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
-            <main className="flex-1 lg:ml-[260px] h-screen overflow-y-auto p-6 md:p-10 pt-[calc(60px+1.5rem)] lg:pt-10">
-                <div className="max-w-[1200px] mx-auto">
+            <main className="flex-1 lg:ml-[280px] h-screen overflow-y-auto p-4 sm:p-6 lg:p-10 pt-[calc(70px+1.5rem)] lg:pt-10 transition-all duration-300">
+                <div className="max-w-[1200px] mx-auto pb-12">
                     {children}
                 </div>
             </main>
