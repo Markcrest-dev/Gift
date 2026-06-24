@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -32,43 +33,27 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="auth-container">
-            <div className="auth-card fade-in-up">
-                <div className="auth-header">
-                    <div className="auth-logo"><i className="fas fa-gift"></i></div>
-                    <h1 className="auth-title">Welcome Back!</h1>
-                    <p className="auth-subtitle">Login to continue spreading joy</p>
-                </div>
-
-                <div className="social-auth">
-                    <button className="social-btn">
-                        <span><i className="fab fa-google"></i></span>
-                        <span>Google</span>
-                    </button>
-                    <button className="social-btn">
-                        <span><i className="fab fa-facebook"></i></span>
-                        <span>Facebook</span>
-                    </button>
-                </div>
-
-                <div className="divider-text">
-                    <span>or login with email</span>
+        <div className="min-h-screen flex items-center justify-center bg-base px-4 py-16">
+            <div className="bg-surface rounded-lg max-w-[420px] w-full p-8 md:p-10">
+                <div className="text-center mb-8">
+                    <h1 className="font-display text-3xl font-bold text-paper mb-2">Welcome back</h1>
+                    <p className="text-paper/40 text-sm">Sign in to your account</p>
                 </div>
 
                 {error && (
-                    <div className="alert alert-error mb-md" style={{ color: '#ff4444', background: '#fff0f0', padding: 'var(--space-md)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+                    <div className="bg-red/10 border border-red/20 rounded-[4px] px-4 py-3 mb-6 text-red text-sm">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} id="loginForm">
-                    <div className="form-group">
-                        <label htmlFor="email" className="form-label">Email Address</label>
+                    <div className="mb-5">
+                        <label htmlFor="email" className="block text-paper/60 text-sm font-medium mb-2">Email</label>
                         <input
                             type="email"
                             id="email"
-                            className="form-input"
-                            placeholder="your@email.com"
+                            className="w-full bg-base border border-paper/10 rounded-[4px] px-4 py-3 text-paper text-sm placeholder:text-paper/20 focus:outline-none focus:border-gold transition-colors duration-150"
+                            placeholder="you@example.com"
                             required
                             autoComplete="email"
                             value={formData.email}
@@ -76,13 +61,13 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <div className="input-group" style={{ position: 'relative' }}>
+                    <div className="mb-5">
+                        <label htmlFor="password" className="block text-paper/60 text-sm font-medium mb-2">Password</label>
+                        <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id="password"
-                                className="form-input"
+                                className="w-full bg-base border border-paper/10 rounded-[4px] px-4 py-3 pr-11 text-paper text-sm placeholder:text-paper/20 focus:outline-none focus:border-gold transition-colors duration-150"
                                 placeholder="Enter your password"
                                 required
                                 autoComplete="current-password"
@@ -91,30 +76,31 @@ export default function LoginPage() {
                             />
                             <button
                                 type="button"
-                                className="password-toggle"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-paper/30 hover:text-paper/60 transition-colors"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
                         </div>
                     </div>
 
-                    <div className="remember-forgot">
-                        <label className="form-checkbox-label">
-                            <input type="checkbox" className="form-checkbox" id="remember" />
-                            <span>Remember me</span>
+                    <div className="flex justify-between items-center mb-8">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" className="w-3.5 h-3.5 accent-gold rounded" id="remember" />
+                            <span className="text-paper/40 text-sm">Remember me</span>
                         </label>
-                        <Link href="/forgot-password" className="forgot-link">Forgot password?</Link>
+                        <Link href="/forgot-password" className="text-gold/70 text-sm hover:text-gold transition-colors">Forgot password?</Link>
                     </div>
 
-                    <Button type="submit" fullWidth className="mt-xl" size="lg" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login'}
+                    <Button type="submit" fullWidth size="lg" disabled={loading}>
+                        {loading ? 'Signing in...' : 'Sign In'}
                     </Button>
                 </form>
 
-                <div className="auth-footer">
-                    Don&apos;t have an account? <Link href="/signup">Sign up here</Link>
-                </div>
+                <p className="text-center text-paper/30 text-sm mt-8">
+                    Don&apos;t have an account?{' '}
+                    <Link href="/signup" className="text-gold/70 hover:text-gold transition-colors font-medium">Create one</Link>
+                </p>
             </div>
         </div>
     );

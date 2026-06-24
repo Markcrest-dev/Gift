@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Order } from '@/lib/types';
 import { giftFlow } from '@/lib/giftFlow';
+import Button from '@/components/ui/Button';
 
 export default function GiftsSentPage() {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -21,13 +22,11 @@ export default function GiftsSentPage() {
         ? orders
         : orders.filter(order => order.status === filter);
 
-    const getStatusColor = (status: string) => {
+    const statusStyle = (status: string) => {
         switch (status) {
-            case 'pending': return 'badge-warning';
-            case 'sent': return 'badge-info';
-            case 'received': return 'badge-info';
-            case 'redeemed': return 'badge-success';
-            default: return 'badge-secondary';
+            case 'pending': case 'sent': return 'bg-gold/10 text-gold';
+            case 'redeemed': return 'bg-green/15 text-green';
+            default: return 'bg-paper/5 text-paper/40';
         }
     };
 
@@ -36,77 +35,76 @@ export default function GiftsSentPage() {
     };
 
     if (loading) {
-        return <div className="p-xl text-center">Loading your sent gifts...</div>;
+        return <div className="text-paper/30 text-sm py-16 text-center">Loading your sent gifts...</div>;
     }
+
+    const filters = ['all', 'pending', 'sent', 'redeemed'];
 
     return (
         <>
-            <div className="page-header fade-in-up">
-                <h1 className="page-title">Gifts Sent</h1>
-                <p className="page-subtitle">Track all the gifts you&apos;ve sent to others</p>
+            <div className="mb-8">
+                <h1 className="font-display text-3xl font-bold text-paper mb-2">Gifts Sent</h1>
+                <p className="text-paper/40 text-sm">Track all the gifts you&apos;ve sent</p>
             </div>
 
-            <div className="gifts-table fade-in-up">
-                <div className="table-header">
-                    <div className="filter-tabs">
-                        {['all', 'pending', 'sent', 'redeemed'].map((f) => (
-                            <button
-                                key={f}
-                                className={`filter-tab ${filter === f ? 'active' : ''} capitalize`}
-                                onClick={() => setFilter(f)}
-                            >
-                                {f}
-                            </button>
-                        ))}
-                    </div>
-                    <div>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
-                            {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''}
-                        </span>
-                    </div>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <div className="flex gap-1">
+                    {filters.map((f) => (
+                        <button
+                            key={f}
+                            className={`px-3 py-1.5 text-sm rounded-[4px] capitalize transition-colors ${
+                                filter === f ? 'bg-gold/10 text-gold' : 'text-paper/35 hover:text-paper/60'
+                            }`}
+                            onClick={() => setFilter(f)}
+                        >
+                            {f}
+                        </button>
+                    ))}
                 </div>
+                <span className="text-paper/25 text-sm">
+                    {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''}
+                </span>
+            </div>
 
-                <div id="giftsContainer">
-                    {filteredOrders.length === 0 ? (
-                        <div className="empty-state">
-                            <div className="empty-icon"><i className="fas fa-paper-plane"></i></div>
-                            <h3 className="empty-title">No gifts {filter !== 'all' ? filter : 'sent yet'}</h3>
-                            <p className="empty-text">
-                                {filter === 'all'
-                                    ? 'Start spreading joy by sending gifts to your friends and family!'
-                                    : `You don't have any ${filter} gifts.`}
-                            </p>
-                            {filter === 'all' && <Link href="/marketplace" className="btn btn-primary">Browse Gifts</Link>}
-                        </div>
-                    ) : (
-                        filteredOrders.map((order) => (
-                            <div key={order.id} className="gift-item">
-                                <div style={{ fontSize: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', background: 'var(--cream)', borderRadius: 'var(--radius-md)' }}>
-                                    {order.gift?.emoji || '🎁'}
-                                </div>
-                                <div className="gift-details">
-                                    <div className="gift-name">{order.gift?.name || 'Gift'}</div>
-                                    <div className="gift-meta">
-                                        <div className="meta-item"><span>To:</span> <span>{order.recipientName}</span></div>
-                                        <div className="meta-item"><span>Email:</span> <span>{order.recipientEmail}</span></div>
-                                        <div className="meta-item"><span>Date:</span> <span>{new Date(order.createdAt).toLocaleDateString()}</span></div>
-                                        <div className="meta-item"><span>Total:</span> <span>{formatCurrency(order.totalAmount, 'USD')}</span></div>
-                                    </div>
-                                    <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center', marginTop: 'var(--space-sm)' }}>
-                                        <span className={`badge ${getStatusColor(order.status)} uppercase`}>{order.status}</span>
-                                        <span className="tracking-code">ID: {order.id.slice(0, 8)}</span>
-                                    </div>
-                                    {order.message && (
-                                        <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-md)', background: 'var(--cream)', borderRadius: 'var(--radius-md)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-                                            &quot;{order.message}&quot;
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        ))
+            {filteredOrders.length === 0 ? (
+                <div className="text-center py-16">
+                    <p className="text-paper/30 text-sm mb-4">
+                        {filter === 'all' ? 'No gifts sent yet' : `No ${filter} gifts`}
+                    </p>
+                    {filter === 'all' && (
+                        <Link href="/marketplace">
+                            <Button variant="primary" size="sm">Browse Gifts</Button>
+                        </Link>
                     )}
                 </div>
-            </div>
+            ) : (
+                <div className="space-y-0">
+                    {filteredOrders.map((order) => (
+                        <div key={order.id} className="flex items-start gap-4 py-5 border-b border-paper/5 last:border-b-0">
+                            <div className="w-14 h-14 rounded-lg bg-surface flex items-center justify-center text-2xl shrink-0">
+                                {order.gift?.emoji || '🎁'}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-paper text-sm font-medium">{order.gift?.name || 'Gift'}</p>
+                                <div className="flex flex-wrap gap-x-4 gap-y-0.5 mt-1">
+                                    <span className="text-paper/30 text-xs">To: {order.recipientName}</span>
+                                    <span className="text-paper/30 text-xs">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                    <span className="font-mono text-paper/50 text-xs">{formatCurrency(order.totalAmount, 'USD')}</span>
+                                </div>
+                                {order.message && (
+                                    <p className="text-paper/20 text-xs mt-2 italic">&ldquo;{order.message}&rdquo;</p>
+                                )}
+                            </div>
+                            <div className="flex flex-col items-end gap-1.5 shrink-0">
+                                <span className={`text-xs font-medium px-2.5 py-1 rounded-full capitalize ${statusStyle(order.status)}`}>
+                                    {order.status}
+                                </span>
+                                <span className="font-mono text-paper/15 text-xs">{order.id.slice(0, 8)}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </>
     );
 }

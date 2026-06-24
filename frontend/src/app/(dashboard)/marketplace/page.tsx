@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { Gift } from '@/lib/types';
 import { giftsApi } from '@/lib/giftFlow';
+import { Search, Grid3X3, List } from 'lucide-react';
 
 const CATEGORIES = ['electronics', 'fashion', 'toys', 'experiences', 'gift-cards', 'home', 'books'];
 
@@ -47,112 +48,115 @@ export default function MarketplacePage() {
 
     return (
         <>
-            <div className="marketplace-container page-transition">
-                <div className="marketplace-header text-center fade-in-up">
-                    <h1 className="marketplace-title">Gift Marketplace <i className="fas fa-gift"></i></h1>
-                    <p className="marketplace-subtitle">Discover the perfect gift for your loved ones</p>
+            <div className="mb-8">
+                <h1 className="font-display text-3xl font-bold text-paper mb-2">Marketplace</h1>
+                <p className="text-paper/40 text-sm">Find the perfect gift for anyone, anywhere</p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+                <div className="flex-1 relative">
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-paper/25" />
+                    <input
+                        type="text"
+                        className="w-full bg-surface border border-paper/10 rounded-[4px] pl-10 pr-4 py-2.5 text-paper text-sm placeholder:text-paper/20 focus:outline-none focus:border-gold transition-colors"
+                        placeholder="Search gifts..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                 </div>
-
-                <div className="marketplace-controls fade-in-up">
-                    <div className="search-bar">
-                        <span className="search-icon"><i className="fas fa-search"></i></span>
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search for gifts..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="view-toggle">
-                        <button className={`view-btn ${view === 'grid' ? 'active' : ''}`} onClick={() => setView('grid')} title="Grid View">
-                            <i className="fas fa-th"></i>
-                        </button>
-                        <button className={`view-btn ${view === 'list' ? 'active' : ''}`} onClick={() => setView('list')} title="List View">
-                            <i className="fas fa-list"></i>
-                        </button>
-                    </div>
+                <div className="flex gap-2">
+                    <button
+                        className={`p-2.5 rounded-[4px] border transition-colors ${view === 'grid' ? 'border-gold/40 text-gold' : 'border-paper/10 text-paper/30 hover:text-paper/50'}`}
+                        onClick={() => setView('grid')}
+                    >
+                        <Grid3X3 className="w-4 h-4" />
+                    </button>
+                    <button
+                        className={`p-2.5 rounded-[4px] border transition-colors ${view === 'list' ? 'border-gold/40 text-gold' : 'border-paper/10 text-paper/30 hover:text-paper/50'}`}
+                        onClick={() => setView('list')}
+                    >
+                        <List className="w-4 h-4" />
+                    </button>
                 </div>
+            </div>
 
-                <div className="marketplace-content">
-                    <aside className="filters-sidebar">
-                        <div className="filters-header">
-                            <h2 className="filters-title">Filters</h2>
-                            <span className="filters-clear" onClick={() => setActiveCategory('')}>Clear All</span>
-                        </div>
-
-                        <div className="filter-group">
-                            <h3 className="filter-group-title">Category</h3>
-                            {CATEGORIES.map(cat => (
-                                <label key={cat} className="filter-option">
-                                    <input
-                                        type="checkbox"
-                                        className="filter-checkbox"
-                                        checked={activeCategory === cat}
-                                        onChange={() => toggleCategory(cat)}
-                                    />
-                                    <span className="capitalize">{cat.replace('-', ' ')}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </aside>
-
-                    <div className="products-main">
-                        <div className="products-header">
-                            <span className="products-count">
-                                {loading ? 'Loading products...' : `${products.length} items found`}
-                            </span>
-                            <select className="sort-select" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                                <option value="featured">Featured</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                                <option value="rating">Highest Rated</option>
-                                <option value="newest">Newest First</option>
-                            </select>
-                        </div>
-
-                        {loading ? (
-                            <div className={`products-grid ${view === 'list' ? 'list-view' : ''}`}>
-                                {[1, 2, 3, 4, 5, 6].map(i => (
-                                    <div key={i} className="card">
-                                        <div className="skeleton" style={{ height: '12rem', width: '100%', background: '#e5e7eb' }}></div>
-                                        <div className="card-body">
-                                            <div className="skeleton" style={{ height: '1.5rem', width: '75%', background: '#e5e7eb', marginBottom: 'var(--space-sm)' }}></div>
-                                            <div className="skeleton" style={{ height: '1rem', width: '50%', background: '#e5e7eb' }}></div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : products.length === 0 ? (
-                            <div className="no-results">
-                                <div className="no-results-icon"><i className="fas fa-frown"></i></div>
-                                <h3>No gifts found</h3>
-                                <p>Try adjusting your filters or search terms</p>
-                            </div>
-                        ) : (
-                            <div className={`products-grid ${view === 'list' ? 'list-view' : ''}`}>
-                                {products.map(product => (
-                                    <Link key={product.id} href={`/gift/${product.id}`} className="product-card-link">
-                                        <div className={`card ${view === 'list' ? 'product-card-list' : ''}`}>
-                                            <div className="product-card-emoji">
-                                                {product.emoji || '🎁'}
-                                            </div>
-                                            <div className="card-body product-card-body">
-                                                <h3 className="product-card-name">{product.name}</h3>
-                                                <div className="product-card-rating">
-                                                    <i className="fas fa-star"></i>
-                                                    <span>{product.rating}</span>
-                                                    <span className="product-card-reviews">({product.reviews})</span>
-                                                </div>
-                                                <div className="product-card-price">{formatCurrency(product.price)}</div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
+            <div className="flex flex-col lg:flex-row gap-8">
+                <aside className="lg:w-[200px] shrink-0">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-paper/60 text-xs font-medium uppercase tracking-wider">Categories</h2>
+                        {activeCategory && (
+                            <button className="text-gold/60 text-xs hover:text-gold transition-colors" onClick={() => setActiveCategory('')}>Clear</button>
                         )}
                     </div>
+                    <div className="flex flex-wrap lg:flex-col gap-1.5">
+                        {CATEGORIES.map(cat => (
+                            <button
+                                key={cat}
+                                className={`text-left text-sm px-3 py-1.5 rounded-[4px] capitalize transition-colors ${
+                                    activeCategory === cat ? 'bg-gold/10 text-gold' : 'text-paper/40 hover:text-paper/60 hover:bg-paper/3'
+                                }`}
+                                onClick={() => toggleCategory(cat)}
+                            >
+                                {cat.replace('-', ' ')}
+                            </button>
+                        ))}
+                    </div>
+                </aside>
+
+                <div className="flex-1">
+                    <div className="flex justify-between items-center mb-4">
+                        <span className="text-paper/30 text-sm">
+                            {loading ? 'Loading...' : `${products.length} items`}
+                        </span>
+                        <select
+                            className="bg-surface border border-paper/10 rounded-[4px] px-3 py-1.5 text-paper/60 text-sm focus:outline-none focus:border-gold transition-colors"
+                            value={sortBy}
+                            onChange={(e) => setSortBy(e.target.value)}
+                        >
+                            <option value="featured">Featured</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+
+                    {loading ? (
+                        <div className={`grid ${view === 'list' ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'} gap-3`}>
+                            {[1, 2, 3, 4, 5, 6].map(i => (
+                                <div key={i} className="bg-surface rounded-lg overflow-hidden animate-pulse">
+                                    <div className="h-36 bg-paper/3" />
+                                    <div className="p-4">
+                                        <div className="h-4 bg-paper/5 rounded mb-2 w-3/4" />
+                                        <div className="h-3 bg-paper/5 rounded w-1/2" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : products.length === 0 ? (
+                        <div className="text-center py-16">
+                            <p className="text-paper/30 text-sm mb-4">No gifts found matching your criteria</p>
+                            <Button variant="ghost" size="sm" onClick={() => { setSearchTerm(''); setActiveCategory(''); }}>Clear Filters</Button>
+                        </div>
+                    ) : (
+                        <div className={`grid ${view === 'list' ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'} gap-3`}>
+                            {products.map(product => (
+                                <Link key={product.id} href={`/gift/${product.id}`} className="bg-surface rounded-lg overflow-hidden group">
+                                    <div className="h-36 flex items-center justify-center text-5xl bg-paper/3">
+                                        {product.emoji || '🎁'}
+                                    </div>
+                                    <div className="p-4">
+                                        <h3 className="text-paper text-sm font-medium truncate mb-1 group-hover:text-gold transition-colors">{product.name}</h3>
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-gold/60 text-xs">★ {product.rating}</span>
+                                            <span className="text-paper/20 text-xs">({product.reviews})</span>
+                                        </div>
+                                        <div className="font-mono text-paper font-medium text-base">{formatCurrency(product.price)}</div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </>

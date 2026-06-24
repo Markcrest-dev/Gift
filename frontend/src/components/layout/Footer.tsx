@@ -2,55 +2,37 @@ import Link from 'next/link';
 
 export default function Footer() {
     return (
-        <footer className="footer">
-            <div className="container">
-                <div className="footer-content">
-                    <div className="footer-section">
-                        <h3 className="footer-section-title">About GiftExchange</h3>
-                        <p className="text-light">
-                            Making global gift giving easy, secure, and joyful. Send love across borders this holiday season.
+        <footer className="bg-surface border-t border-gold/10">
+            <div className="max-w-[1280px] mx-auto px-4 py-16">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                    <div>
+                        <h3 className="text-paper font-body font-medium text-sm mb-4">Global Gift Exchange</h3>
+                        <p className="text-paper/35 text-sm leading-relaxed max-w-xs">
+                            Cross-border gifting made simple. Send meaningful gifts to anyone, anywhere. They choose how to receive it.
                         </p>
-                        <div className="social-links">
-                            <Link href="#" className="social-link"><i className="fab fa-facebook"></i> Facebook</Link>
-                            <Link href="#" className="social-link"><i className="fab fa-twitter"></i> Twitter</Link>
-                            <Link href="#" className="social-link"><i className="fab fa-instagram"></i> Instagram</Link>
+                    </div>
+
+                    <div>
+                        <h3 className="text-paper/50 text-xs font-medium uppercase tracking-wider mb-4">Navigate</h3>
+                        <div className="flex flex-col gap-2.5">
+                            <Link href="/marketplace" className="text-paper/35 text-sm hover:text-paper/60 transition-colors duration-150">Marketplace</Link>
+                            <Link href="/about" className="text-paper/35 text-sm hover:text-paper/60 transition-colors duration-150">About</Link>
+                            <Link href="/contact" className="text-paper/35 text-sm hover:text-paper/60 transition-colors duration-150">Contact</Link>
                         </div>
                     </div>
 
-                    <div className="footer-section">
-                        <h3 className="footer-section-title">Quick Links</h3>
-                        <div className="footer-links">
-                            <Link href="/marketplace" className="footer-link">Browse Gifts</Link>
-                            <Link href="/about" className="footer-link">About Us</Link>
-                            <Link href="/contact" className="footer-link">Contact</Link>
-                            <Link href="/dashboard" className="footer-link">Dashboard</Link>
-                        </div>
-                    </div>
-
-                    <div className="footer-section">
-                        <h3 className="footer-section-title">Support</h3>
-                        <div className="footer-links">
-                            <Link href="/contact" className="footer-link">Help Center</Link>
-                            <Link href="#" className="footer-link">FAQ</Link>
-                            <Link href="#" className="footer-link">Shipping Info</Link>
-                            <Link href="#" className="footer-link">Returns</Link>
-                        </div>
-                    </div>
-
-                    <div className="footer-section">
-                        <h3 className="footer-section-title">Legal</h3>
-                        <div className="footer-links">
-                            <Link href="/privacy-policy" className="footer-link">Privacy Policy</Link>
-                            <Link href="/terms-of-service" className="footer-link">Terms of Service</Link>
-                            <Link href="#" className="footer-link">Cookie Policy</Link>
-                            <Link href="#" className="footer-link">Compliance</Link>
+                    <div>
+                        <h3 className="text-paper/50 text-xs font-medium uppercase tracking-wider mb-4">Legal</h3>
+                        <div className="flex flex-col gap-2.5">
+                            <Link href="/privacy-policy" className="text-paper/35 text-sm hover:text-paper/60 transition-colors duration-150">Privacy Policy</Link>
+                            <Link href="/terms-of-service" className="text-paper/35 text-sm hover:text-paper/60 transition-colors duration-150">Terms of Service</Link>
                         </div>
                     </div>
                 </div>
 
-                <div className="footer-bottom">
-                    <p>
-                        &copy; 2024 Global Gift Exchange. All rights reserved. Made with <i className="fas fa-heart"></i> for spreading joy worldwide.
+                <div className="pt-8 border-t border-paper/5">
+                    <p className="text-paper/20 text-xs text-center">
+                        &copy; {new Date().getFullYear()} Global Gift Exchange. All rights reserved.
                     </p>
                 </div>
             </div>

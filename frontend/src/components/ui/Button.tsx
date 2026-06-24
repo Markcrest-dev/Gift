@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'outline' | 'outline-white' | 'secondary' | 'gold';
+    variant?: 'primary' | 'ghost';
     size?: 'sm' | 'md' | 'lg';
     children: ReactNode;
     fullWidth?: boolean;
@@ -15,27 +15,22 @@ export default function Button({
     className = '',
     ...props
 }: ButtonProps) {
-    const baseClass = 'btn';
+    const base = 'inline-flex items-center justify-center gap-2 font-medium transition-colors duration-150 rounded-[4px] whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed';
 
-    const variantClass = {
-        primary: 'btn-primary',
-        outline: 'btn-outline',
-        'outline-white': 'btn-outline-white',
-        secondary: 'btn-secondary',
-        gold: 'btn-gold'
-    }[variant];
+    const variants = {
+        primary: 'bg-red text-paper hover:bg-red/90',
+        ghost: 'bg-transparent border border-gold text-gold hover:bg-gold/5',
+    };
 
-    const sizeClass = {
-        sm: 'btn-sm',
-        md: '',
-        lg: 'btn-lg'
-    }[size];
-
-    const widthClass = fullWidth ? 'w-full' : '';
+    const sizes = {
+        sm: 'px-3 py-1.5 text-xs',
+        md: 'px-5 py-2.5 text-sm',
+        lg: 'px-7 py-3.5 text-base',
+    };
 
     return (
         <button
-            className={`${baseClass} ${variantClass} ${sizeClass} ${widthClass} ${className}`.trim()}
+            className={`${base} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`.trim()}
             {...props}
         >
             {children}

@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import { Gift } from '@/lib/types';
 import { giftsApi, wishlistFlow } from '@/lib/giftFlow';
 import { auth } from '@/lib/auth';
+import { ChevronRight, Star } from 'lucide-react';
 
 export default function GiftDetailPage() {
     const params = useParams();
@@ -22,125 +23,78 @@ export default function GiftDetailPage() {
                 const id = params.id as string;
                 const foundGift = await giftsApi.getById(id);
                 setGift(foundGift);
-
                 const related = await giftsApi.getAll({ category: foundGift.category });
                 setRelatedGifts(related.filter(g => g.id !== foundGift.id).slice(0, 4));
-
-                if (auth.isAuthenticated()) {
-                    const isWished = await wishlistFlow.isInWishlist(id);
-                    setInWishlist(isWished);
-                }
-            } catch {
-                router.push('/marketplace');
-            }
+                if (auth.isAuthenticated()) { const isWished = await wishlistFlow.isInWishlist(id); setInWishlist(isWished); }
+            } catch { router.push('/marketplace'); }
             setLoading(false);
         };
-
         loadGift();
     }, [params.id, router]);
 
     const handleWishlist = async () => {
-        if (!auth.isAuthenticated()) {
-            router.push('/login');
-            return;
-        }
+        if (!auth.isAuthenticated()) { router.push('/login'); return; }
         if (!gift) return;
-
         try {
             if (inWishlist) {
-                const wishlist = await wishlistFlow.getWishlist();
-                const item = wishlist.find(w => w.giftId === gift.id);
-                if (item) {
-                    await wishlistFlow.removeFromWishlist(item.id);
-                    setInWishlist(false);
-                }
-            } else {
-                await wishlistFlow.addToWishlist(gift.id);
-                setInWishlist(true);
-            }
-        } catch (error) {
-            console.error('Wishlist error:', error);
-        }
+                const wl = await wishlistFlow.getWishlist();
+                const item = wl.find(w => w.giftId === gift.id);
+                if (item) { await wishlistFlow.removeFromWishlist(item.id); setInWishlist(false); }
+            } else { await wishlistFlow.addToWishlist(gift.id); setInWishlist(true); }
+        } catch (e) { console.error(e); }
     };
 
-    const formatCurrency = (amount: number, currency: string) => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
-    };
+    const formatCurrency = (amount: number, currency: string) =>
+        new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount);
 
-    if (loading) {
-        return <div className="p-xl text-center">Loading gift details...</div>;
-    }
-
+    if (loading) return <div className="text-paper/30 text-sm py-16 text-center">Loading...</div>;
     if (!gift) return null;
 
     return (
-        <div className="detail-container page-transition">
-            <nav className="breadcrumb fade-in-up">
-                <Link href="/" className="breadcrumb-item">Home</Link>
-                <span className="breadcrumb-separator">{' > '}</span>
-                <Link href="/marketplace" className="breadcrumb-item">Marketplace</Link>
-                <span className="breadcrumb-separator">{' > '}</span>
-                <span className="breadcrumb-item active">{gift.name}</span>
+        <div className="max-w-[960px] mx-auto">
+            <nav className="flex items-center gap-1.5 text-sm mb-8">
+                <Link href="/" className="text-paper/30 hover:text-paper/50 transition-colors">Home</Link>
+                <ChevronRight className="w-3 h-3 text-paper/15" />
+                <Link href="/marketplace" className="text-paper/30 hover:text-paper/50 transition-colors">Marketplace</Link>
+                <ChevronRight className="w-3 h-3 text-paper/15" />
+                <span className="text-paper/60">{gift.name}</span>
             </nav>
 
-            <div className="gift-detail-grid">
-                <div className="gift-image-section fade-in-left">
-                    <div className="gift-main-image">
-                        {gift.emoji || '🎁'}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
+                <div className="bg-surface rounded-2xl h-[400px] flex items-center justify-center text-[8rem] sticky top-24">{gift.emoji || '🎁'}</div>
+                <div>
+                    <span className="text-gold/60 text-xs font-medium uppercase tracking-wider">{gift.category}</span>
+                    <h1 className="font-display text-3xl font-bold text-paper mt-2 mb-3">{gift.name}</h1>
+                    <div className="flex items-center gap-2 mb-6">
+                        <Star className="w-3.5 h-3.5 text-gold/70 fill-gold/70" />
+                        <span className="text-paper/50 text-sm">{gift.rating}</span>
+                        <span className="text-paper/20 text-sm">({gift.reviews} reviews)</span>
                     </div>
-                </div>
+                    <div className="font-mono text-4xl font-medium text-paper mb-6">{formatCurrency(gift.price, gift.currency)}</div>
+                    <p className="text-paper/40 text-base leading-relaxed mb-8">{gift.description}</p>
 
-                <div className="gift-info-section fade-in-right">
-                    <span className="badge badge-red gift-category-badge capitalize">{gift.category}</span>
-                    <h1 className="gift-title">{gift.name}</h1>
-
-                    <div className="gift-rating">
-                        <span className="stars">{'*'.repeat(Math.round(gift.rating))}</span>
-                        <span className="rating-text">{gift.rating} ({gift.reviews} reviews)</span>
-                    </div>
-
-                    <div className="gift-price">{formatCurrency(gift.price, gift.currency)}</div>
-                    <p className="gift-description">{gift.description}</p>
-
-                    <div className="gift-specs">
-                        <div className="spec-row">
-                            <span className="spec-label">Category:</span>
-                            <span className="spec-value capitalize">{gift.category}</span>
-                        </div>
-                        <div className="spec-row">
-                            <span className="spec-label">Gender:</span>
-                            <span className="spec-value capitalize">{gift.gender}</span>
-                        </div>
+                    <div className="bg-surface rounded-lg p-5 mb-8 space-y-3">
+                        <div className="flex justify-between text-sm"><span className="text-paper/35">Category</span><span className="text-paper/70 capitalize">{gift.category}</span></div>
+                        <div className="flex justify-between text-sm border-t border-paper/5 pt-3"><span className="text-paper/35">Gender</span><span className="text-paper/70 capitalize">{gift.gender}</span></div>
                     </div>
 
-                    <div className="gift-actions">
-                        <Button variant="primary" size="lg" className="w-full" onClick={() => router.push(`/send-gift?id=${gift.id}`)}>
-                            Send This Gift
-                        </Button>
-                        <Button variant={inWishlist ? 'secondary' : 'outline'} size="lg" className="w-full" onClick={handleWishlist}>
-                            {inWishlist ? 'In Wishlist' : 'Wishlist'}
-                        </Button>
+                    <div className="grid grid-cols-[2fr_1fr] gap-3">
+                        <Button variant="primary" size="lg" className="w-full" onClick={() => router.push(`/send-gift?id=${gift.id}`)}>Send This Gift</Button>
+                        <Button variant="ghost" size="lg" className="w-full" onClick={handleWishlist}>{inWishlist ? 'Saved' : 'Wishlist'}</Button>
                     </div>
                 </div>
             </div>
 
             {relatedGifts.length > 0 && (
-                <div className="related-gifts fade-in-up">
-                    <div className="related-gifts-header">
-                        <h2>You May Also Like</h2>
-                        <p className="text-secondary">Similar gifts in this category</p>
-                    </div>
-                    <div className="related-gifts-grid">
-                        {relatedGifts.map((relatedGift) => (
-                            <Link key={relatedGift.id} href={`/gift/${relatedGift.id}`} className="product-card-link">
-                                <div className="card">
-                                    <div className="product-card-emoji">
-                                        {relatedGift.emoji || '🎁'}
-                                    </div>
-                                    <div className="card-body product-card-body">
-                                        <h3 className="product-card-name">{relatedGift.name}</h3>
-                                        <div className="product-card-price">{formatCurrency(relatedGift.price, relatedGift.currency)}</div>
-                                    </div>
+                <div>
+                    <h2 className="text-paper font-semibold text-base mb-4">You may also like</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {relatedGifts.map(rg => (
+                            <Link key={rg.id} href={`/gift/${rg.id}`} className="bg-surface rounded-lg overflow-hidden group">
+                                <div className="h-28 flex items-center justify-center text-4xl bg-paper/3">{rg.emoji || '🎁'}</div>
+                                <div className="p-3.5">
+                                    <h3 className="text-paper text-sm font-medium truncate mb-1 group-hover:text-gold transition-colors">{rg.name}</h3>
+                                    <div className="font-mono text-paper/60 text-sm">{formatCurrency(rg.price, rg.currency)}</div>
                                 </div>
                             </Link>
                         ))}

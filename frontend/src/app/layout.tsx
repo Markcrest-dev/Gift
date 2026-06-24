@@ -1,19 +1,9 @@
 import type { Metadata } from "next";
 import "@/styles/index.css";
-import "@/styles/components.css";
-import "@/styles/animations.css";
-import "@/styles/responsive.css";
-import "@/styles/dashboard.css";
-import "@/styles/about.css";
-import "@/styles/contact.css";
-import "@/styles/auth.css";
-import "@/styles/legal.css";
-import "@/styles/marketplace.css";
-import "@/styles/landing.css";
 
 export const metadata: Metadata = {
-  title: "Global Gift Exchange - Share Joy Worldwide",
-  description: "Share joy globally this Christmas. Send and receive gifts worldwide with flexible cash or crypto redemption.",
+  title: "Global Gift Exchange — Send Gifts Across Borders",
+  description: "A premium cross-border gifting platform. Send gifts to 120+ countries. Recipients choose: accept the item, take the cash, or take crypto.",
 };
 
 export default function RootLayout({
@@ -23,18 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
-        <link
-          rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>"
-        />
-      </head>
       <body>
-
         {children}
       </body>
     </html>

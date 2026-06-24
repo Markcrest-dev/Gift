@@ -23,17 +23,16 @@ export default function DashboardLayout({
         }
     }, [router]);
 
-    // Don't render dashboard content until auth is confirmed
     if (!authChecked) {
         return null;
     }
 
     return (
-        <div className="dashboard-container">
+        <div className="flex min-h-screen bg-base">
             <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
             <MobileHeader onMenuClick={() => setSidebarOpen(true)} />
-            <main className="main-content">
-                <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <main className="flex-1 lg:ml-[260px] p-6 md:p-10 pt-[calc(60px+1.5rem)] lg:pt-10">
+                <div className="max-w-[1200px] mx-auto">
                     {children}
                 </div>
             </main>

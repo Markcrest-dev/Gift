@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Button from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function SignupPage() {
     const router = useRouter();
@@ -20,7 +21,7 @@ export default function SignupPage() {
         confirmPassword: '',
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
@@ -54,104 +55,96 @@ export default function SignupPage() {
         }
     };
 
+    const inputClass = "w-full bg-base border border-paper/10 rounded-[4px] px-4 py-3 text-paper text-sm placeholder:text-paper/20 focus:outline-none focus:border-gold transition-colors duration-150";
+
     return (
-        <div className="auth-container">
-            <div className="auth-card fade-in-up" style={{ maxWidth: '500px' }}>
-                <div className="auth-header">
-                    <div className="auth-logo"><i className="fas fa-gift"></i></div>
-                    <h1 className="auth-title">Create Account</h1>
-                    <p className="auth-subtitle">Join thousands spreading joy worldwide</p>
-                </div>
-
-                <div className="social-auth">
-                    <button className="social-btn">
-                        <span><i className="fab fa-google"></i></span>
-                        <span>Google</span>
-                    </button>
-                    <button className="social-btn">
-                        <span><i className="fab fa-facebook"></i></span>
-                        <span>Facebook</span>
-                    </button>
-                </div>
-
-                <div className="divider-text">
-                    <span>or sign up with email</span>
+        <div className="min-h-screen flex items-center justify-center bg-base px-4 py-16">
+            <div className="bg-surface rounded-lg max-w-[480px] w-full p-8 md:p-10">
+                <div className="text-center mb-8">
+                    <h1 className="font-display text-3xl font-bold text-paper mb-2">Create account</h1>
+                    <p className="text-paper/40 text-sm">Start sending gifts across borders</p>
                 </div>
 
                 {error && (
-                    <div style={{ color: '#ff4444', background: '#fff0f0', padding: 'var(--space-md)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-md)' }}>
+                    <div className="bg-red/10 border border-red/20 rounded-[4px] px-4 py-3 mb-6 text-red text-sm">
                         {error}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} id="signupForm">
-                    <div style={{ display: 'flex', gap: 'var(--space-md)' }}>
-                        <div className="form-group" style={{ flex: 1 }}>
-                            <label htmlFor="firstName" className="form-label">First Name</label>
-                            <input type="text" id="firstName" className="form-input" placeholder="John" required value={formData.firstName} onChange={handleChange} />
+                    <div className="flex gap-3 mb-5">
+                        <div className="flex-1">
+                            <label htmlFor="firstName" className="block text-paper/60 text-sm font-medium mb-2">First name</label>
+                            <input type="text" id="firstName" className={inputClass} placeholder="John" required value={formData.firstName} onChange={handleChange} />
                         </div>
-                        <div className="form-group" style={{ flex: 1 }}>
-                            <label htmlFor="lastName" className="form-label">Last Name</label>
-                            <input type="text" id="lastName" className="form-input" placeholder="Doe" required value={formData.lastName} onChange={handleChange} />
+                        <div className="flex-1">
+                            <label htmlFor="lastName" className="block text-paper/60 text-sm font-medium mb-2">Last name</label>
+                            <input type="text" id="lastName" className={inputClass} placeholder="Doe" required value={formData.lastName} onChange={handleChange} />
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="email" className="form-label">Email Address</label>
-                        <input type="email" id="email" className="form-input" placeholder="john@example.com" required value={formData.email} onChange={handleChange} />
+                    <div className="mb-5">
+                        <label htmlFor="email" className="block text-paper/60 text-sm font-medium mb-2">Email</label>
+                        <input type="email" id="email" className={inputClass} placeholder="you@example.com" required value={formData.email} onChange={handleChange} />
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <div className="input-group" style={{ position: 'relative' }}>
+                    <div className="mb-5">
+                        <label htmlFor="password" className="block text-paper/60 text-sm font-medium mb-2">Password</label>
+                        <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id="password"
-                                className="form-input"
-                                placeholder="Create a strong password"
+                                className={`${inputClass} pr-11`}
+                                placeholder="Min. 6 characters"
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
                             />
-                            <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
-                                <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-paper/30 hover:text-paper/60 transition-colors" onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-                        <div className="input-group" style={{ position: 'relative' }}>
+                    <div className="mb-6">
+                        <label htmlFor="confirmPassword" className="block text-paper/60 text-sm font-medium mb-2">Confirm password</label>
+                        <div className="relative">
                             <input
                                 type={showConfirmPassword ? "text" : "password"}
                                 id="confirmPassword"
-                                className="form-input"
-                                placeholder="Re-enter your password"
+                                className={`${inputClass} pr-11`}
+                                placeholder="Re-enter password"
                                 required
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
                             />
-                            <button type="button" className="password-toggle" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                                <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                            <button type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-paper/30 hover:text-paper/60 transition-colors" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-checkbox-label">
-                            <input type="checkbox" className="form-checkbox" id="terms" required />
-                            <span>I agree to the <Link href="/terms-of-service" target="_blank">Terms of Service</Link> and <Link href="/privacy-policy" target="_blank">Privacy Policy</Link></span>
+                    <div className="mb-8">
+                        <label className="flex items-start gap-2.5 cursor-pointer">
+                            <input type="checkbox" className="w-3.5 h-3.5 accent-gold rounded mt-0.5" id="terms" required />
+                            <span className="text-paper/40 text-sm leading-relaxed">
+                                I agree to the{' '}
+                                <Link href="/terms-of-service" className="text-gold/70 hover:text-gold transition-colors" target="_blank">Terms of Service</Link>
+                                {' '}and{' '}
+                                <Link href="/privacy-policy" className="text-gold/70 hover:text-gold transition-colors" target="_blank">Privacy Policy</Link>
+                            </span>
                         </label>
                     </div>
 
                     <Button type="submit" fullWidth size="lg" disabled={loading}>
-                        {loading ? 'Creating Account...' : 'Create Account'}
+                        {loading ? 'Creating account...' : 'Create Account'}
                     </Button>
                 </form>
 
-                <div className="auth-footer">
-                    Already have an account? <Link href="/login">Login here</Link>
-                </div>
+                <p className="text-center text-paper/30 text-sm mt-8">
+                    Already have an account?{' '}
+                    <Link href="/login" className="text-gold/70 hover:text-gold transition-colors font-medium">Sign in</Link>
+                </p>
             </div>
         </div>
     );

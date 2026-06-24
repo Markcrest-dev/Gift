@@ -15,7 +15,7 @@ export default function ScrollReveal() {
             { threshold: 0.1 }
         );
 
-        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el) => {
+        document.querySelectorAll('.reveal').forEach((el) => {
             observer.observe(el);
         });
 
