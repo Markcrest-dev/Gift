@@ -48,15 +48,15 @@ export default function MarketplacePage() {
     };
 
     return (
-        <>
-            <div className="flex items-center justify-between border-b border-[#1E1A14] pb-6 mb-6">
+        <div className="font-body pb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-gray-200 pb-6 mb-8 gap-4">
                 <div className="flex items-baseline">
-                    <h1 className="text-[22px] font-semibold text-[#F5F0E8]">Browse Gifts</h1>
-                    <span className="text-[#6B6055] text-[13px] ml-3">{loading ? '...' : `${products.length} items`}</span>
+                    <h1 className="text-3xl font-display text-[#0A4535]">Browse Gifts</h1>
+                    <span className="text-gray-500 text-sm ml-4 font-medium bg-white px-3 py-1 rounded-full shadow-sm">{loading ? '...' : `${products.length} items`}</span>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center gap-4">
                     <select
-                        className="bg-transparent text-[#C4B99A] text-[14px] focus:outline-none cursor-pointer"
+                        className="bg-white border border-gray-200 text-gray-700 text-sm rounded-full px-4 py-2 focus:outline-none focus:border-[#0A4535] shadow-sm cursor-pointer"
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                     >
@@ -66,15 +66,15 @@ export default function MarketplacePage() {
                         <option value="rating">Highest Rated</option>
                         <option value="newest">Newest First</option>
                     </select>
-                    <div className="flex gap-1">
+                    <div className="flex bg-white rounded-full p-1 shadow-sm border border-gray-200">
                         <button
-                            className={`p-1.5 rounded-[3px] transition-colors ${view === 'grid' ? 'text-[#F5F0E8] bg-[#1A1410]' : 'text-[#6B6055] hover:text-[#C4B99A]'}`}
+                            className={`p-2 rounded-full transition-colors ${view === 'grid' ? 'text-[#0A4535] bg-[#D1FAE5]' : 'text-gray-400 hover:text-[#0A4535]'}`}
                             onClick={() => setView('grid')}
                         >
                             <Grid3X3 className="w-4 h-4" />
                         </button>
                         <button
-                            className={`p-1.5 rounded-[3px] transition-colors ${view === 'list' ? 'text-[#F5F0E8] bg-[#1A1410]' : 'text-[#6B6055] hover:text-[#C4B99A]'}`}
+                            className={`p-2 rounded-full transition-colors ${view === 'list' ? 'text-[#0A4535] bg-[#D1FAE5]' : 'text-gray-400 hover:text-[#0A4535]'}`}
                             onClick={() => setView('list')}
                         >
                             <List className="w-4 h-4" />
@@ -83,10 +83,10 @@ export default function MarketplacePage() {
                 </div>
             </div>
 
-            <div className="flex overflow-x-auto gap-2 pb-2 mb-8 hide-scrollbar">
+            <div className="flex overflow-x-auto gap-2 pb-4 mb-6 hide-scrollbar">
                 <button
-                    className={`shrink-0 border px-[16px] py-[6px] rounded-[2px] text-[13px] transition-colors ${
-                        activeCategory === '' ? 'border-[#B8922A] text-[#F5F0E8] bg-[#1A1410]' : 'border-[#2E2820] text-[#6B6055] bg-transparent hover:border-[#B8922A]'
+                    className={`shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-all shadow-sm ${
+                        activeCategory === '' ? 'text-white bg-[#0A4535]' : 'text-gray-600 bg-white border border-gray-200 hover:border-[#0A4535] hover:text-[#0A4535]'
                     }`}
                     onClick={() => setActiveCategory('')}
                 >
@@ -95,8 +95,8 @@ export default function MarketplacePage() {
                 {CATEGORIES.map(cat => (
                     <button
                         key={cat}
-                        className={`shrink-0 border px-[16px] py-[6px] rounded-[2px] text-[13px] capitalize transition-colors ${
-                            activeCategory === cat ? 'border-[#B8922A] text-[#F5F0E8] bg-[#1A1410]' : 'border-[#2E2820] text-[#6B6055] bg-transparent hover:border-[#B8922A]'
+                        className={`shrink-0 px-5 py-2 rounded-full text-sm font-semibold capitalize transition-all shadow-sm ${
+                            activeCategory === cat ? 'text-white bg-[#0A4535]' : 'text-gray-600 bg-white border border-gray-200 hover:border-[#0A4535] hover:text-[#0A4535]'
                         }`}
                         onClick={() => toggleCategory(cat)}
                     >
@@ -107,48 +107,48 @@ export default function MarketplacePage() {
 
             <div>
                 {loading ? (
-                    <div className={`grid gap-4 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                    <div className={`grid gap-6 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                         {[1, 2, 3, 4, 5, 6].map(i => (
-                            <div key={i} className={`bg-[#1C1814] border border-[#1E1A14] rounded-[3px] overflow-hidden animate-pulse ${i === 1 && view === 'grid' ? 'md:col-span-2 md:row-span-2' : ''}`}>
-                                <div className={`${i === 1 && view === 'grid' ? 'aspect-video' : 'aspect-[4/3]'} bg-paper/5`} />
-                                <div className="p-4">
-                                    <div className="h-4 bg-paper/10 rounded mb-2 w-3/4" />
-                                    <div className="h-3 bg-paper/10 rounded w-1/2" />
+                            <div key={i} className={`bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden animate-pulse ${i === 1 && view === 'grid' ? 'md:col-span-2 md:row-span-2' : ''}`}>
+                                <div className={`${i === 1 && view === 'grid' ? 'aspect-video' : 'aspect-[4/3]'} bg-gray-100`} />
+                                <div className="p-6">
+                                    <div className="h-5 bg-gray-200 rounded-full mb-3 w-3/4" />
+                                    <div className="h-4 bg-gray-100 rounded-full w-1/2" />
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : products.length === 0 ? (
-                    <div className="text-center py-16">
-                        <p className="text-[#6B6055] text-[14px] mb-4">No gifts found matching your criteria</p>
-                        <Button variant="ghost" size="sm" onClick={() => { setSearchTerm(''); setActiveCategory(''); }}>Clear Filters</Button>
+                    <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                        <p className="text-gray-500 text-base mb-6">No gifts found matching your criteria</p>
+                        <Button variant="primary" size="md" onClick={() => { setSearchTerm(''); setActiveCategory(''); }}>Clear Filters</Button>
                     </div>
                 ) : (
-                    <div className={`grid gap-4 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+                    <div className={`grid gap-6 ${view === 'list' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                         {products.map((product, index) => {
                             const isFeatured = index === 0 && view === 'grid';
                             return (
                                 <Link 
                                     key={product.id} 
                                     href={`/gift/${product.id}`} 
-                                    className={`group bg-[#1C1814] border border-[#1E1A14] rounded-[3px] overflow-hidden transition-all duration-200 hover:border-[#2E2820] hover:shadow-[inset_0_2px_0_0_#B8922A] ${isFeatured ? 'md:col-span-2 md:row-span-2' : ''}`}
+                                    className={`group bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative ${isFeatured ? 'md:col-span-2 md:row-span-2' : ''}`}
                                 >
-                                    <div className={`bg-[#141210] flex items-center justify-center ${isFeatured ? 'aspect-video' : 'aspect-[4/3]'}`}>
+                                    <div className={`bg-gray-50 flex items-center justify-center border-b border-gray-100 ${isFeatured ? 'aspect-video' : 'aspect-[4/3]'}`}>
                                         <GiftPlaceholder name={product.name} />
                                     </div>
-                                    <div className="p-[16px] md:p-[20px] relative">
+                                    <div className="p-6 md:p-8">
                                         {isFeatured && (
-                                            <div className="text-[#B8922A] text-[11px] font-medium uppercase tracking-[0.12em] mb-2">● Featured</div>
+                                            <div className="inline-block bg-[#0A4535] text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">Featured</div>
                                         )}
-                                        <div className="text-[#B8922A] text-[11px] font-medium uppercase tracking-[0.12em] mb-1">{product.category || 'Gift'}</div>
-                                        <h3 className="text-[#F5F0E8] text-[16px] font-medium mb-1">{product.name}</h3>
-                                        <div className="text-[#6B6055] text-[12px] mb-3">★ {product.rating} · {product.reviews} reviews</div>
-                                        <div className={`font-mono text-[#F5F0E8] ${isFeatured ? 'text-[24px]' : 'text-[18px]'}`}>
+                                        <div className="text-gray-400 text-xs font-bold uppercase tracking-widest mb-2">{product.category || 'Gift'}</div>
+                                        <h3 className="text-[#0A4535] text-xl font-display mb-2 group-hover:text-[#0A4535]/70 transition-colors">{product.name}</h3>
+                                        <div className="text-amber-500 text-sm mb-4 font-semibold">★ {product.rating} <span className="text-gray-400 font-medium">· {product.reviews} reviews</span></div>
+                                        <div className={`font-mono text-gray-900 font-bold ${isFeatured ? 'text-3xl' : 'text-2xl'}`}>
                                             {formatCurrency(product.price)}
                                         </div>
                                         
-                                        <div className="absolute right-5 bottom-5 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="text-[#B8922A] text-[13px] font-medium">Send as Gift →</span>
+                                        <div className="absolute right-6 bottom-6 opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
+                                            <span className="bg-[#D1FAE5] text-[#0A4535] px-4 py-2 rounded-full text-sm font-bold shadow-sm">Send Gift &rarr;</span>
                                         </div>
                                     </div>
                                 </Link>
@@ -157,6 +157,6 @@ export default function MarketplacePage() {
                     </div>
                 )}
             </div>
-        </>
+        </div>
     );
 }
