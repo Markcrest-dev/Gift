@@ -46,9 +46,9 @@ export default function SignupPage() {
         'w-full bg-base border border-gray-200 text-ink text-[0.9375rem] rounded-xl px-4 py-4 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
 
     return (
-        <main className="min-h-screen flex bg-base relative overflow-hidden">
+        <main className="min-h-screen flex bg-base relative overflow-x-hidden">
             {/* Left Side: Design */}
-            <div className="hidden lg:flex lg:w-1/2 relative bg-emerald-light/10">
+            <div className="hidden lg:flex lg:w-1/2 lg:fixed lg:inset-y-0 lg:left-0 relative bg-emerald-light/10 z-20">
                 <Image 
                     src="/images/auth-bg.png" 
                     alt="Festow Aesthetic" 
@@ -64,7 +64,7 @@ export default function SignupPage() {
             </div>
 
             {/* Right Side: Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative z-10">
+            <div className="w-full lg:w-1/2 lg:ml-auto flex flex-col items-center justify-center min-h-screen p-6 sm:p-12 pt-[100px] lg:pt-[100px] pb-12 relative z-10">
                 {/* Ambient glows for the right side */}
                 <div className="absolute top-[10%] right-[-5%] w-[400px] h-[400px] rounded-full bg-sage/60 blur-[100px] pointer-events-none" />
                 <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-emerald-light/20 blur-[120px] pointer-events-none" />
