@@ -41,7 +41,13 @@ export default function GiftDetailPage() {
                 const item = wl.find(w => w.giftId === gift.id);
                 if (item) { await wishlistFlow.removeFromWishlist(item.id); setInWishlist(false); }
             } else { await wishlistFlow.addToWishlist(gift.id); setInWishlist(true); }
-        } catch (e) { console.error(e); }
+        } catch (e: any) {
+            if (e.message === 'Gift already in wishlist') {
+                setInWishlist(true);
+            } else {
+                console.error(e);
+            }
+        }
     };
 
     const formatCurrency = (amount: number, currency: string) =>
