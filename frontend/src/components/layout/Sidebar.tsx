@@ -29,19 +29,21 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
     return (
         <>
             <aside className={`
-                fixed top-0 left-0 w-[280px] h-screen bg-white border-r border-gray-200 flex flex-col z-50
-                transition-transform duration-300 shadow-xl lg:shadow-none
+                fixed top-0 left-0 w-[280px] h-screen bg-surface border-r border-sage-deep flex flex-col z-50
+                transition-transform duration-300
                 max-lg:translate-x-[-100%] lg:translate-x-0
                 ${isOpen ? 'max-lg:!translate-x-0' : ''}
             `}>
-                <Link href="/dashboard" className="flex items-center gap-3 px-6 py-8 text-[#0A4535] font-display font-medium text-2xl tracking-tight">
-                    <Gift className="w-7 h-7" />
-                    <span>Gift<span className="text-[#0A4535]/70">Exchange</span></span>
+                <Link href="/dashboard" className="flex items-center gap-3 px-8 py-8 text-ink font-display text-2xl tracking-tight">
+                    <div className="w-7 h-7 rounded-md bg-emerald flex items-center justify-center">
+                        <Gift className="w-4 h-4 text-white" />
+                    </div>
+                    <span>Gift<span className="text-ink-muted">Exchange</span></span>
                 </Link>
 
-                <nav className="flex-1 overflow-y-auto px-4 mt-2">
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 px-2">Menu</div>
-                    <ul className="space-y-1.5">
+                <nav className="flex-1 overflow-y-auto px-4 mt-4">
+                    <div className="text-[0.6875rem] font-bold text-ink-faint uppercase tracking-widest mb-4 px-4">Menu</div>
+                    <ul className="space-y-1">
                         {menuItems.map((item) => {
                             const Icon = item.icon;
                             const active = isActive(item.path);
@@ -50,15 +52,15 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
                                     <Link
                                         href={item.path}
                                         className={`
-                                            flex items-center px-4 py-3 text-[15px] font-medium transition-all duration-200 rounded-xl
+                                            flex items-center px-4 py-3 text-[0.9375rem] font-medium transition-all duration-200 rounded-md border-l-2
                                             ${active
-                                                ? 'text-[#0A4535] bg-[#D1FAE5] shadow-sm'
-                                                : 'text-gray-500 hover:text-[#0A4535] hover:bg-gray-50'
+                                                ? 'text-emerald bg-sage border-emerald'
+                                                : 'text-ink-muted border-transparent hover:text-ink hover:bg-base'
                                             }
                                         `}
                                         onClick={onClose}
                                     >
-                                        <Icon className={`w-5 h-5 mr-3 ${active ? 'text-[#0A4535]' : 'text-gray-400 group-hover:text-[#0A4535]'}`} />
+                                        <Icon className={`w-5 h-5 mr-3 ${active ? 'text-emerald' : 'text-ink-faint group-hover:text-ink-muted'}`} />
                                         <span>{item.name}</span>
                                     </Link>
                                 </li>
@@ -67,26 +69,26 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
                     </ul>
                 </nav>
 
-                <div className="mt-auto border-t border-gray-100 p-4 mx-2 mb-2">
+                <div className="mt-auto border-t border-sage-deep p-4 mx-4 mb-4">
                     <div className="flex items-center gap-3 mb-4 px-2 py-2">
-                        <div className="w-10 h-10 rounded-full bg-[#0d5c46] flex items-center justify-center text-sm font-bold text-white shadow-md">
+                        <div className="w-9 h-9 rounded-md bg-emerald flex items-center justify-center text-[0.875rem] font-bold text-white">
                             M
                         </div>
                         <div>
-                            <div className="text-[#0A4535] font-semibold text-sm">Mark</div>
-                            <div className="text-gray-400 text-xs">mark@example.com</div>
+                            <div className="text-ink font-medium text-[0.9375rem] leading-tight">Mark</div>
+                            <div className="text-ink-muted text-[0.8125rem]">mark@example.com</div>
                         </div>
                     </div>
                     <button
-                        className="w-full flex items-center px-4 py-3 text-[15px] font-medium text-red-600 hover:bg-red-50 transition-colors duration-200 rounded-xl"
+                        className="w-full flex items-center px-4 py-2.5 text-[0.9375rem] font-medium text-red-dark hover:bg-red-light/50 transition-colors duration-200 rounded-md border-l-2 border-transparent"
                         onClick={handleLogout}
                     >
-                        <LogOut className="w-5 h-5 mr-3" />
+                        <LogOut className="w-4 h-4 mr-3" />
                         <span>Logout</span>
                     </button>
                 </div>
             </aside>
-            {isOpen && <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity" onClick={onClose} />}
+            {isOpen && <div className="fixed inset-0 bg-ink/20 backdrop-blur-sm z-40 lg:hidden transition-opacity" onClick={onClose} />}
         </>
     );
 }
