@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { Gift } from 'lucide-react';
+import { Gift, ArrowRight } from 'lucide-react';
 
 export default function SignupPage() {
     const router = useRouter();
@@ -42,104 +42,113 @@ export default function SignupPage() {
     };
 
     const inputClass =
-        'w-full bg-base border border-gray-200 text-ink text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
+        'w-full bg-base border border-gray-200 text-ink text-[0.9375rem] rounded-xl px-4 py-4 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-base px-4 pt-[72px] pb-12">
-            <div className="bg-white border border-gray-100 shadow-xl shadow-emerald/[0.03] rounded-2xl w-full max-w-[420px] p-8 md:p-10 relative overflow-hidden">
-                {/* Top accent */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald" />
+        <main className="min-h-screen flex items-center justify-center bg-base relative overflow-hidden pt-[72px] pb-12">
+            {/* Ambient glows */}
+            <div className="absolute top-[10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-sage/60 blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-emerald-light/20 blur-[120px] pointer-events-none" />
 
-                {/* Logo */}
-                <div className="flex justify-center items-center gap-2.5 mb-8 mt-1">
-                    <div className="w-8 h-8 rounded-lg bg-emerald flex items-center justify-center">
-                        <Gift className="w-4 h-4 text-white" />
+            <div className="reveal w-full max-w-[440px] px-4 relative z-10">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-100 shadow-2xl shadow-emerald/[0.04] rounded-[2rem] p-8 md:p-10">
+                    {/* Logo */}
+                    <div className="flex justify-center items-center gap-2.5 mb-8">
+                        <div className="w-10 h-10 rounded-xl bg-emerald flex items-center justify-center shadow-md shadow-emerald/20">
+                            <Gift className="w-5 h-5 text-white" />
+                        </div>
                     </div>
-                    <span className="font-display text-xl text-emerald">
-                        Gift<span className="text-emerald/60">Exchange</span>
-                    </span>
-                </div>
 
-                {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="font-display text-3xl text-ink mb-2">Create account</h1>
-                    <p className="text-ink-muted text-sm">Start sending gifts across borders</p>
-                </div>
+                    {/* Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="font-display text-3xl text-ink mb-2">Create account</h1>
+                        <p className="text-ink-muted text-[0.9375rem]">Start sending gifts across borders</p>
+                    </div>
 
-                {error && (
-                    <div className="border border-red-200 bg-red-light text-red-dark px-4 py-3 mb-6 text-sm text-center rounded-xl font-medium">
-                        {error}
-                    </div>
-                )}
+                    {error && (
+                        <div className="animate-fade-in border border-red-200 bg-red-light text-red-dark px-4 py-3.5 mb-6 text-sm text-center rounded-xl font-medium">
+                            {error}
+                        </div>
+                    )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <input
-                            type="text"
-                            className={inputClass}
-                            placeholder="Full Name"
-                            required
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="email"
-                            className={inputClass}
-                            placeholder="Email address"
-                            required
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="password"
-                            className={inputClass}
-                            placeholder="Password (min. 6 characters)"
-                            required
-                            value={formData.password}
-                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        />
-                    </div>
-                    <div>
-                        <select
-                            className={`${inputClass} appearance-none`}
-                            required
-                            value={formData.country}
-                            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div>
+                            <input
+                                type="text"
+                                className={inputClass}
+                                placeholder="Full Name"
+                                required
+                                value={formData.fullName}
+                                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="email"
+                                className={inputClass}
+                                placeholder="Email address"
+                                required
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="password"
+                                className={inputClass}
+                                placeholder="Password (min. 6 characters)"
+                                required
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <select
+                                className={`${inputClass} appearance-none`}
+                                required
+                                value={formData.country}
+                                onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                            >
+                                <option value="" disabled className="text-ink-faint">Select your country</option>
+                                <option value="US">United States</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="group w-full bg-emerald hover:bg-emerald-hover text-white font-semibold text-[0.9375rem] py-4 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-md active:scale-[0.99] mt-2 flex items-center justify-center gap-2"
                         >
-                            <option value="">Select country</option>
-                            <option value="US">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="CA">Canada</option>
-                            <option value="AU">Australia</option>
-                        </select>
+                            {loading ? 'Creating account...' : 'Create Account'}
+                            {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />}
+                        </button>
+                    </form>
+
+                    <div className="mt-8 text-center">
+                        <p className="text-ink-muted text-[0.9375rem]">
+                            Already have an account?{' '}
+                            <Link href="/login" className="text-emerald font-bold hover:underline transition-all">
+                                Sign in &rarr;
+                            </Link>
+                        </p>
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full bg-emerald hover:bg-emerald-hover text-white font-semibold text-[0.9375rem] py-3.5 rounded-full transition-colors disabled:opacity-50 shadow-sm mt-2"
-                    >
-                        {loading ? 'Creating account...' : 'Create Account'}
-                    </button>
-                </form>
-
-                <div className="text-center mt-8">
-                    <Link href="/login" className="text-sm text-ink-muted hover:text-ink font-medium transition-colors">
-                        Already have an account?{' '}
-                        <span className="text-emerald font-bold">Sign in &rarr;</span>
-                    </Link>
+                    <div className="mt-6 text-center">
+                        <p className="text-xs text-ink-faint">
+                            By creating an account you agree to our Terms of Service and Privacy Policy.
+                        </p>
+                    </div>
                 </div>
 
-                <div className="text-center mt-6">
-                    <p className="text-[0.6875rem] text-ink-faint">
-                        By creating an account you agree to our Terms of Service.
-                    </p>
+                {/* Trust indicator */}
+                <div className="mt-8 text-center text-sm text-ink-faint font-medium">
+                    Join 50,000+ gifters worldwide
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

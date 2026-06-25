@@ -1,66 +1,86 @@
 'use client';
 
 import Link from 'next/link';
-import { Gift } from 'lucide-react';
+import { Gift, Send } from 'lucide-react';
+import { useState } from 'react';
 
 export default function ForgotPasswordPage() {
+    const [submitted, setSubmitted] = useState(false);
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert('Password reset instructions sent!');
+        setSubmitted(true);
     };
 
     const inputClass =
-        'w-full bg-base border border-gray-200 text-ink text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
+        'w-full bg-base border border-gray-200 text-ink text-[0.9375rem] rounded-xl px-4 py-4 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-base px-4 pt-[72px] pb-12">
-            <div className="bg-white border border-gray-100 shadow-xl shadow-emerald/[0.03] rounded-2xl w-full max-w-[420px] p-8 md:p-10 relative overflow-hidden">
-                {/* Top accent */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald" />
+        <main className="min-h-screen flex items-center justify-center bg-base relative overflow-hidden pt-[72px] pb-12">
+            {/* Ambient glows */}
+            <div className="absolute top-[10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-sage/60 blur-[100px] pointer-events-none" />
+            <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-emerald-light/20 blur-[120px] pointer-events-none" />
 
-                {/* Logo */}
-                <div className="flex justify-center items-center gap-2.5 mb-8 mt-1">
-                    <div className="w-8 h-8 rounded-lg bg-emerald flex items-center justify-center">
-                        <Gift className="w-4 h-4 text-white" />
+            <div className="reveal w-full max-w-[440px] px-4 relative z-10">
+                <div className="bg-white/80 backdrop-blur-xl border border-gray-100 shadow-2xl shadow-emerald/[0.04] rounded-[2rem] p-8 md:p-10">
+                    {/* Logo */}
+                    <div className="flex justify-center items-center gap-2.5 mb-8">
+                        <div className="w-10 h-10 rounded-xl bg-emerald flex items-center justify-center shadow-md shadow-emerald/20">
+                            <Gift className="w-5 h-5 text-white" />
+                        </div>
                     </div>
-                    <span className="font-display text-xl text-emerald">
-                        Gift<span className="text-emerald/60">Exchange</span>
-                    </span>
-                </div>
 
-                {/* Header */}
-                <div className="text-center mb-8">
-                    <h1 className="font-display text-3xl text-ink mb-2">Reset password</h1>
-                    <p className="text-ink-muted text-sm">Enter your email to receive reset instructions</p>
-                </div>
+                    {submitted ? (
+                        <div className="text-center animate-fade-in py-4">
+                            <h1 className="font-display text-3xl text-ink mb-3">Check your email</h1>
+                            <p className="text-ink-muted text-[0.9375rem] leading-relaxed mb-8">
+                                We've sent password reset instructions to your email address.
+                            </p>
+                            <Link href="/login">
+                                <button className="w-full bg-base hover:bg-gray-100 text-ink font-semibold text-[0.9375rem] py-4 rounded-xl transition-all duration-200 shadow-sm">
+                                    Return to login
+                                </button>
+                            </Link>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Header */}
+                            <div className="text-center mb-8">
+                                <h1 className="font-display text-3xl text-ink mb-2">Reset password</h1>
+                                <p className="text-ink-muted text-[0.9375rem]">Enter your email to receive reset instructions</p>
+                            </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <input
-                            type="email"
-                            className={inputClass}
-                            placeholder="you@example.com"
-                            required
-                            autoComplete="email"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-emerald hover:bg-emerald-hover text-white font-semibold text-[0.9375rem] py-3.5 rounded-full transition-colors shadow-sm mt-2"
-                    >
-                        Send Instructions
-                    </button>
-                </form>
+                            <form onSubmit={handleSubmit} className="space-y-5">
+                                <div>
+                                    <input
+                                        type="email"
+                                        className={inputClass}
+                                        placeholder="you@example.com"
+                                        required
+                                        autoComplete="email"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="group w-full bg-emerald hover:bg-emerald-hover text-white font-semibold text-[0.9375rem] py-4 rounded-xl transition-all duration-200 shadow-md active:scale-[0.99] mt-2 flex items-center justify-center gap-2"
+                                >
+                                    Send Instructions
+                                    <Send className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                </button>
+                            </form>
 
-                <div className="text-center mt-8">
-                    <p className="text-sm text-ink-muted">
-                        Remember your password?{' '}
-                        <Link href="/login" className="text-emerald font-bold hover:underline transition-colors">
-                            Sign in
-                        </Link>
-                    </p>
+                            <div className="mt-8 text-center">
+                                <p className="text-[0.9375rem] text-ink-muted">
+                                    Remember your password?{' '}
+                                    <Link href="/login" className="text-emerald font-bold hover:underline transition-all">
+                                        Sign in
+                                    </Link>
+                                </p>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
