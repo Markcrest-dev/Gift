@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Gift, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 export default function ForgotPasswordPage() {
@@ -25,9 +26,13 @@ export default function ForgotPasswordPage() {
                 <div className="bg-white/80 backdrop-blur-xl border border-gray-100 shadow-2xl shadow-emerald/[0.04] rounded-[2rem] p-8 md:p-10">
                     {/* Logo */}
                     <div className="flex justify-center items-center gap-2.5 mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-emerald flex items-center justify-center shadow-md shadow-emerald/20">
-                            <Gift className="w-5 h-5 text-white" />
-                        </div>
+                        <Image 
+                            src="/festow-logo.png" 
+                            alt="Festow" 
+                            width={40} 
+                            height={40} 
+                            className="h-10 w-auto object-contain rounded-xl shadow-md shadow-emerald/20" 
+                        />
                     </div>
 
                     {submitted ? (

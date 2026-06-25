@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { auth } from '@/lib/auth';
 import { LayoutDashboard, Gift, Send, Inbox, Star, Settings, LogOut } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
     const pathname = usePathname();
@@ -35,9 +36,13 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
                 ${isOpen ? 'max-lg:!translate-x-0' : ''}
             `}>
                 <Link href="/dashboard" className="flex items-center gap-3 px-8 py-8 text-ink font-display text-2xl tracking-tight">
-                    <div className="w-7 h-7 rounded-md bg-emerald flex items-center justify-center">
-                        <Gift className="w-4 h-4 text-white" />
-                    </div>
+                    <Image 
+                        src="/festow-logo.png" 
+                        alt="Festow" 
+                        width={28} 
+                        height={28} 
+                        className="h-7 w-auto object-contain rounded-md" 
+                    />
                     <span>Festow</span>
                 </Link>
 

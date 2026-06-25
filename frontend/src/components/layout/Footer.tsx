@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Gift } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Footer() {
     return (
@@ -9,9 +9,13 @@ export default function Footer() {
                     {/* Brand */}
                     <div className="md:col-span-5">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="w-8 h-8 rounded-md bg-emerald flex items-center justify-center">
-                                <Gift className="w-4 h-4 text-white" />
-                            </div>
+                            <Image 
+                                src="/festow-logo.png" 
+                                alt="Festow" 
+                                width={32} 
+                                height={32} 
+                                className="h-8 w-auto object-contain rounded-md" 
+                            />
                             <span className="font-display text-2xl text-ink tracking-tight">
                                 Festow
                             </span>
