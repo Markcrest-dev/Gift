@@ -31,7 +31,12 @@ function SendGiftContent() {
         recipientCountry: '', 
         message: '', 
         deliveryDate: '', 
-        paymentMethod: '' 
+        paymentMethod: '',
+        cardNumber: '',
+        cardExpiry: '',
+        cardCvc: '',
+        cardName: '',
+        walletConnected: false
     });
 
     useEffect(() => { 
@@ -299,12 +304,73 @@ function SendGiftContent() {
                                         ))}
                                     </div>
                                 </div>
+
+                                {formData.paymentMethod === 'card' && (
+                                    <div className="animate-in fade-in slide-in-from-top-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm mt-6">
+                                        <div className="space-y-4">
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Card Number</label>
+                                                <div className="relative">
+                                                    <input type="text" id="cardNumber" className="w-full bg-transparent border-b border-gray-300 py-3 pl-10 text-lg font-body focus:outline-none focus:border-green-dark transition-colors placeholder-gray-300" placeholder="0000 0000 0000 0000" value={formData.cardNumber} onChange={handleInputChange} maxLength={19} />
+                                                    <svg className="absolute left-0 top-3.5 w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div>
+                                                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Expiry</label>
+                                                    <input type="text" id="cardExpiry" className="w-full bg-transparent border-b border-gray-300 py-3 text-lg font-body focus:outline-none focus:border-green-dark transition-colors placeholder-gray-300" placeholder="MM/YY" value={formData.cardExpiry} onChange={handleInputChange} maxLength={5} />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">CVC</label>
+                                                    <input type="text" id="cardCvc" className="w-full bg-transparent border-b border-gray-300 py-3 text-lg font-body focus:outline-none focus:border-green-dark transition-colors placeholder-gray-300" placeholder="123" value={formData.cardCvc} onChange={handleInputChange} maxLength={4} />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Name on Card</label>
+                                                <input type="text" id="cardName" className="w-full bg-transparent border-b border-gray-300 py-3 text-lg font-body focus:outline-none focus:border-green-dark transition-colors placeholder-gray-300" placeholder="JANE DOE" value={formData.cardName} onChange={handleInputChange} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {formData.paymentMethod === 'crypto' && (
+                                    <div className="animate-in fade-in slide-in-from-top-4 bg-white p-8 rounded-3xl border border-gray-100 shadow-sm mt-6 text-center">
+                                        {!formData.walletConnected ? (
+                                            <>
+                                                <div className="w-16 h-16 bg-green-dark/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                    <svg className="w-8 h-8 text-green-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                                                </div>
+                                                <h3 className="text-xl font-bold text-gray-800 mb-2">Connect Wallet</h3>
+                                                <p className="text-sm text-gray-500 mb-6">Link your Web3 wallet to authorize this transaction securely.</p>
+                                                <button onClick={() => setFormData(prev => ({ ...prev, walletConnected: true }))} className="bg-gray-900 text-white px-6 py-3 rounded-full font-bold hover:bg-black transition-colors shadow-lg shadow-black/10">
+                                                    Connect MetaMask
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                    <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                                                </div>
+                                                <h3 className="text-xl font-bold text-gray-800 mb-2">Wallet Connected</h3>
+                                                <p className="text-sm text-gray-500 mb-6 font-mono">0x71C...976F</p>
+                                                <button onClick={() => setFormData(prev => ({ ...prev, walletConnected: false }))} className="text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors uppercase tracking-widest">
+                                                    Disconnect
+                                                </button>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-4 mt-12 pt-8 border-t border-gray-100">
                                 <button 
                                     onClick={handleConfirm}
-                                    disabled={sending || !formData.paymentMethod}
+                                    disabled={
+                                        sending || 
+                                        !formData.paymentMethod || 
+                                        (formData.paymentMethod === 'card' && (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvc || !formData.cardName)) ||
+                                        (formData.paymentMethod === 'crypto' && !formData.walletConnected)
+                                    }
                                     className="w-full bg-green-dark text-white px-8 py-5 rounded-full font-bold text-lg hover:bg-green-muted transition-all active:scale-95 shadow-xl shadow-green-dark/20 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-3"
                                 >
                                     {sending ? (
