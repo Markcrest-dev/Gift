@@ -20,8 +20,9 @@ export class OrdersService {
 
   async create(senderId: string, dto: CreateOrderDto): Promise<Order> {
     const gift = await this.giftsService.findById(dto.giftId);
-    const serviceFee = Number((gift.price * SERVICE_FEE_RATE).toFixed(2));
-    const totalAmount = Number((gift.price + serviceFee).toFixed(2));
+    const giftPrice = Number(gift.price);
+    const serviceFee = Number((giftPrice * SERVICE_FEE_RATE).toFixed(2));
+    const totalAmount = Number((giftPrice + serviceFee).toFixed(2));
 
     const order = this.ordersRepository.create({
       senderId,
