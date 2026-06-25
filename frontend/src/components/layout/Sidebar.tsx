@@ -38,7 +38,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
                     <div className="w-7 h-7 rounded-md bg-emerald flex items-center justify-center">
                         <Gift className="w-4 h-4 text-white" />
                     </div>
-                    <span>Gift<span className="text-ink-muted">Exchange</span></span>
+                    <span>Festow</span>
                 </Link>
 
                 <nav className="flex-1 overflow-y-auto px-4 mt-4">

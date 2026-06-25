@@ -10,7 +10,7 @@ export default function MobileHeader({ onMenuClick }: { onMenuClick: () => void 
                 <div className="w-7 h-7 rounded-md bg-emerald flex items-center justify-center">
                     <Gift className="w-4 h-4 text-white" />
                 </div>
-                <span>Gift<span className="text-ink-muted">Exchange</span></span>
+                <span>Festow</span>
             </Link>
             <button
                 className="text-ink-muted hover:text-ink p-2 -mr-2 transition-colors rounded-md hover:bg-base"

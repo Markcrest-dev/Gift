@@ -106,7 +106,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-ink-faint text-xs uppercase tracking-[0.1em] font-medium mb-1">Email</p>
-                                    <p className="text-ink-muted text-sm">support@giftexchange.com</p>
+                                    <p className="text-ink-muted text-sm">support@festow.com</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3">

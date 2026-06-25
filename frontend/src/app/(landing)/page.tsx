@@ -310,7 +310,7 @@ export default function LandingPage() {
             <section className="section-padding bg-base">
                 <div className="container-narrow">
                     <div className="text-center mb-16 max-w-xl mx-auto">
-                        <h3 className="reveal mb-4">Why GiftExchange</h3>
+                        <h3 className="reveal mb-4">Why Festow</h3>
                         <h2 className="reveal reveal-delay-1 text-ink">
                             Built for the <span className="italic">modern</span> gifter.
                         </h2>
@@ -379,7 +379,7 @@ export default function LandingPage() {
                                 role: 'Designer, Lagos',
                             },
                             {
-                                quote: "Cross-border gifting used to be such a hassle. GiftExchange made it effortless. I've sent 15 gifts this year across 8 countries.",
+                                quote: "Cross-border gifting used to be such a hassle. Festow made it effortless. I've sent 15 gifts this year across 8 countries.",
                                 name: 'Maria Santos',
                                 role: 'Marketing Lead, São Paulo',
                             },

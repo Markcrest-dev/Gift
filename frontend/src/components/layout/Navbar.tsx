@@ -48,7 +48,7 @@ export default function Navbar() {
                             <Gift className="w-4 h-4 text-white" />
                         </div>
                         <span>
-                            Gift<span className="text-ink-muted">Exchange</span>
+                            Festow
                         </span>
                     </Link>
 
