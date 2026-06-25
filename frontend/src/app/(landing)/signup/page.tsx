@@ -14,7 +14,7 @@ export default function SignupPage() {
         fullName: '',
         email: '',
         password: '',
-        country: ''
+        country: '',
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -30,14 +30,8 @@ export default function SignupPage() {
         const parts = formData.fullName.trim().split(' ');
         const firstName = parts[0] || '';
         const lastName = parts.length > 1 ? parts.slice(1).join(' ') : '';
-        
-        const result = await auth.signup(
-            formData.email,
-            formData.password,
-            firstName,
-            lastName
-        );
-        
+
+        const result = await auth.signup(formData.email, formData.password, firstName, lastName);
         setLoading(false);
 
         if (result.success) {
@@ -47,26 +41,33 @@ export default function SignupPage() {
         }
     };
 
-    const inputClass = "w-full bg-gray-50 border border-gray-200 text-gray-900 font-body text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#0A4535] focus:ring-1 focus:ring-[#0A4535] transition-all placeholder-gray-400";
+    const inputClass =
+        'w-full bg-base border border-gray-200 text-ink text-sm rounded-xl px-4 py-3.5 focus:outline-none focus:border-emerald focus:ring-1 focus:ring-emerald transition-all placeholder:text-ink-faint';
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-[#F4F0EB] px-4 font-body py-12">
-            <div className="bg-white border border-gray-100 shadow-xl rounded-3xl w-full max-w-[440px] p-8 md:p-12 relative overflow-hidden">
-                
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-[#0A4535]"></div>
-                
-                <div className="flex justify-center items-center gap-2 mb-8 mt-2">
-                    <Gift className="w-6 h-6 text-[#0A4535]" />
-                    <span className="font-display text-xl font-medium text-[#0A4535]">Gift<span className="text-[#0A4535]/70">Exchange</span></span>
+        <div className="min-h-screen flex items-center justify-center bg-base px-4 pt-[72px] pb-12">
+            <div className="bg-white border border-gray-100 shadow-xl shadow-emerald/[0.03] rounded-2xl w-full max-w-[420px] p-8 md:p-10 relative overflow-hidden">
+                {/* Top accent */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald" />
+
+                {/* Logo */}
+                <div className="flex justify-center items-center gap-2.5 mb-8 mt-1">
+                    <div className="w-8 h-8 rounded-lg bg-emerald flex items-center justify-center">
+                        <Gift className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="font-display text-xl text-emerald">
+                        Gift<span className="text-emerald/60">Exchange</span>
+                    </span>
                 </div>
 
+                {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="font-display text-3xl md:text-4xl text-[#0A4535] mb-3">Create account</h1>
-                    <p className="text-gray-500 text-sm md:text-base">Start sending gifts across borders</p>
+                    <h1 className="font-display text-3xl text-ink mb-2">Create account</h1>
+                    <p className="text-ink-muted text-sm">Start sending gifts across borders</p>
                 </div>
 
                 {error && (
-                    <div className="border border-red-200 bg-red-50 text-red-600 px-4 py-3 mb-6 text-sm text-center rounded-xl font-medium">
+                    <div className="border border-red-200 bg-red-light text-red-dark px-4 py-3 mb-6 text-sm text-center rounded-xl font-medium">
                         {error}
                     </div>
                 )}
@@ -104,7 +105,7 @@ export default function SignupPage() {
                     </div>
                     <div>
                         <select
-                            className={`${inputClass} appearance-none text-gray-500`}
+                            className={`${inputClass} appearance-none`}
                             required
                             value={formData.country}
                             onChange={(e) => setFormData({ ...formData, country: e.target.value })}
@@ -117,23 +118,24 @@ export default function SignupPage() {
                         </select>
                     </div>
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         disabled={loading}
-                        className="w-full bg-[#0A4535] hover:bg-[#073528] text-white font-medium text-base transition-colors disabled:opacity-50 mt-4 py-3.5 rounded-full shadow-md"
+                        className="w-full bg-emerald hover:bg-emerald-hover text-white font-semibold text-[0.9375rem] py-3.5 rounded-full transition-colors disabled:opacity-50 shadow-sm mt-2"
                     >
                         {loading ? 'Creating account...' : 'Create Account'}
                     </button>
                 </form>
 
                 <div className="text-center mt-8">
-                    <Link href="/login" className="text-sm text-gray-600 hover:text-[#0A4535] font-medium transition-colors">
-                        Already have an account? <span className="text-[#0A4535] font-bold">Sign in &rarr;</span>
+                    <Link href="/login" className="text-sm text-ink-muted hover:text-ink font-medium transition-colors">
+                        Already have an account?{' '}
+                        <span className="text-emerald font-bold">Sign in &rarr;</span>
                     </Link>
                 </div>
-                
+
                 <div className="text-center mt-6">
-                    <p className="text-[11px] text-gray-400 font-medium">
+                    <p className="text-[0.6875rem] text-ink-faint">
                         By creating an account you agree to our Terms of Service.
                     </p>
                 </div>

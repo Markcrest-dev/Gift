@@ -1,173 +1,143 @@
+'use client';
+
 import Link from 'next/link';
-import { ArrowRight, Check, X, Smartphone, Globe, ShieldCheck } from 'lucide-react';
+import {
+    Gift, Globe, Shield, ArrowRight, Send,
+    CreditCard, PackageCheck, Star, ChevronRight,
+    Zap, Users, Sparkles, Heart, Clock
+} from 'lucide-react';
 
-export default function HomePage() {
+export default function LandingPage() {
     return (
-        <div className="bg-[var(--color-base)] text-[var(--color-green-dark)] font-body">
-            {/* Navigation / Header */}
-            <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
-                <div className="font-display text-2xl font-bold text-white tracking-tight">
-                    Gift<span className="text-white/70">Exchange</span>
-                </div>
-                <nav className="hidden md:flex items-center gap-8 text-white/90 text-sm font-medium">
-                    <Link href="#features" className="hover:text-white transition-colors">Features</Link>
-                    <Link href="#how-it-works" className="hover:text-white transition-colors">How It Works</Link>
-                    <Link href="#compare" className="hover:text-white transition-colors">Compare</Link>
-                </nav>
-                <div className="flex items-center gap-4">
-                    <Link href="/login" className="text-white/90 text-sm font-medium hover:text-white transition-colors hidden sm:block">Log In</Link>
-                    <Link href="/signup">
-                        <button className="bg-[#0A4535] text-white hover:bg-[#073528] text-sm font-medium px-5 py-2.5 rounded-full transition-colors shadow-lg">
-                            Get Started
-                        </button>
-                    </Link>
-                </div>
-            </header>
+        <main>
+            {/* ════════════════════════════════════════════
+                HERO
+            ════════════════════════════════════════════ */}
+            <section className="relative min-h-[94vh] flex items-center bg-base pt-[72px] overflow-hidden">
+                {/* Subtle gradient orb */}
+                <div className="absolute top-[15%] right-[-5%] w-[600px] h-[600px] rounded-full bg-sage/60 blur-[120px] pointer-events-none" />
 
-            {/* Hero Section — Deep Green Background */}
-            <section className="relative pt-[160px] pb-[120px] px-4 bg-[#0d5c46] overflow-hidden">
-                {/* Subtle geometric pattern overlay (simulated with CSS background or just solid color for now, we'll use solid with some gradients) */}
-                <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                
-                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 relative z-10">
-                    <div className="lg:w-1/2">
-                        <div className="text-[#D1FAE5] text-xs font-semibold uppercase tracking-widest mb-6">
-                            GLOBAL GIFTING. NO BORDERS. NO FRICTION.
-                        </div>
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display text-white mb-6 leading-[1.05]">
-                            Send the Gift.<br />
-                            Let Them Choose.
-                        </h1>
-                        <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10 max-w-lg font-light">
-                            Send gifts across 120+ countries instantly. Your recipient decides — keep the item, take the cash, or convert to crypto. No expensive international shipping, no guesswork.
-                        </p>
-                        <div className="flex flex-col sm:flex-row items-center gap-4">
-                            <Link href="/signup">
-                                <button className="w-full sm:w-auto bg-white text-[#0d5c46] hover:bg-gray-50 text-base font-semibold px-8 py-4 rounded-full transition-colors shadow-xl flex items-center justify-center">
-                                    Send a Gift Now
-                                </button>
-                            </Link>
-                            <Link href="#how-it-works">
-                                <button className="w-full sm:w-auto bg-transparent border border-white/30 text-white hover:bg-white/10 text-base font-medium px-8 py-4 rounded-full transition-colors flex items-center justify-center">
-                                    See How It Works
-                                </button>
-                            </Link>
-                        </div>
-                        <div className="mt-10 flex flex-wrap items-center gap-6 text-white/70 text-sm font-medium">
-                            <span className="flex items-center gap-2"><Check size={16} className="text-[#D1FAE5]" /> Zero hidden fees</span>
-                            <span className="flex items-center gap-2"><Check size={16} className="text-[#D1FAE5]" /> 120+ countries</span>
-                            <span className="flex items-center gap-2"><Check size={16} className="text-[#D1FAE5]" /> Instant delivery</span>
-                        </div>
-                    </div>
-                    
-                    {/* Hero Graphic / Phone Mockup */}
-                    <div className="lg:w-1/2 flex justify-center relative">
-                        {/* Simulated Phone Mockups */}
-                        <div className="relative w-[320px] h-[640px] bg-[#111827] rounded-[40px] border-[8px] border-gray-900 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] overflow-hidden transform rotate-[-2deg] z-10">
-                            {/* App Header */}
-                            <div className="bg-[#1F2937] p-6 pt-12 border-b border-gray-800">
-                                <p className="text-gray-400 text-xs mb-1">You received a gift from</p>
-                                <p className="text-white font-semibold text-lg">Michael Chen</p>
-                            </div>
-                            {/* App Content */}
-                            <div className="p-6">
-                                <div className="bg-[#374151] rounded-2xl p-4 mb-6 shadow-inner">
-                                    <div className="w-full h-32 bg-gray-600 rounded-xl mb-4 animate-pulse"></div>
-                                    <div className="flex justify-between items-baseline mb-1">
-                                        <span className="text-white font-medium">Sony WH-1000XM5</span>
-                                    </div>
-                                    <div className="text-[#10B981] font-mono font-bold">$349.00</div>
-                                </div>
-                                
-                                <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3">Choose How to Receive</p>
-                                <div className="space-y-3">
-                                    <div className="bg-[#059669] text-white text-sm font-medium p-3 rounded-xl text-center shadow-md">
-                                        Accept the headphones
-                                    </div>
-                                    <div className="bg-gray-800 text-gray-300 text-sm font-medium p-3 rounded-xl text-center border border-gray-700">
-                                        Take $349.00 as cash
-                                    </div>
-                                    <div className="bg-gray-800 text-gray-300 text-sm font-medium p-3 rounded-xl text-center border border-gray-700">
-                                        Convert to crypto
-                                    </div>
+                <div className="container-narrow w-full py-16 lg:py-0">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                        {/* Left: Copy */}
+                        <div className="max-w-lg">
+                            <div className="reveal">
+                                <div className="inline-flex items-center gap-2 bg-emerald/[0.07] text-emerald px-4 py-2 rounded-full text-[0.8125rem] font-semibold mb-8">
+                                    <Globe className="w-3.5 h-3.5" />
+                                    <span>Available in 120+ countries</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* The Problem & Solution Section (Beige background) */}
-            <section id="compare" className="py-24 px-4 bg-[#F4F0EB]">
-                <div className="max-w-5xl mx-auto text-center">
-                    <h3 className="text-[#0d5c46] text-xs font-bold uppercase tracking-[0.2em] mb-4">THE PROBLEM</h3>
-                    <h2 className="font-display text-4xl md:text-5xl text-[#0A4535] mb-8">
-                        Traditional Gifting is Too Complex
-                    </h2>
-                    <p className="text-[#0A4535]/70 text-lg max-w-2xl mx-auto mb-16 leading-relaxed">
-                        Shipping internationally means exorbitant fees, customs delays, and the risk of sending something they don't even want. We've cut out the friction so you can focus on the gesture.
-                    </p>
+                            <h1 className="reveal reveal-delay-1 text-ink mb-6">
+                                The gift they{' '}
+                                <span className="italic text-gradient">actually&nbsp;want.</span>
+                            </h1>
 
-                    <div className="grid md:grid-cols-3 gap-6 mb-16">
-                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="text-3xl font-display text-[#0A4535] mb-2">Up to 30%</div>
-                            <div className="text-sm text-gray-500 font-medium">Of value lost to shipping & customs</div>
-                        </div>
-                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="text-3xl font-display text-[#0A4535] mb-2">Weeks</div>
-                            <div className="text-sm text-gray-500 font-medium">Average international delivery time</div>
-                        </div>
-                        <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="text-3xl font-display text-[#0A4535] mb-2">$0</div>
-                            <div className="text-sm text-gray-500 font-medium">What we charge for cash delivery</div>
-                        </div>
-                    </div>
+                            <p className="reveal reveal-delay-2 text-ink-muted text-lg leading-relaxed mb-10 max-w-md">
+                                Send meaningful gifts across borders. Recipients choose to keep the item, take the cash, or convert to crypto.
+                            </p>
 
-                    {/* Comparison Cards */}
-                    <div className="flex flex-col md:flex-row gap-6 justify-center">
-                        {/* Without Us */}
-                        <div className="bg-[#FEE2E2] rounded-3xl p-8 w-full md:w-[400px] text-left border border-red-200 shadow-sm relative overflow-hidden">
-                            <h4 className="text-[#991B1B] font-bold text-lg mb-6 flex items-center gap-2">
-                                <X size={20} /> Traditional Shipping
-                            </h4>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center text-[#991B1B]/80 text-sm border-b border-red-200 pb-2">
-                                    <span>Gift Cost</span>
-                                    <span className="font-mono font-medium">$200.00</span>
+                            <div className="reveal reveal-delay-3 flex flex-col sm:flex-row gap-3">
+                                <Link href="/signup">
+                                    <button className="group w-full sm:w-auto bg-emerald text-white px-8 py-3.5 rounded-full font-semibold text-[0.9375rem] hover:bg-emerald-hover transition-all duration-200 shadow-md hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2">
+                                        Start Giving
+                                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                    </button>
+                                </Link>
+                                <Link href="/marketplace">
+                                    <button className="w-full sm:w-auto text-ink-muted hover:text-ink px-8 py-3.5 rounded-full font-semibold text-[0.9375rem] border border-gray-200 hover:border-gray-300 hover:bg-white transition-all duration-200">
+                                        Browse Marketplace
+                                    </button>
+                                </Link>
+                            </div>
+
+                            {/* Trust indicators */}
+                            <div className="reveal reveal-delay-4 mt-10 flex items-center gap-5 text-[0.8125rem] text-ink-faint">
+                                <div className="flex items-center gap-1.5">
+                                    <Shield className="w-3.5 h-3.5" />
+                                    <span>Secure payments</span>
                                 </div>
-                                <div className="flex justify-between items-center text-[#991B1B]/80 text-sm border-b border-red-200 pb-2">
-                                    <span>Intl. Shipping</span>
-                                    <span className="font-mono font-medium">$45.00</span>
+                                <div className="w-px h-3.5 bg-gray-200" />
+                                <div className="flex items-center gap-1.5">
+                                    <Zap className="w-3.5 h-3.5" />
+                                    <span>Instant delivery</span>
                                 </div>
-                                <div className="flex justify-between items-center text-[#991B1B]/80 text-sm border-b border-red-200 pb-2">
-                                    <span>Customs Fees</span>
-                                    <span className="font-mono font-medium">$25.00</span>
-                                </div>
-                                <div className="flex justify-between items-center text-[#991B1B] font-bold pt-2 text-lg">
-                                    <span>Total Spent</span>
-                                    <span className="font-mono">$270.00</span>
+                                <div className="w-px h-3.5 bg-gray-200 hidden sm:block" />
+                                <div className="hidden sm:flex items-center gap-1.5">
+                                    <Heart className="w-3.5 h-3.5" />
+                                    <span>Recipient choice</span>
                                 </div>
                             </div>
                         </div>
 
-                        {/* With Us */}
-                        <div className="bg-[#D1FAE5] rounded-3xl p-8 w-full md:w-[400px] text-left border border-emerald-200 shadow-xl relative transform md:-translate-y-4">
-                            <div className="absolute top-0 right-0 bg-[#0d5c46] text-white text-xs font-bold px-4 py-1 rounded-bl-xl">OUR WAY</div>
-                            <h4 className="text-[#0d5c46] font-bold text-lg mb-6 flex items-center gap-2">
-                                <Check size={20} /> GiftExchange
-                            </h4>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center text-[#0d5c46]/80 text-sm border-b border-emerald-200/50 pb-2">
-                                    <span>Gift Cost</span>
-                                    <span className="font-mono font-medium">$200.00</span>
+                        {/* Right: Hero visual card */}
+                        <div className="reveal reveal-delay-2 relative hidden lg:block">
+                            <div className="relative">
+                                {/* Main gift card */}
+                                <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-xl shadow-emerald/[0.04]">
+                                    <div className="flex items-start justify-between mb-8">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-emerald flex items-center justify-center">
+                                                <Gift className="w-5 h-5 text-white" />
+                                            </div>
+                                            <div>
+                                                <div className="font-display text-lg text-ink">Birthday Surprise</div>
+                                                <div className="text-sm text-ink-muted">For Sarah in London</div>
+                                            </div>
+                                        </div>
+                                        <div className="text-xs text-ink-faint bg-sage/60 px-3 py-1.5 rounded-full font-medium">
+                                            Delivered
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-0 mb-8">
+                                        <div className="flex items-center justify-between py-3.5 border-b border-gray-50">
+                                            <span className="text-sm text-ink-muted">Gift Value</span>
+                                            <span className="font-mono text-[0.9375rem] font-semibold text-ink">$85.00</span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-3.5 border-b border-gray-50">
+                                            <span className="text-sm text-ink-muted">Delivery</span>
+                                            <span className="text-sm font-medium text-ink flex items-center gap-1.5">
+                                                <Zap className="w-3 h-3 text-amber" />
+                                                Instant
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between py-3.5">
+                                            <span className="text-sm text-ink-muted">Recipient Chooses</span>
+                                            <span className="text-sm font-medium text-ink">Item · Cash · Crypto</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-emerald text-white text-center py-3.5 rounded-xl font-semibold text-[0.875rem] flex items-center justify-center gap-2">
+                                        <PackageCheck className="w-4 h-4" />
+                                        Gift Sent Successfully
+                                    </div>
                                 </div>
-                                <div className="flex justify-between items-center text-[#0d5c46] font-bold pt-2 text-lg">
-                                    <span>Total Spent</span>
-                                    <span className="font-mono">$200.00</span>
+
+                                {/* Floating notification – top right */}
+                                <div className="absolute -top-4 -right-4 bg-white rounded-xl border border-gray-100 px-4 py-3 shadow-lg z-10 animate-scale-in" style={{ animationDelay: '0.8s', animationFillMode: 'both' }}>
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="w-7 h-7 rounded-full bg-emerald-light flex items-center justify-center">
+                                            <Heart className="w-3.5 h-3.5 text-emerald" />
+                                        </div>
+                                        <div>
+                                            <div className="text-xs font-semibold text-ink">Sarah accepted!</div>
+                                            <div className="text-[10px] text-ink-faint">Just now</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="mt-6 pt-4 border-t border-emerald-300">
-                                    <div className="bg-white/60 text-[#0d5c46] font-semibold text-sm px-4 py-2 rounded-full inline-flex items-center">
-                                        ↑ You save $70.00
+
+                                {/* Floating stat – bottom left */}
+                                <div className="absolute -bottom-4 -left-4 bg-white rounded-xl border border-gray-100 px-4 py-3 shadow-lg z-10 animate-scale-in" style={{ animationDelay: '1.1s', animationFillMode: 'both' }}>
+                                    <div className="flex items-center gap-3">
+                                        <div className="flex -space-x-1.5">
+                                            <div className="w-6 h-6 rounded-full bg-emerald border-2 border-white text-white text-[9px] font-bold flex items-center justify-center">S</div>
+                                            <div className="w-6 h-6 rounded-full bg-emerald-muted border-2 border-white text-white text-[9px] font-bold flex items-center justify-center">M</div>
+                                            <div className="w-6 h-6 rounded-full bg-emerald/70 border-2 border-white text-white text-[9px] font-bold flex items-center justify-center">A</div>
+                                        </div>
+                                        <div className="text-xs text-ink-muted">
+                                            <span className="font-bold text-ink">2,400+</span> gifts today
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -176,92 +146,311 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* How it Works */}
-            <section id="how-it-works" className="py-24 px-4 bg-white">
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-20">
-                        <h3 className="text-[#0d5c46] text-xs font-bold uppercase tracking-[0.2em] mb-4">HOW IT WORKS</h3>
-                        <h2 className="font-display text-4xl md:text-5xl text-[#0A4535]">
-                            Simple. Direct. Done.
+            {/* ════════════════════════════════════════════
+                SOCIAL PROOF STRIP
+            ════════════════════════════════════════════ */}
+            <section className="bg-white border-y border-gray-100 py-14">
+                <div className="container-narrow">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-16">
+                        {[
+                            { value: '120+', label: 'Countries' },
+                            { value: '50K+', label: 'Gifts Sent' },
+                            { value: '98%', label: 'Satisfaction' },
+                            { value: '$2M+', label: 'Value Exchanged' },
+                        ].map((stat, i) => (
+                            <div key={i} className="reveal text-center">
+                                <div className="font-mono text-3xl lg:text-4xl font-bold text-ink mb-1 tracking-tight">
+                                    {stat.value}
+                                </div>
+                                <div className="text-xs text-ink-faint font-medium uppercase tracking-[0.1em]">
+                                    {stat.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════════════════════
+                HOW IT WORKS
+            ════════════════════════════════════════════ */}
+            <section className="section-padding bg-base">
+                <div className="container-narrow">
+                    <div className="text-center mb-16 max-w-xl mx-auto">
+                        <h3 className="reveal mb-4">How It Works</h3>
+                        <h2 className="reveal reveal-delay-1 text-ink">
+                            Three steps to <span className="italic">delight.</span>
                         </h2>
                     </div>
 
-                    <div className="space-y-24">
-                        {/* Step 1 */}
-                        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-24">
-                            <div className="md:w-1/2 flex justify-center relative">
-                                <div className="absolute top-1/2 -translate-y-1/2 -right-8 w-20 h-20 bg-white rounded-full shadow-xl flex items-center justify-center font-display text-3xl text-[#0d5c46] z-20">
-                                    01
+                    <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+                        {[
+                            {
+                                icon: Gift,
+                                step: '01',
+                                title: 'Choose a Gift',
+                                description: 'Browse our curated marketplace of premium items, experiences, and digital gifts for every occasion.',
+                            },
+                            {
+                                icon: Send,
+                                step: '02',
+                                title: 'Send It Anywhere',
+                                description: 'Add your personal message and send to anyone in 120+ countries. No address needed — just their email.',
+                            },
+                            {
+                                icon: Sparkles,
+                                step: '03',
+                                title: 'They Choose',
+                                description: 'Recipients pick how they receive it: keep the item, take the cash equivalent, or convert to crypto.',
+                            },
+                        ].map((item, i) => (
+                            <div
+                                key={i}
+                                className={`reveal reveal-delay-${i + 1} group relative bg-white rounded-2xl p-8 lg:p-10 border border-gray-100 hover:border-emerald/20 transition-all duration-300 hover:shadow-lg hover:shadow-emerald/[0.03]`}
+                            >
+                                {/* Step number watermark */}
+                                <div className="absolute top-6 right-8 font-mono text-5xl font-bold text-ink/[0.03] group-hover:text-emerald/[0.06] transition-colors duration-300">
+                                    {item.step}
                                 </div>
-                                <div className="w-[280px] h-[560px] bg-gray-100 rounded-[32px] border-4 border-gray-200 relative overflow-hidden flex items-center justify-center">
-                                    <Smartphone className="w-16 h-16 text-gray-300" />
+
+                                <div className="w-11 h-11 bg-emerald rounded-xl flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300">
+                                    <item.icon className="w-5 h-5 text-white" />
                                 </div>
+
+                                <h4 className="text-lg font-bold text-ink mb-2">{item.title}</h4>
+                                <p className="text-ink-muted text-[0.9375rem] leading-relaxed">{item.description}</p>
                             </div>
-                            <div className="md:w-1/2 text-left">
-                                <div className="w-14 h-14 bg-[#0d5c46] rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg">
-                                    <Globe size={24} />
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ════════════════════════════════════════════
+                RECIPIENT CHOICE
+            ════════════════════════════════════════════ */}
+            <section className="section-padding bg-white">
+                <div className="container-narrow">
+                    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                        {/* Left: Interactive preview */}
+                        <div className="reveal order-2 lg:order-1">
+                            <div className="bg-emerald rounded-2xl p-8 lg:p-12 relative overflow-hidden">
+                                {/* Inner glow */}
+                                <div className="absolute -top-[40%] -left-[20%] w-[60%] h-[60%] rounded-full bg-emerald-muted blur-[80px] opacity-50 pointer-events-none" />
+                                <div className="absolute -bottom-[30%] -right-[20%] w-[50%] h-[50%] rounded-full bg-[#157a5e] blur-[60px] opacity-30 pointer-events-none" />
+
+                                <div className="relative z-10 space-y-5">
+                                    <div className="text-white/30 text-[0.6875rem] font-semibold uppercase tracking-[0.2em]">
+                                        Recipient View
+                                    </div>
+
+                                    <div className="bg-white/[0.08] border border-white/[0.1] rounded-xl p-5">
+                                        <div className="text-white/50 text-sm mb-1">You received a gift from</div>
+                                        <div className="font-display text-xl text-white mb-3">Alex Thompson</div>
+                                        <div className="text-white/40 text-sm italic">&ldquo;Happy Birthday! Hope you love it 🎉&rdquo;</div>
+                                    </div>
+
+                                    <div className="grid grid-cols-3 gap-2.5">
+                                        {[
+                                            { label: 'Keep Item', icon: PackageCheck, active: false },
+                                            { label: 'Take Cash', icon: CreditCard, active: true },
+                                            { label: 'Get Crypto', icon: Zap, active: false },
+                                        ].map((opt, i) => (
+                                            <div
+                                                key={i}
+                                                className={`text-center py-4 px-2 rounded-xl border transition-all cursor-default ${
+                                                    opt.active
+                                                        ? 'bg-emerald-light/15 border-emerald-light/30 scale-[1.02]'
+                                                        : 'bg-white/[0.04] border-white/[0.06]'
+                                                }`}
+                                            >
+                                                <opt.icon className={`w-5 h-5 mx-auto mb-2 ${opt.active ? 'text-emerald-light' : 'text-white/40'}`} />
+                                                <div className={`text-[0.6875rem] font-semibold ${opt.active ? 'text-emerald-light' : 'text-white/40'}`}>
+                                                    {opt.label}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                                <h3 className="font-display text-3xl text-[#0A4535] mb-4">Choose & Send</h3>
-                                <p className="text-gray-600 text-lg leading-relaxed">
-                                    Browse our curated collection of premium gifts. Select an item, add your recipient's contact info, and pay seamlessly. We handle the rest instantly.
-                                </p>
                             </div>
                         </div>
 
-                        {/* Step 2 */}
-                        <div className="flex flex-col md:flex-row-reverse items-center gap-12 lg:gap-24">
-                            <div className="md:w-1/2 flex justify-center relative">
-                                <div className="absolute top-1/2 -translate-y-1/2 -left-8 w-20 h-20 bg-white rounded-full shadow-xl flex items-center justify-center font-display text-3xl text-[#0d5c46] z-20">
-                                    02
-                                </div>
-                                <div className="w-[280px] h-[560px] bg-gray-100 rounded-[32px] border-4 border-gray-200 relative overflow-hidden flex items-center justify-center">
-                                     <ShieldCheck className="w-16 h-16 text-gray-300" />
-                                </div>
-                            </div>
-                            <div className="md:w-1/2 text-left">
-                                <div className="w-14 h-14 bg-[#0d5c46] rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg">
-                                    <Check size={24} />
-                                </div>
-                                <h3 className="font-display text-3xl text-[#0A4535] mb-4">They Decide</h3>
-                                <p className="text-gray-600 text-lg leading-relaxed">
-                                    Your recipient receives a digital notification. They view the gift and can choose to have the physical item shipped, or instantly claim the cash or crypto value instead.
-                                </p>
+                        {/* Right: Copy */}
+                        <div className="order-1 lg:order-2">
+                            <h3 className="reveal mb-4">Recipient Choice</h3>
+                            <h2 className="reveal reveal-delay-1 text-ink mb-5">
+                                Let them decide.{' '}
+                                <span className="italic text-gradient">No wrong gifts.</span>
+                            </h2>
+                            <p className="reveal reveal-delay-2 text-ink-muted text-lg leading-relaxed mb-8">
+                                Every gift comes with freedom. Your recipient chooses exactly how they want to receive your generosity.
+                            </p>
+
+                            <div className="reveal reveal-delay-3 space-y-4">
+                                {[
+                                    { icon: PackageCheck, text: 'Keep the original curated gift item' },
+                                    { icon: CreditCard, text: 'Convert to cash via instant bank transfer' },
+                                    { icon: Zap, text: 'Receive equivalent value in cryptocurrency' },
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-center gap-3.5">
+                                        <div className="w-9 h-9 rounded-lg bg-sage flex items-center justify-center shrink-0">
+                                            <item.icon className="w-4 h-4 text-emerald" />
+                                        </div>
+                                        <span className="text-ink-muted text-[0.9375rem] font-medium">{item.text}</span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section className="py-24 px-4 bg-[#0d5c46] text-center">
-                <div className="max-w-3xl mx-auto">
-                    <h2 className="font-display text-4xl md:text-5xl text-white mb-6">
-                        Ready to start gifting without borders?
-                    </h2>
-                    <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">
-                        Join thousands of thoughtful senders who have chosen the friction-free way to give globally.
-                    </p>
-                    <Link href="/signup">
-                        <button className="bg-white text-[#0d5c46] hover:bg-gray-50 text-base font-bold px-10 py-4 rounded-full transition-colors shadow-2xl">
-                            Get Started Now
-                        </button>
-                    </Link>
+            {/* ════════════════════════════════════════════
+                FEATURES GRID
+            ════════════════════════════════════════════ */}
+            <section className="section-padding bg-base">
+                <div className="container-narrow">
+                    <div className="text-center mb-16 max-w-xl mx-auto">
+                        <h3 className="reveal mb-4">Why GiftExchange</h3>
+                        <h2 className="reveal reveal-delay-1 text-ink">
+                            Built for the <span className="italic">modern</span> gifter.
+                        </h2>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-5 lg:gap-6">
+                        {[
+                            {
+                                icon: Globe,
+                                title: 'Global Reach',
+                                desc: 'Send to 120+ countries with automatic currency conversion and local compliance.',
+                            },
+                            {
+                                icon: Shield,
+                                title: 'Bank-Level Security',
+                                desc: 'End-to-end encryption, PCI compliant payments, and fraud protection on every transaction.',
+                            },
+                            {
+                                icon: Clock,
+                                title: 'Instant Delivery',
+                                desc: 'Digital gifts arrive immediately. No shipping delays, customs, or tracking anxiety.',
+                            },
+                            {
+                                icon: Users,
+                                title: 'Personal Touch',
+                                desc: 'Add custom messages, schedule deliveries, and track when your gift is received.',
+                            },
+                        ].map((feature, i) => (
+                            <div
+                                key={i}
+                                className={`reveal reveal-delay-${(i % 2) + 1} group bg-white rounded-2xl p-8 border border-gray-100 hover:border-emerald/20 transition-all duration-300 hover:shadow-lg hover:shadow-emerald/[0.03]`}
+                            >
+                                <div className="w-10 h-10 rounded-lg bg-sage flex items-center justify-center mb-5 group-hover:bg-emerald transition-colors duration-300">
+                                    <feature.icon className="w-4.5 h-4.5 text-emerald group-hover:text-white transition-colors duration-300" />
+                                </div>
+                                <h4 className="text-base font-bold text-ink mb-2">{feature.title}</h4>
+                                <p className="text-ink-muted text-[0.875rem] leading-relaxed">{feature.desc}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            {/* Simple Footer */}
-            <footer className="bg-[#0A4535] text-white/60 py-12 px-6 border-t border-white/10">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-                    <div className="font-display text-xl text-white mb-4 md:mb-0">
-                        GiftExchange
+            {/* ════════════════════════════════════════════
+                TESTIMONIALS
+            ════════════════════════════════════════════ */}
+            <section className="section-padding bg-white">
+                <div className="container-narrow">
+                    <div className="text-center mb-16 max-w-xl mx-auto">
+                        <h3 className="reveal mb-4">Testimonials</h3>
+                        <h2 className="reveal reveal-delay-1 text-ink">
+                            Loved by gifters <span className="italic">worldwide.</span>
+                        </h2>
                     </div>
-                    <div className="flex gap-6 text-sm">
-                        <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-white">Terms of Service</Link>
-                        <Link href="/contact" className="hover:text-white">Contact</Link>
+
+                    <div className="grid md:grid-cols-3 gap-5 lg:gap-6">
+                        {[
+                            {
+                                quote: "I sent a birthday gift to my sister in Tokyo. She chose to keep the item and was thrilled. The whole process took under 2 minutes.",
+                                name: 'David Chen',
+                                role: 'Software Engineer, SF',
+                            },
+                            {
+                                quote: "The recipient choice feature is genius. My mom converted her gift to cash and used it for something she really needed. No more unwanted presents!",
+                                name: 'Amara Okafor',
+                                role: 'Designer, Lagos',
+                            },
+                            {
+                                quote: "Cross-border gifting used to be such a hassle. GiftExchange made it effortless. I've sent 15 gifts this year across 8 countries.",
+                                name: 'Maria Santos',
+                                role: 'Marketing Lead, São Paulo',
+                            },
+                        ].map((testimonial, i) => (
+                            <div
+                                key={i}
+                                className={`reveal reveal-delay-${i + 1} group bg-base rounded-2xl p-8 border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:shadow-lg hover:shadow-emerald/[0.02]`}
+                            >
+                                <div className="flex gap-0.5 mb-5">
+                                    {[...Array(5)].map((_, j) => (
+                                        <Star key={j} className="w-3.5 h-3.5 text-amber fill-amber" />
+                                    ))}
+                                </div>
+                                <p className="text-ink-muted text-[0.9375rem] leading-relaxed mb-8">
+                                    &ldquo;{testimonial.quote}&rdquo;
+                                </p>
+                                <div className="flex items-center gap-3 mt-auto">
+                                    <div className="w-9 h-9 rounded-full bg-emerald/[0.08] flex items-center justify-center">
+                                        <span className="text-xs font-bold text-emerald">
+                                            {testimonial.name.split(' ').map(n => n[0]).join('')}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div className="text-sm font-semibold text-ink">{testimonial.name}</div>
+                                        <div className="text-xs text-ink-faint">{testimonial.role}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </footer>
-        </div>
+            </section>
+
+            {/* ════════════════════════════════════════════
+                FINAL CTA
+            ════════════════════════════════════════════ */}
+            <section className="relative section-padding bg-emerald overflow-hidden">
+                {/* Ambient glows */}
+                <div className="absolute -top-[30%] -left-[10%] w-[50%] h-[80%] rounded-full bg-emerald-muted blur-[120px] opacity-30 pointer-events-none" />
+                <div className="absolute -bottom-[20%] -right-[10%] w-[40%] h-[60%] rounded-full bg-[#157a5e] blur-[100px] opacity-25 pointer-events-none" />
+
+                <div className="relative z-10 container-narrow text-center">
+                    <div className="max-w-xl mx-auto">
+                        <h2 className="reveal font-display text-white text-[clamp(2rem,5vw,3.5rem)] leading-tight mb-5">
+                            Ready to send{' '}
+                            <span className="italic text-emerald-light">something special?</span>
+                        </h2>
+                        <p className="reveal reveal-delay-1 text-white/50 text-lg mb-10 max-w-md mx-auto">
+                            Join thousands sending meaningful gifts across borders every day.
+                        </p>
+
+                        <div className="reveal reveal-delay-2 flex flex-col sm:flex-row gap-3 justify-center">
+                            <Link href="/signup">
+                                <button className="group w-full sm:w-auto bg-white text-emerald px-9 py-3.5 rounded-full font-semibold text-[0.9375rem] hover:bg-emerald-light transition-all duration-200 shadow-md active:scale-[0.98] flex items-center justify-center gap-2">
+                                    Create Free Account
+                                    <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                                </button>
+                            </Link>
+                            <Link href="/marketplace">
+                                <button className="w-full sm:w-auto text-white/60 hover:text-white px-9 py-3.5 rounded-full font-semibold text-[0.9375rem] border border-white/15 hover:border-white/30 transition-all duration-200">
+                                    Explore Gifts
+                                </button>
+                            </Link>
+                        </div>
+
+                        <p className="reveal reveal-delay-3 text-white/25 text-sm mt-8">
+                            No credit card required · Free to create an account
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
     );
 }

@@ -12,7 +12,7 @@ export default function ScrollReveal() {
                     }
                 });
             },
-            { threshold: 0.1 }
+            { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
         );
 
         document.querySelectorAll('.reveal').forEach((el) => {
