@@ -113,7 +113,7 @@ function SendGiftContent() {
                                 </p>
                                 <div className="flex items-end justify-between border-t border-white/20 pt-6">
                                     <div className="text-sm font-medium text-base/70">Value</div>
-                                    <div className="font-mono text-3xl font-bold text-white">${gift.price.toFixed(2)}</div>
+                                    <div className="font-mono text-3xl font-bold text-white">${Number(gift.price).toFixed(2)}</div>
                                 </div>
                             </div>
                         ) : (
