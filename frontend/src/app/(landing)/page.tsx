@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import {
     Gift, Globe, Shield, ArrowRight, Send,
     CreditCard, PackageCheck, Star, ChevronRight,
@@ -14,10 +15,21 @@ export default function LandingPage() {
                 HERO
             ════════════════════════════════════════════ */}
             <section className="relative min-h-[94vh] flex items-center bg-base pt-[72px] overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="/hero-bg.png"
+                        alt="Hero background"
+                        fill
+                        className="object-cover opacity-60 mix-blend-multiply"
+                        priority
+                    />
+                </div>
+                
                 {/* Subtle gradient orb */}
-                <div className="absolute top-[15%] right-[-5%] w-[600px] h-[600px] rounded-full bg-sage/60 blur-[120px] pointer-events-none" />
+                <div className="absolute top-[15%] right-[-5%] w-[600px] h-[600px] rounded-full bg-sage/60 blur-[120px] pointer-events-none z-0" />
 
-                <div className="container-narrow w-full py-16 lg:py-0">
+                <div className="container-narrow w-full py-16 lg:py-0 relative z-10">
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         {/* Left: Copy */}
                         <div className="max-w-lg">
@@ -28,12 +40,12 @@ export default function LandingPage() {
                                 </div>
                             </div>
 
-                            <h1 className="reveal reveal-delay-1 text-ink mb-6">
+                            <h1 className="reveal reveal-delay-1 text-emerald mb-6">
                                 The gift they{' '}
                                 <span className="italic text-gradient">actually&nbsp;want.</span>
                             </h1>
 
-                            <p className="reveal reveal-delay-2 text-ink-muted text-lg leading-relaxed mb-10 max-w-md">
+                            <p className="reveal reveal-delay-2 text-emerald/80 text-lg leading-relaxed mb-10 max-w-md">
                                 Send meaningful gifts across borders. Recipients choose to keep the item, take the cash, or convert to crypto.
                             </p>
 
@@ -52,7 +64,7 @@ export default function LandingPage() {
                             </div>
 
                             {/* Trust indicators */}
-                            <div className="reveal reveal-delay-4 mt-10 flex items-center gap-5 text-[0.8125rem] text-ink-faint">
+                            <div className="reveal reveal-delay-4 mt-10 flex items-center gap-5 text-[0.8125rem] text-emerald/60">
                                 <div className="flex items-center gap-1.5">
                                     <Shield className="w-3.5 h-3.5" />
                                     <span>Secure payments</span>
