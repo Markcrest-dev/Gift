@@ -1,4 +1,4 @@
-# 🎁 Global Gift Exchange - Next.js Application
+# 🎁 Festow - Next.js Application
 
 A modern, full-featured Christmas gifting application built with **Next.js 14**, **TypeScript**, and **Tailwind CSS** that allows users to send and receive gifts globally with options for cash or cryptocurrency redemption.
 
@@ -189,7 +189,7 @@ This project was migrated from vanilla HTML/CSS/JS to Next.js + TypeScript + Tai
 ## 📞 Support
 
 For questions or issues:
-- Email: support@giftexchange.com
+- Email: support@festow.com
 - GitHub Issues: Create an issue in the repository
 
 ---

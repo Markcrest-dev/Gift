@@ -1,6 +1,6 @@
-# Frontend - Global Gift Exchange
+# Frontend - Festow
 
-Next.js application for the gift exchange platform with real-time API integration.
+Next.js application for the Festow platform with real-time API integration.
 
 ## Tech Stack
 

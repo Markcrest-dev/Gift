@@ -13,7 +13,7 @@ export default function Footer() {
                                 <Gift className="w-4 h-4 text-white" />
                             </div>
                             <span className="font-display text-2xl text-ink tracking-tight">
-                                Gift<span className="text-ink-muted">Exchange</span>
+                                Festow
                             </span>
                         </div>
                         <p className="text-ink-muted text-[0.9375rem] leading-relaxed max-w-sm">
@@ -57,7 +57,7 @@ export default function Footer() {
 
                 <div className="pt-8 border-t border-sage flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-ink-faint text-[0.8125rem]">
-                        &copy; {new Date().getFullYear()} Global Gift Exchange. All rights reserved.
+                        &copy; {new Date().getFullYear()} Festow. All rights reserved.
                     </p>
                     <div className="flex gap-4">
                         {/* Optional social links could go here in the future */}

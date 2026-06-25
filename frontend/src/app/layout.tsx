@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@/styles/index.css";
 
 export const metadata: Metadata = {
-  title: "Global Gift Exchange — Send Gifts Across Borders",
+  title: "Festow — Send Gifts Across Borders",
   description: "A premium cross-border gifting platform. Send gifts to 120+ countries. Recipients choose: accept the item, take the cash, or take crypto.",
 };
 

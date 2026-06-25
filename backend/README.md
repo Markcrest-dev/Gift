@@ -1,6 +1,6 @@
-# Backend - Global Gift Exchange API
+# Backend - Festow API
 
-NestJS REST API with PostgreSQL persistence, JWT authentication, and full CRUD operations for the gift exchange platform.
+NestJS REST API with PostgreSQL persistence, JWT authentication, and full CRUD operations for the Festow platform.
 
 ## Tech Stack
 

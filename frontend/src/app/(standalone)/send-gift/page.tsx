@@ -94,7 +94,7 @@ function SendGiftContent() {
                     <button onClick={() => router.push('/marketplace')} className="text-white/80 hover:text-white font-medium flex items-center gap-2 transition-colors">
                         <span>&larr;</span> Back to Marketplace
                     </button>
-                    <div className="text-sm tracking-widest uppercase font-bold text-emerald-light opacity-50">Global Gift Exchange</div>
+                    <div className="text-sm tracking-widest uppercase font-bold text-emerald-light opacity-50">Festow</div>
                 </div>
 
                 <div className="relative z-10 flex-1 flex flex-col justify-center mt-8 lg:mt-0">
