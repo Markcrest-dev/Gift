@@ -1,199 +1,140 @@
-# 🎁 Festow - Next.js Application
+# Festow — Global Gift Exchange
 
-A modern, full-featured Christmas gifting application built with **Next.js 14**, **TypeScript**, and **Tailwind CSS** that allows users to send and receive gifts globally with options for cash or cryptocurrency redemption.
+Festow is a cross-border gifting platform. A sender picks a gift from the catalog, pays for it plus a small service fee, and sends it to anyone by email. The recipient then chooses how to receive it: keep the physical item, take the cash value, convert it to crypto, or donate it to charity.
 
-![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?style=for-the-badge)
+The repository is a monorepo with two independent applications:
 
-## 🚀 Tech Stack
+- `frontend/` — Next.js 16 + React 19 + TypeScript + Tailwind CSS 4
+- `backend/` — NestJS 11 + TypeORM + PostgreSQL
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript 5
-- **Styling**: Tailwind CSS v4
-- **Icons**: Font Awesome 6.5.1
-- **Fonts**: Playfair Display (headings), Inter (body)
+## How it works
 
-## ✨ Features
+```
+Sender                         Festow                          Recipient
+  |                              |                                 |
+  |-- browse & pick a gift ----->|                                 |
+  |-- pay (gift + 5% fee) ------>|  order created (status: sent)   |
+  |                              |-- email notification ---------->|
+  |                              |                                 |-- redeem
+  |                              |     choose: item / cash /        |
+  |                              |     crypto / charity             |
+  |<-- "gift redeemed" notice ---|  order status: redeemed          |
+```
 
-### 🏠 Pages Implemented
-- ✅ **Landing Page** - Hero section, How It Works, Features, Testimonials
-- ✅ **Authentication** - Login and Signup pages with form validation
-- ✅ **Marketplace** - Responsive product grid with search and filters
-- ✅ **Dashboard** - User statistics, recent activity, quick actions
-- ✅ **About** - Mission statement and company values
-- ✅ **Contact** - Contact form with information cards
+The 5% service fee is applied at checkout. Redemption requires method-specific details (shipping address, bank details, wallet address, or charity selection), which the backend validates before completing.
 
-### 🎨 Design System
-- Custom Christmas theme colors (Ruby Red #C41E3A, Forest Green #0F5132, Gold #FFD700)
-- Responsive typography scale
-- Smooth animations (fade-in, snowfall effect)
-- Mobile-first responsive design
-- Consistent spacing and shadows
+## Architecture
 
-### 📱 Responsive Breakpoints
-- **Mobile**: < 768px (1 column layouts)
-- **Tablet**: 768px - 1024px (2 column layouts)
-- **Desktop**: > 1024px (3-4 column layouts)
+```
+┌─────────────────────────────┐        HTTP / JSON        ┌──────────────────────────────┐
+│  frontend (Next.js, :3000)  │  ───────────────────────> │   backend (NestJS, :3001)     │
+│                             │   Bearer JWT in header    │                                │
+│  App Router route groups:   │ <───────────────────────  │   Modules:                     │
+│   (landing) (auth)          │                           │    auth, users, gifts,         │
+│   (dashboard) (standalone)  │                           │    orders, redemptions,        │
+│                             │                           │    wishlists, notifications    │
+│  lib/ HTTP + auth client    │                           │                                │
+└─────────────────────────────┘                           └───────────────┬────────────────┘
+                                                                           │ TypeORM
+                                                                  ┌────────▼────────┐
+                                                                  │   PostgreSQL    │
+                                                                  └─────────────────┘
+```
 
-## 🛠️ Getting Started
+The frontend is a thin client: all business logic (pricing, fee calculation, redemption validation, notifications) lives in the backend. Authentication is JWT-based; the token is stored in `localStorage` and attached as a `Bearer` header on authenticated requests.
 
-### Prerequisites
-- Node.js 18+ installed
-- npm or yarn package manager
+## Feature overview
 
-### Installation
+| Area | Capability |
+|------|------------|
+| Accounts | Signup, login, JWT sessions, profile |
+| Catalog | Browsable gift catalog with search, category/gender/price/rating filters, and sorting |
+| Sending | Multi-step send flow with recipient details, personal message, delivery date, anonymous option, and payment method (card / PayPal / crypto) |
+| Receiving | Redeem a received gift as physical item, cash, crypto, or charity donation |
+| Wishlist | Add, remove, and check gifts on a personal wishlist |
+| Notifications | In-app notifications for gift sent, received, and redeemed events |
+| Orders | Track gifts sent and gifts received with status |
 
-1. **Install dependencies**
+## Data model
+
+```
+User ──< Order >── Gift            (a user sends many orders; each order is one gift)
+ │        │
+ │        └──1:1── Redemption       (a received order can be redeemed once)
+ │
+ ├──< WishlistItem >── Gift         (unique per user+gift)
+ └──< Notification
+```
+
+- `Order` carries sender, recipient (by email, so recipients need not have an account yet), the gift, message, delivery date, anonymity, payment method, service fee, and total.
+- `Redemption` is one-to-one with an order and stores the chosen method plus a JSON `details` blob validated per method.
+- Enums live in `backend/src/common/enums/`: `Category`, `Gender`, `OrderStatus`, `PaymentMethod`, `RedemptionMethod`, `RedemptionStatus`, `NotificationType`.
+
+## Tech stack
+
+| Layer | Choices |
+|-------|---------|
+| Frontend | Next.js 16 (App Router), React 19, TypeScript 5, Tailwind CSS 4, lucide-react icons |
+| Backend | NestJS 11, TypeORM 0.3, PostgreSQL, Passport + JWT, class-validator, bcrypt |
+| Design | Emerald (`#0A4535`) + cream (`#FAF8F5`) palette, DM Serif Display headings, DM Sans body |
+| Tooling | ESLint, Prettier, Jest (unit + e2e), Makefile for orchestration |
+
+## Quick start
+
+Prerequisites: Node.js 18+, PostgreSQL running locally.
+
 ```bash
-npm install
+# 1. Install both apps
+make install
+
+# 2. Configure and seed the backend
+cd backend
+cp .env.example .env          # edit JWT_SECRET and DB credentials as needed
+createdb gift_exchange
+npm run seed                  # loads the starter gift catalog
+cd ..
+
+# 3. Run frontend + backend together
+make dev
 ```
 
-2. **Run the development server**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3001
+
+You can also run either app on its own. See `frontend/README.md` and `backend/README.md` for app-specific instructions, environment variables, and the full API reference.
+
+## Makefile targets
+
 ```bash
-npm run dev
+make install     # install frontend + backend dependencies
+make dev         # run both dev servers
+make build       # production build of both apps
+make test        # frontend lint + backend unit tests
+make test-e2e    # backend e2e tests
+make lint        # lint both apps
+make db-seed     # seed the gift catalog
+make clean       # remove build output and node_modules
 ```
 
-3. **Open in browser**
-```
-http://localhost:3000
-```
+Note: the `db-migrate*` targets are placeholders. The backend currently relies on TypeORM `synchronize: true` in development and does not yet ship migrations (see Roadmap).
 
-### Build for Production
+## Testing
 
-```bash
-npm run build
-npm run start
-```
+- Backend unit tests cover every service (`*.spec.ts`); run with `make test-backend` or `cd backend && npm test`.
+- Backend e2e tests live in `backend/test/`; run with `make test-e2e`.
+- Frontend currently has lint as its check (`make test-frontend`); component/e2e tests are on the roadmap.
 
-## 📁 Project Structure
+## Project layout
 
 ```
 Gift/
-├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── page.tsx           # Landing page
-│   │   ├── login/page.tsx     # Login page
-│   │   ├── signup/page.tsx    # Signup page
-│   │   ├── marketplace/page.tsx
-│   │   ├── dashboard/page.tsx
-│   │   ├── about/page.tsx
-│   │   ├── contact/page.tsx
-│   │   ├── layout.tsx         # Root layout
-│   │   └── globals.css        # Global styles with Tailwind
-│   └── components/
-│       ├── layout/            # Layout components
-│       │   ├── Navbar.tsx     # Responsive navbar
-│       │   └── Footer.tsx     # Footer component
-│       ├── effects/           # Effect components
-│       │   └── Snowfall.tsx   # Christmas snowfall
-│       └── ui/                # UI components
-├── design/                     # Original HTML/CSS/JS code (archived)
-├── public/                     # Static assets
-└── package.json
+├── frontend/          # Next.js app (see frontend/README.md)
+├── backend/           # NestJS API (see backend/README.md)
+├── CLAUDE.md          # Contributor conventions and principles
+├── Makefile           # Cross-app install/dev/build/test orchestration
+└── .mcp.json          # MCP server config (context7 docs)
 ```
 
-## 🎯 Key Features
+## Roadmap
 
-### Responsive Navigation
-- Desktop: Full horizontal navigation with auth buttons
-- Mobile: Hamburger menu with slide-in drawer
-- Fixed position with smooth scrolling
-
-### Responsive Grid Layouts
-- **Landing Page**: 3-column feature grid (mobile: 1 col, tablet: 2 col, desktop: 3 col)
-- **Marketplace**: 4-column product grid (mobile: 1 col, tablet: 2 col, desktop: 4 col)
-- **Dashboard**: Stats grid adapts from 4 columns to 1 column
-- **Footer**: 4-column footer collapses to single column on mobile
-
-### Mobile-First Approach
-All components use Tailwind's responsive utilities:
-- Base styles for mobile
-- `md:` prefix for tablet (768px+)
-- `lg:` prefix for desktop (1024px+)
-- `xl:` prefix for large desktop (1280px+)
-
-## 🎨 Design Highlights
-
-### Color Palette
-- **Ruby Red**: `#C41E3A` - Primary brand color
-- **Deep Crimson**: `#8B0000` - Darker accent
-- **Forest Green**: `#0F5132` - Christmas green
-- **Gold**: `#D4AF37` - Festive accent
-- **Bright Gold**: `#FFD700` - Highlights
-
-### Typography
-- **Headings**: Playfair Display (Serif) - Elegant and festive
-- **Body**: Inter (Sans-serif) - Clean and readable
-
-### Animations
-- Snowfall effect across all pages
-- Fade-in animations on scroll
-- Smooth hover transitions
-- Mobile-friendly touch interactions
-
-## 📱 Responsive Testing
-
-Test the application at different viewport widths:
-- **Mobile (375px)**: iPhone SE
-- **Tablet (768px)**: iPad
-- **Desktop (1280px)**: Standard laptop
-- **Large Desktop (1920px)**: Full HD monitor
-
-## 🔧 Development Commands
-
-```bash
-npm run dev      # Start development server
-npm run build    # Create production build
-npm run start    # Start production server
-npm run lint     # Run ESLint
-```
-
-## 📄 Demo Account
-
-For testing the login page:
-- **Email**: demo@gift.com
-- **Password**: Demo123!
-
-## 🌐 Deployment
-
-### Vercel (Recommended)
-```bash
-npm i -g vercel
-vercel
-```
-
-### Netlify
-1. Connect GitHub repository
-2. Build command: `npm run build`
-3. Publish directory: `.next`
-
-## 🎉 Migration Notes
-
-This project was migrated from vanilla HTML/CSS/JS to Next.js + TypeScript + Tailwind CSS. The original code is preserved in the `design/` folder for reference.
-
-### What Changed
-- ✅ HTML files → Next.js React components (TypeScript)
-- ✅ Separate CSS files → Tailwind CSS utility classes
-- ✅ Vanilla JavaScript → TypeScript with React hooks
-- ✅ Static pages → Dynamic server-side rendering
-- ✅ Manual responsive CSS → Tailwind responsive utilities
-
-### Benefits of Migration
-- 🚀 Better performance with Next.js optimizations
-- 📱 Improved mobile responsiveness with Tailwind
-- 🔒 Type safety with TypeScript
-- ⚡ Faster development with component reusability
-- 🎨 Consistent design system
-
-## 📞 Support
-
-For questions or issues:
-- Email: support@festow.com
-- GitHub Issues: Create an issue in the repository
-
----
-
-**Built with ❤️ for the Christmas season 🎄**
-
-*Migrated to Next.js + TypeScript + Tailwind CSS on December 17, 2024*
+The near-term MVP focus and the later feature targets are tracked in [ROADMAP.md](./ROADMAP.md).
